@@ -1,0 +1,76 @@
+.sign-in-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+}
+
+.sign-in-modal-input {
+    font-size: 1.05em;
+    width: 100%;
+    outline: none;
+    border: none;
+}
+
+.sign-in-modal-form {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.sign-in-modal-input-wrapper {
+    padding: 0 20px;
+    border: 1px solid darkgray;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.sign-in-modal-input-wrapper:has(.sign-in-modal-input:focus) {
+    border-color: darkblue;
+}
+
+.sign-in-modal-submit-button {
+    height: 40px;
+    font-size: 1.1em;
+    padding: 0 20px;
+    border-radius: 20px;
+    color: darkblue;
+    border: 1px solid darkblue;
+    cursor: pointer;
+    background: white;
+}
+
+.sign-in-modal-submit-button:hover {
+    background: rgba(0, 0, 139, 0.05);
+}
+
+.sign-in-modal-separator {
+    width: 60%;
+    height: 1px;
+    background: gray;
+}
+
+.sign-in-modal-footer {
+    text-align: center;
+    color: dimgray;
+    line-height: 22px;
+}
+
+.sign-in-modal-footer-button {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #525252;
+}
+
+.sign-in-modal-footer-button:hover {
+    color: #363636;
+}
+
+.sign-in-modal-error {
+    height: 20px;
+    text-align: center;
+    color: red;
+}
