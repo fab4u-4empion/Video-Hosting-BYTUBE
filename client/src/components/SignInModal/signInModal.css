@@ -43,6 +43,15 @@
     background: white;
 }
 
+.sign-in-modal-submit-button:disabled {
+    color: rgba(0, 0, 139, 0.5);
+    border-color: rgba(0, 0, 139, 0.5);
+}
+
+.sign-in-modal-submit-button:disabled:hover {
+    background: white;
+}
+
 .sign-in-modal-submit-button:hover {
     background: rgba(0, 0, 139, 0.05);
 }
