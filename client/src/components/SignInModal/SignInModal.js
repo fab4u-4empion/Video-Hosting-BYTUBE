@@ -14,8 +14,9 @@ export const SignInModal = ({onClose}) => {
     const registrationHandler = e => {
         e.preventDefault()
         setDisabled(true)
+        setErrorMessage("")
         axios
-            .post("http://localhost:3000/api/v1/auth/registration", new FormData(document.forms.registration_form))
+            .post("http://localhost:3000/api/v1/auth/registration", new FormData(document.forms["registration_form"]))
             .then(response => {
                 // TODO Sign In
             })
@@ -24,6 +25,24 @@ export const SignInModal = ({onClose}) => {
                     setErrorMessage(err.response.data)
                 else
                     setErrorMessage("Ошибка регистрации")
+                setDisabled(false)
+            })
+    }
+
+    const loginHandler = e => {
+        e.preventDefault()
+        setDisabled(true)
+        setErrorMessage("")
+        axios
+            .post("http://localhost:3000/api/v1/auth/login", new FormData(document.forms["login_form"]))
+            .then(response => {
+                // TODO Sign In
+            })
+            .catch(err => {
+                if (err.response.status === 400)
+                    setErrorMessage(err.response.data)
+                else
+                    setErrorMessage("Ошибка входа")
                 setDisabled(false)
             })
     }
@@ -37,19 +56,27 @@ export const SignInModal = ({onClose}) => {
             {mode === SIGN_IN &&
                 <div className="sign-in-modal-content">
                     <h1 className="sign-in-modal-title">Вход</h1>
-                    <form className="sign-in-modal-form" onSubmit={(e) => e.preventDefault()}>
+                    <form className="sign-in-modal-form" name="login_form" onSubmit={(e) => e.preventDefault()}>
                         <div className="sign-in-modal-input-wrapper">
-                            <input className="sign-in-modal-input" placeholder="Имя пользователя" type="text"/>
+                            <input className="sign-in-modal-input" onChange={changeHandler} name="u_name" placeholder="Имя пользователя" type="text"/>
                         </div>
                         <div className="sign-in-modal-input-wrapper">
-                            <input className="sign-in-modal-input" placeholder="Пароль" type="password"/>
+                            <input className="sign-in-modal-input" onChange={changeHandler} name="u_password" placeholder="Пароль" type="password"/>
                         </div>
-                        <button disabled={disabled} className="sign-in-modal-submit-button">Войти</button>
+                        <div className="sign-in-modal-error">{errorMessage}</div>
+                        <button disabled={disabled} className="sign-in-modal-submit-button" onClick={loginHandler}>Войти</button>
                     </form>
                     <div className="sign-in-modal-separator"></div>
                     <div className="sign-in-modal-footer">
                         <div>Еще нет аккаунта?</div>
-                        <div className="sign-in-modal-footer-button" onClick={() => setMode(SIGN_UP)}>Зарегистрироваться</div>
+                        <div
+                            className="sign-in-modal-footer-button"
+                            onClick={() => {
+                                setMode(SIGN_UP)
+                                setErrorMessage("")
+                                setDisabled(false)
+                            }}
+                        >Зарегистрироваться</div>
                     </div>
                 </div>
             }
@@ -72,7 +99,14 @@ export const SignInModal = ({onClose}) => {
                     <div className="sign-in-modal-separator"></div>
                     <div className="sign-in-modal-footer">
                         <div>Уже есть аккаунт?</div>
-                        <div className="sign-in-modal-footer-button" onClick={() => setMode(SIGN_IN)}>Войти</div>
+                        <div
+                            className="sign-in-modal-footer-button"
+                            onClick={() => {
+                                setMode(SIGN_IN)
+                                setErrorMessage("")
+                                setDisabled(false)
+                            }}
+                        >Войти</div>
                     </div>
                 </div>
             }
