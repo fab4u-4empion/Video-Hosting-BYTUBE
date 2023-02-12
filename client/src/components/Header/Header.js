@@ -2,7 +2,7 @@ import "./header.css"
 import {Icon24Search} from "@vkontakte/icons";
 import {AccountButton} from "../AccountButton/AccountButton";
 
-export const Header = () => {
+export const Header = ({activePage, onPageSelect}) => {
     return (
         <header className="header">
             <div className="header-content">
@@ -22,7 +22,10 @@ export const Header = () => {
                     </div>
                 </div>
                 <div className="header-account-button">
-                    <AccountButton />
+                    <AccountButton
+                        activePage={activePage}
+                        onPageSelect={onPageSelect}
+                    />
                 </div>
             </div>
         </header>

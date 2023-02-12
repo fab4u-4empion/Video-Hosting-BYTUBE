@@ -1,0 +1,17 @@
+.avatar-container {
+    background: rgba(211, 211, 211, 0.5);
+    border-radius: 50%;
+    border: gray 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-icon {
+    color: gray;
+}
+
+.avatar-img {
+    border-radius: inherit;
+    object-fit: cover;
+}

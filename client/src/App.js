@@ -10,7 +10,10 @@ export const App = () => {
 
     return (
         <UserContextProvider>
-            <Header/>
+            <Header
+                activePage={activePage}
+                onPageSelect={page => setActivePage(page)}
+            />
             <Navigation
                 activePage={activePage}
                 onPageSelect={page => setActivePage(page)}
