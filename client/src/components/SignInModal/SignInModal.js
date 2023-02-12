@@ -1,7 +1,8 @@
 import {Modal} from "../Modal/Modal";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import axios from "axios"
 import "./signInModal.css"
+import {useUserContextProvider} from "../../context/userContext";
 
 const SIGN_IN = "signIn"
 const SIGN_UP = "signUp"
@@ -11,6 +12,8 @@ export const SignInModal = ({onClose}) => {
     const [disabled, setDisabled] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
 
+    const {authHandler} = useUserContextProvider()
+
     const registrationHandler = e => {
         e.preventDefault()
         setDisabled(true)
@@ -18,7 +21,7 @@ export const SignInModal = ({onClose}) => {
         axios
             .post("http://localhost:3000/api/v1/auth/registration", new FormData(document.forms["registration_form"]))
             .then(response => {
-                // TODO Sign In
+                authHandler(response.data, onClose)
             })
             .catch(err => {
                 if (err.response.status === 400)
@@ -36,7 +39,7 @@ export const SignInModal = ({onClose}) => {
         axios
             .post("http://localhost:3000/api/v1/auth/login", new FormData(document.forms["login_form"]))
             .then(response => {
-                // TODO Sign In
+                authHandler(response.data, onClose)
             })
             .catch(err => {
                 if (err.response.status === 400)
