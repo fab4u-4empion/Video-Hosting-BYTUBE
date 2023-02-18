@@ -1,0 +1,14 @@
+.page-view {
+    margin-top: 60px;
+    position: absolute;
+    width: 100%;
+    display: flex;
+}
+
+.page-view-spacer {
+    margin-left: 200px;
+}
+
+.page-view-content {
+    width: 100%;
+}

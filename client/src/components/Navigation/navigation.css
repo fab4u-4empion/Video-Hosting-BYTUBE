@@ -2,8 +2,9 @@
     height: 100vh;
     width: 200px;
     display: flex;
-    position: absolute;
+    position: fixed;
     flex-direction: column;
+    z-index: 1;
 }
 
 .nav-content {

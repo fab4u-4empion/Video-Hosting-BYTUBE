@@ -5,27 +5,28 @@ import {
     Icon28UserAddOutline,
     Icon28VideoSquareOutline
 } from "@vkontakte/icons";
+import {HISTORY, HOME, SUBSCRIPTIONS, VIDEOS} from "../../consts/pages";
 
 const navItems = [
     {
         text: "Главная",
         icon: <Icon28HomeOutline />,
-        page: "home"
+        page: HOME
     },
     {
         text: "Подписки",
         icon: <Icon28UserAddOutline />,
-        page: "subscriptions"
+        page: SUBSCRIPTIONS
     },
     {
         text: "История",
         icon: <Icon28HistoryForwardOutline />,
-        page: "history"
+        page: HISTORY
     },
     {
         text: "Ваши видео",
         icon: <Icon28VideoSquareOutline />,
-        page: "videos"
+        page: VIDEOS
     },
 ]
 
@@ -40,6 +41,7 @@ export const Navigation = ({activePage = "home", onPageSelect}) => {
                             <li
                                 className={`nav-list-item ${item.page === activePage && "active"}`}
                                 onClick={() => onPageSelect(item.page)}
+                                key={item.page}
                             >
                                 {item.icon}
                                 <div>{item.text}</div>

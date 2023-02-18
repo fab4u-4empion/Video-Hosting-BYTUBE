@@ -4,6 +4,7 @@ import {useState} from "react";
 import {SignInModal} from "../SignInModal/SignInModal";
 import {Avatar} from "../Avatar/Avatar";
 import {Icon20ChevronRight} from "@vkontakte/icons";
+import {ACCOUNT} from "../../consts/pages";
 
 export const AccountButton = ({activePage, onPageSelect}) => {
     const {user} = useUserContextProvider()
@@ -21,8 +22,8 @@ export const AccountButton = ({activePage, onPageSelect}) => {
             }
             {user &&
                 <div
-                    onClick={() => onPageSelect("account")}
-                    className={`header-account-button-content ${activePage === "account" && "active"}`}
+                    onClick={() => onPageSelect(ACCOUNT)}
+                    className={`header-account-button-content ${activePage === ACCOUNT && "active"}`}
                 >
                     <Avatar
                         size={35}

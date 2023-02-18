@@ -1,6 +1,4 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {useLocalStorage} from "../hooks/useLocalStorage";
-import {useSessionStorage} from "../hooks/useSessionStorage";
 import axios from "axios";
 
 const Context = createContext(undefined, undefined)
@@ -17,7 +15,6 @@ export const UserContextProvider = ({children}) => {
     }
 
     const getUser = (callback) => {
-        console.log(callback, 10)
         axios
             .post(
                 "https://localhost:3000/api/v1/auth/account",

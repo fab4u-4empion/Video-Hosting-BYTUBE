@@ -1,0 +1,5 @@
+export const HOME = "home"
+export const SUBSCRIPTIONS = "subscriptions"
+export const HISTORY = "history"
+export const VIDEOS = "videos"
+export const ACCOUNT = "account"

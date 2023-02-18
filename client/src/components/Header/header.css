@@ -12,6 +12,7 @@
     height: 100%;
     align-items: center;
     justify-items: center;
+    background: white;
 }
 
 .header-logo {
