@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import {useLocalStorage} from "../hooks/useLocalStorage";
 import {useSessionStorage} from "../hooks/useSessionStorage";
 import axios from "axios";
@@ -10,21 +10,20 @@ export const useUserContextProvider = () => {
 }
 
 export const UserContextProvider = ({children}) => {
-    const [user, setUser] = useSessionStorage(null, "user")
-    const [sessionToken, setSessionToken] = useLocalStorage(null, "token")
+    const [user, setUser] = useState(null)
 
-    const authHandler = (token, callback) => {
-        setSessionToken(token)
-        getUser(token, callback)
+    const authHandler = (callback) => {
+        getUser(callback)
     }
 
-    const getUser = (token, callback) => {
+    const getUser = (callback) => {
+        console.log(callback, 10)
         axios
-            .post("http://localhost:3000/api/v1/auth/account",{},{
-                headers: {
-                    "Authorization": token
-                }
-            })
+            .post(
+                "https://localhost:3000/api/v1/auth/account",
+                {},
+                {withCredentials: true}
+            )
             .then(response => {
                 setUser(response.data)
             })
@@ -34,7 +33,7 @@ export const UserContextProvider = ({children}) => {
     }
 
     useEffect(() => {
-        getUser(sessionToken)
+        getUser()
     }, [])
 
     return (

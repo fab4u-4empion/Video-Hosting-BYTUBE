@@ -16,8 +16,9 @@ const startSession = async (userID, res) => {
         .createHmac("sha256", sessionKey)
         .update(`${head}.${payload}`)
         .digest("base64")
-    await dbPoolSync.query(`INSERT INTO sessions (s_id, u_id, s_key) VALUES ("${id}", "${userID}", "${sessionKey}")`)
-    res.json(`${head}.${payload}.${signature}`)
+    await dbPoolSync.query(`INSERT INTO sessions (s_id, s_user_id, s_key) VALUES ("${id}", "${userID}", "${sessionKey}")`)
+    res.cookie("token", `${head}.${payload}.${signature}`, {secure:true, httpOnly: true, sameSite: "none", maxAge: 31536000000})
+    res.json("Auth complete")
 }
 
 export const registration = async (req, res) => {
@@ -50,22 +51,22 @@ export const getUserInfo = async (req, res) => {
 }
 
 export const auth = (req, res, next) => {
-    if (req.headers.authorization) {
-        const tokenParts = req.headers.authorization
+    if (req.cookies['token']) {
+        const tokenParts = req.cookies['token']
             .split('.')
         const session = JSON.parse(
             Buffer
                 .from(tokenParts[1], "base64")
                 .toString("utf-8")
         )
-        dbPool.query(`SELECT s_key, u_id FROM sessions WHERE s_id="${session.id}"`, (err, sessionInfo) => {
+        dbPool.query(`SELECT s_key, s_user_id FROM sessions WHERE s_id="${session.id}"`, (err, sessionInfo) => {
             if (sessionInfo[0]) {
                 const signature = crypto
                     .createHmac('SHA256', sessionInfo[0]["s_key"])
                     .update(`${tokenParts[0]}.${tokenParts[1]}`)
                     .digest('base64')
                 if (signature === tokenParts[2])
-                    dbPool.query(`SELECT u_id, u_name FROM users WHERE u_id="${sessionInfo[0]["u_id"]}"`, (err, result) => {
+                    dbPool.query(`SELECT u_id, u_name FROM users WHERE u_id="${sessionInfo[0]["s_user_id"]}"`, (err, result) => {
                         req.user = result[0]
                         next()
                     })

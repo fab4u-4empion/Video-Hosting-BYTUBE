@@ -19,9 +19,13 @@ export const SignInModal = ({onClose}) => {
         setDisabled(true)
         setErrorMessage("")
         axios
-            .post("http://localhost:3000/api/v1/auth/registration", new FormData(document.forms["registration_form"]))
+            .post(
+                "https://localhost:3000/api/v1/auth/registration",
+                new FormData(document.forms["registration_form"]),
+                {withCredentials: true}
+            )
             .then(response => {
-                authHandler(response.data, onClose)
+                authHandler(onClose)
             })
             .catch(err => {
                 if (err.response.status === 400)
@@ -37,9 +41,13 @@ export const SignInModal = ({onClose}) => {
         setDisabled(true)
         setErrorMessage("")
         axios
-            .post("http://localhost:3000/api/v1/auth/login", new FormData(document.forms["login_form"]))
+            .post(
+                "https://localhost:3000/api/v1/auth/login",
+                new FormData(document.forms["login_form"]),
+                {withCredentials: true}
+            )
             .then(response => {
-                authHandler(response.data, onClose)
+                authHandler(onClose)
             })
             .catch(err => {
                 if (err.response.status === 400)

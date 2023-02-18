@@ -1,3 +1,7 @@
 /client/node_modules
 /server/node_modules
 .idea
+/server/config/cert.pem
+/server/config/key.pem
+/client/cert.pem
+/client/key.pem
