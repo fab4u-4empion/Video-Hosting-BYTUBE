@@ -1,0 +1,17 @@
+.spinner {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 3px solid;
+    border-bottom: 3px solid transparent!important;
+    animation: .8s linear 0s normal none infinite running spinner;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
