@@ -1,0 +1,22 @@
+.btn {
+    padding: 0 20px;
+    border-radius: 20px;
+    color: darkblue;
+    border: 1px solid darkblue;
+    cursor: pointer;
+    background: white;
+    height: 40px;
+}
+
+.btn:disabled {
+    color: rgba(0, 0, 139, 0.5);
+    border-color: rgba(0, 0, 139, 0.5);
+}
+
+.btn:disabled:hover {
+    background: white;
+}
+
+.btn:hover {
+    background: rgba(0, 0, 139, 0.05);
+}
