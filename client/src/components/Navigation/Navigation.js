@@ -6,6 +6,7 @@ import {
     Icon28VideoSquareOutline
 } from "@vkontakte/icons";
 import {HISTORY, HOME, SUBSCRIPTIONS, VIDEOS} from "../../consts/pages";
+import {NavLink} from "react-router-dom";
 
 const navItems = [
     {
@@ -30,24 +31,24 @@ const navItems = [
     },
 ]
 
-export const Navigation = ({activePage = "home", onPageSelect}) => {
+export const Navigation = () => {
     return(
         <div className="nav-wrapper">
             <div className="nav-spacer"></div>
             <div className="nav-content">
                 <nav className="nav">
-                    <ul className="nav-list">
+                    <div className="nav-list">
                         {navItems.map(item =>
-                            <li
-                                className={`nav-list-item ${item.page === activePage && "active"}`}
-                                onClick={() => onPageSelect(item.page)}
+                            <NavLink
+                                className="nav-list-link"
                                 key={item.page}
+                                to={`/${item.page}`}
                             >
                                 {item.icon}
                                 <div>{item.text}</div>
-                            </li>
+                            </NavLink>
                         )}
-                    </ul>
+                    </div>
                 </nav>
             </div>
         </div>

@@ -22,7 +22,7 @@
     row-gap: 5px;
 }
 
-.nav-list-item {
+.nav-list-link {
     border-radius: 10px;
     display: grid;
     column-gap: 15px;
@@ -31,12 +31,14 @@
     font-size: 1.05em;
     cursor: pointer;
     grid-template-columns: min-content 1fr;
+    color: black;
+    text-decoration: none;
 }
 
-.nav-list-item.active, .nav-list-item:hover {
+.nav-list-link.active, .nav-list-item:hover {
     background: rgba(0, 0, 0, 0.09);
 }
 
-.nav-list-item:hover.active {
+.nav-list-link:hover.active {
     background: rgba(0, 0, 0, 0.18);
 }

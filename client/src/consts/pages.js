@@ -1,4 +1,4 @@
-export const HOME = "home"
+export const HOME = ""
 export const SUBSCRIPTIONS = "subscriptions"
 export const HISTORY = "history"
 export const VIDEOS = "videos"

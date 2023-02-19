@@ -4,9 +4,10 @@ import {useState} from "react";
 import {SignInModal} from "../SignInModal/SignInModal";
 import {Avatar} from "../Avatar/Avatar";
 import {Icon20ChevronRight} from "@vkontakte/icons";
+import {NavLink} from "react-router-dom";
 import {ACCOUNT} from "../../consts/pages";
 
-export const AccountButton = ({activePage, onPageSelect}) => {
+export const AccountButton = () => {
     const {user} = useUserContextProvider()
     const [modal, setModal] = useState(null)
 
@@ -21,17 +22,14 @@ export const AccountButton = ({activePage, onPageSelect}) => {
                 </button>
             }
             {user &&
-                <div
-                    onClick={() => onPageSelect(ACCOUNT)}
-                    className={`header-account-button-content ${activePage === ACCOUNT && "active"}`}
-                >
+                <NavLink to={`/${ACCOUNT}`} className="header-account-button-content">
                     <Avatar
                         size={35}
                         src="https://ru-wotp.lesta.ru/dcont/fb/image/9_RShqbeP.jpg"
                     />
                     <div className="header-account-button-text">{user["u_name"]}</div>
                     <div><Icon20ChevronRight/></div>
-                </div>
+                </NavLink>
             }
             {modal}
         </>

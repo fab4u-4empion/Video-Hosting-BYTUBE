@@ -1,5 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import axios from "axios";
+import {useSessionStorage} from "../hooks/useSessionStorage";
 
 const Context = createContext(undefined, undefined)
 
@@ -8,7 +9,7 @@ export const useUserContextProvider = () => {
 }
 
 export const UserContextProvider = ({children}) => {
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useSessionStorage(null, "user")
 
     const authHandler = (callback) => {
         getUser(callback)
