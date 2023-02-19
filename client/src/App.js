@@ -2,7 +2,7 @@ import {UserContextProvider} from "./context/userContext";
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import {Layout} from "./components/Layout/Layout";
 import {Page} from "./components/Page/Page";
-import {HOME, SUBSCRIPTIONS, HISTORY, VIDEOS, ACCOUNT} from "./consts/pages";
+import {SUBSCRIPTIONS, HISTORY, VIDEOS, ACCOUNT} from "./consts/pages";
 
 export const App = () => {
     return (
