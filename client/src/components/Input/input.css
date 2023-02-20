@@ -1,0 +1,19 @@
+.input-wrapper {
+    padding: 0 20px;
+    border: 1px solid darkgray;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.input-wrapper:has(.input:focus) {
+    border-color: darkblue;
+}
+
+.input {
+    font-size: 1.05em;
+    width: 100%;
+    outline: none;
+    border: none;
+}
