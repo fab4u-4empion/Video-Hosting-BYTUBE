@@ -1,0 +1,11 @@
+.group-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.group-subtitle {
+    color: dimgray;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
