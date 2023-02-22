@@ -1,10 +1,13 @@
-.input-wrapper {
-    padding: 0 20px;
+.input-control-wrapper {
     border: 1px solid darkgray;
     border-radius: 20px;
     display: flex;
     align-items: center;
+}
+
+.input-wrapper {
     height: 40px;
+    padding: 0 20px;
 }
 
 .input-wrapper:has(.input:focus) {
@@ -16,4 +19,12 @@
     width: 100%;
     outline: none;
     border: none;
+}
+
+.textarea-wrapper {
+    padding: 10px 20px;
+}
+
+.textarea {
+    resize: none;
 }
