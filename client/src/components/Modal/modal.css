@@ -15,8 +15,11 @@
     max-height: 600px;
     background: white;
     border-radius: 20px;
-    padding: 40px 15px;
+    padding: 30px 25px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
 }
 
 .modal-dismiss {
@@ -35,4 +38,15 @@
 
 .modal-dismiss-button:hover {
     background: rgba(0, 0, 0, 0.18);
+}
+
+.modal-content {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 27px;
+    text-align: center;
 }

@@ -7,6 +7,7 @@ import https from "https"
 import fs from "fs"
 import path from "path"
 import cookieParser from "cookie-parser"
+import {videosRouter} from "./routes/videos.js";
 
 const PORT = process.env.port || 3000
 const app = express()
@@ -17,9 +18,9 @@ app.use(cors({
     credentials: true
 }))
 app.use(cookieParser())
-app.use(multer().any())
 app.use(auth)
 app.use("/api/v1/auth", authRouter)
+app.use("/api/v1/videos", videosRouter)
 
 https
     .createServer(

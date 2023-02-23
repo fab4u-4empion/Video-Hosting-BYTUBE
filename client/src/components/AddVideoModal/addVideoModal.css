@@ -1,0 +1,145 @@
+.add-video-modal-content {
+    overflow-y: auto;
+}
+
+.add-video-modal-file-input {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+.add-video-modal-file-button {
+    margin-top: 10px;
+    font-size: .95em;
+}
+
+.add-video-modal-save-button {
+    font-size: .95em;
+}
+
+.add-video-modal-select-file-group-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-video-modal-select-file-group {
+    align-items: center;
+}
+
+.add-video-modal-label {
+    color: dimgray;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.add-video-modal-group-content {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.add-video-modal-groups {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.add-video-modal-preview-group {
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.add-video-modal-preview-input {
+    color: dimgray;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    align-items: center;
+    border: 1px dimgray dashed;
+    width: 160px;
+    height: 90px;
+    box-sizing: border-box;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.add-video-modal-preview-input:hover {
+    background: rgba(0, 0, 0, 0.09);
+}
+
+.add-video-modal-preview-img {
+    width: 160px;
+    height: 90px;
+}
+
+.add-video-modal-access-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 7px;
+}
+
+.add-video-modal-access-radio {
+    appearance: none;
+}
+
+.add-video-modal-access-label {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    column-gap: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.add-video-modal-access-label-description {
+    color: dimgray;
+    font-size: 13px;
+}
+
+.add-video-modal-footer {
+    background: #fff;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr min-content;
+}
+
+.add-video-modal-footer-upload-icon {
+    color: darkblue;
+}
+
+.add-video-modal-footer-upload-icon.animated {
+    animation: 2s upload-icon linear infinite;
+}
+
+@keyframes upload-icon {
+    0% {
+        color: darkblue;
+    }
+
+    50% {
+        color: rgba(0, 0, 139, 0.3);;
+    }
+
+    100% {
+        color: darkblue;
+    }
+}
+
+.add-video-modal-footer-progress {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.add-video-modal-footer-progress-text {
+    font-size: 15px;
+}
+
+.add-video-modal-footer-progress-description {
+    font-size: 13px;
+    color: dimgray;
+}

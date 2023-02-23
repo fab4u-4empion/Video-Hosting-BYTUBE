@@ -5,11 +5,9 @@
     row-gap: 20px;
 }
 
-.sign-in-modal-input {
-    font-size: 1.05em;
-    width: 100%;
-    outline: none;
-    border: none;
+.sign-in-modal-title {
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .sign-in-modal-form {
@@ -19,41 +17,8 @@
     row-gap: 10px;
 }
 
-.sign-in-modal-input-wrapper {
-    padding: 0 20px;
-    border: 1px solid darkgray;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    height: 40px;
-}
-
-.sign-in-modal-input-wrapper:has(.sign-in-modal-input:focus) {
-    border-color: darkblue;
-}
-
 .sign-in-modal-submit-button {
-    height: 40px;
     font-size: 1.1em;
-    padding: 0 20px;
-    border-radius: 20px;
-    color: darkblue;
-    border: 1px solid darkblue;
-    cursor: pointer;
-    background: white;
-}
-
-.sign-in-modal-submit-button:disabled {
-    color: rgba(0, 0, 139, 0.5);
-    border-color: rgba(0, 0, 139, 0.5);
-}
-
-.sign-in-modal-submit-button:disabled:hover {
-    background: white;
-}
-
-.sign-in-modal-submit-button:hover {
-    background: rgba(0, 0, 139, 0.05);
 }
 
 .sign-in-modal-separator {

@@ -1,6 +1,6 @@
 import "./group.css"
 
-export const Group = ({className, children, title, subtitle, ...restProps}) => {
+export const Group = ({className = "", children, title, subtitle, ...restProps}) => {
     return (
         <div className={`group ${className}`} {...restProps}>
             {title && <div className="group-title">{title}</div>}

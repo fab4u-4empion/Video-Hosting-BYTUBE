@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom"
 import {Layout} from "./components/Layout/Layout";
 import {Page} from "./components/Page/Page";
 import {SUBSCRIPTIONS, HISTORY, VIDEOS, ACCOUNT} from "./consts/pages";
+import {Videos} from "./pages/Videos/Videos";
 
 export const App = () => {
     return (
@@ -13,7 +14,7 @@ export const App = () => {
                         <Route index element={<Page title="Главная"></Page>}/>
                         <Route path={SUBSCRIPTIONS} element={<Page title="Подписки"></Page>}/>
                         <Route path={HISTORY} element={<Page title="История"></Page>}/>
-                        <Route path={VIDEOS} element={<Page title="Ваши видео"></Page>}/>
+                        <Route path={VIDEOS} element={<Videos />}/>
                         <Route path={ACCOUNT} element={<Page title="Аккаунт"></Page>}/>
                     </Route>
                 </Routes>

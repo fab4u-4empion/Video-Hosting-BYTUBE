@@ -6,6 +6,7 @@ import {Avatar} from "../Avatar/Avatar";
 import {Icon20ChevronRight} from "@vkontakte/icons";
 import {NavLink} from "react-router-dom";
 import {ACCOUNT} from "../../consts/pages";
+import {Button} from "../Button/Button";
 
 export const AccountButton = () => {
     const {user} = useUserContextProvider()
@@ -14,18 +15,17 @@ export const AccountButton = () => {
     return (
         <>
             {!user &&
-                <button
+                <Button
                     className="header-sign-in-button"
                     onClick={() => setModal(<SignInModal onClose={() => setModal(null)}/>)}
                 >
                     Войти
-                </button>
+                </Button>
             }
             {user &&
                 <NavLink to={`/${ACCOUNT}`} className="header-account-button-content">
                     <Avatar
                         size={35}
-                        src="https://ru-wotp.lesta.ru/dcont/fb/image/9_RShqbeP.jpg"
                     />
                     <div className="header-account-button-text">{user["u_name"]}</div>
                     <div><Icon20ChevronRight/></div>

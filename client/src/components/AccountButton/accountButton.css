@@ -1,16 +1,5 @@
 .header-sign-in-button {
-    height: 40px;
     font-size: 1.1em;
-    padding: 0 20px;
-    border-radius: 20px;
-    color: darkblue;
-    border: 1px solid darkblue;
-    cursor: pointer;
-    background: white;
-}
-
-.header-sign-in-button:hover {
-    background: rgba(0, 0, 139, 0.05);
 }
 
 .header-account-button-content {
