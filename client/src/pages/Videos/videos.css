@@ -43,7 +43,7 @@
 
 .videos-video-common {
     display: flex;
-    column-gap: 10px;
+    column-gap: 15px;
 }
 
 .videos-item-column {
@@ -51,6 +51,9 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     padding-top: 10px;
+    display: grid;
+    grid-auto-rows: min-content 1fr;
+    align-items: center;
 }
 
 .videos-video-preview-img {
@@ -78,7 +81,11 @@
 
 .videos-add-video-btn {
     font-size: .95em;
+}
+
+.videos-item-column-controls {
+    height: 50px;
     display: flex;
-    column-gap: 5px;
     align-items: center;
+    column-gap: 5px;
 }

@@ -5,11 +5,18 @@ import "../common.css"
 import "./videos.css"
 import {Spinner} from "../../components/Spinner/Spinner";
 import {useUserContextProvider} from "../../context/userContext";
-import {Icon24VideoAddSquareOutline, Icon28UserIncomingOutline, Icon28VideoAddSquareOutline} from "@vkontakte/icons";
+import {
+    Icon24VideoAddSquareOutline,
+    Icon28EditOutline,
+    Icon28UserIncomingOutline,
+    Icon28VideoAddSquareOutline
+} from "@vkontakte/icons";
 import {Button} from "../../components/Button/Button";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
 import {AddVideoModal} from "../../components/AddVideoModal/AddVideoModal";
 import {ACCESS_STATUSES} from "../../consts/access"
+import {IconButton} from "../../components/IconButton/IconButton";
+import {EditVideoModal} from "../../components/EditVideoModal/EditVideoModal";
 
 export const Videos = () => {
     const [videos, setVideos] = useState([])
@@ -65,9 +72,9 @@ export const Videos = () => {
             actions={
                 <Button
                     className="videos-add-video-btn"
+                    icon={<Icon24VideoAddSquareOutline/>}
                     onClick={() => setModal(<AddVideoModal onClose={onCloseModal}/>)}
                 >
-                    <Icon24VideoAddSquareOutline/>
                     Добавить видео
                 </Button>
             }
@@ -108,6 +115,14 @@ export const Videos = () => {
                                     </div>
                                     <div className="videos-item-column">
                                         {video['v_name']}
+                                        <div className="videos-item-column-controls">
+                                            <IconButton
+                                                onClick={() => {
+                                                    setModal(<EditVideoModal video={video} onClose={onCloseModal}/>)
+                                                }}>
+                                                <Icon28EditOutline/>
+                                            </IconButton>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="videos-item-column text-center">{ACCESS_STATUSES[video['v_access']]}</div>

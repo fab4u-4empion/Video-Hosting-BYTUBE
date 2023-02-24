@@ -45,7 +45,6 @@ export const AddVideoModal = ({onClose}) => {
         fr.readAsDataURL(previewFile)
         fr.onload = () => {
             setPreviewDataUrl(fr.result)
-            console.log(fr.result)
         }
     }
 

@@ -22,9 +22,9 @@ export const updateVideoInfo = async (req, res) => {
 
 export const getPreview = (req, res) => {
     if (fs.existsSync(`${__dirname}/static/previews/custom/${req.query['id']}.png`))
-        res.sendFile(`${__dirname}/static/previews/custom/${req.query['id']}.png`)
+        res.set('Cache-Control', 'no-store').sendFile(`${__dirname}/static/previews/custom/${req.query['id']}.png`)
     else if (fs.existsSync(`${__dirname}/static/previews/default/${req.query['id']}.png`))
-        res.sendFile(`${__dirname}/static/previews/default/${req.query['id']}.png`)
+        res.set('Cache-Control', 'no-store').sendFile(`${__dirname}/static/previews/default/${req.query['id']}.png`)
     else
         res.status(404).send()
 }

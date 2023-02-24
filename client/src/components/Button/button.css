@@ -6,6 +6,10 @@
     cursor: pointer;
     background: white;
     height: 40px;
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn:disabled {
