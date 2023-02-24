@@ -2,12 +2,14 @@ import {Page} from "../../components/Page/Page";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import "../common.css"
+import "./videos.css"
 import {Spinner} from "../../components/Spinner/Spinner";
 import {useUserContextProvider} from "../../context/userContext";
 import {Icon28UserIncomingOutline, Icon28VideoAddSquareOutline} from "@vkontakte/icons";
 import {Button} from "../../components/Button/Button";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
 import {AddVideoModal} from "../../components/AddVideoModal/AddVideoModal";
+import {ACCESS_STATUSES} from "../../consts/access"
 
 export const Videos = () => {
     const [videos, setVideos] = useState([])
@@ -18,10 +20,6 @@ export const Videos = () => {
     useEffect(() => {
         updateVideos()
     }, [user])
-
-    useEffect(() => {
-        console.log(videos)
-    }, [videos])
 
     const onCloseModal = () => {
         setModal(null)
@@ -45,6 +43,22 @@ export const Videos = () => {
             })
     }
 
+    const durationToString = duration => {
+        const hours = Math.floor(duration / 3600)
+        const minutes = Math.floor(duration / 60)
+        const seconds = Math.floor(duration % 60)
+        const components = []
+        if (hours) {
+            components.push(hours.toString())
+            components.push(minutes.toString().padStart(2, '0'))
+            components.push(seconds.toString().padStart(2, '0'))
+        } else {
+            components.push(minutes.toString())
+            components.push(seconds.toString().padStart(2, '0'))
+        }
+        return components.join(":")
+    }
+
     return (
         <Page title="Ваши видео">
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
@@ -62,7 +76,37 @@ export const Videos = () => {
             }
             {!fetching && user && videos.length > 0 &&
                 <div className="videos-table">
-
+                    <div className="videos-table-header videos-table-grid">
+                        <div>Видео</div>
+                        <div className="text-center">Параметры доступа</div>
+                        <div className="text-center">Дата</div>
+                        <div className="text-center">Просмотры</div>
+                    </div>
+                    <div className="videos-table-items">
+                        {videos.map(video =>
+                            <div className="videos-table-grid videos-table-item" key={video['v_id']}>
+                                <div className="videos-video-common">
+                                    <div className="videos-video-preview">
+                                        <img
+                                            className="videos-video-preview-img"
+                                            src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                        />
+                                        <div className="videos-video-preview-duration">
+                                            {durationToString(video['v_duration'])}
+                                        </div>
+                                    </div>
+                                    <div className="videos-item-column">
+                                        {video['v_name']}
+                                    </div>
+                                </div>
+                                <div className="videos-item-column text-center">{ACCESS_STATUSES[video['v_access']]}</div>
+                                <div className="videos-item-column text-center">
+                                    {new Date(Date.parse(video['v_publish_date'])).toLocaleString("ru-RU", {day: "numeric", month: "2-digit", year: "numeric"})}
+                                </div>
+                                <div className="videos-item-column text-center">{video['v_views']}</div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             }
             {!fetching && !user &&

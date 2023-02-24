@@ -9,9 +9,19 @@ const __dirname = path.resolve()
 ffmpeg.setFfmpegPath(`${__dirname}/node_modules/@ffmpeg-installer/win32-x64/ffmpeg.exe`)
 ffmpeg.setFfprobePath(`${__dirname}/node_modules/@ffprobe-installer/win32-x64/ffprobe.exe`)
 
+export const getPreview = (req, res) => {
+    console.log(`${__dirname}/static/previews/default/${req.query['id']}.png`)
+    if (fs.existsSync(`${__dirname}/static/previews/custom/${req.query['id']}.png`))
+        res.sendFile(`${__dirname}/static/previews/custom/${req.query['id']}.png`)
+    else if (fs.existsSync(`${__dirname}/static/previews/default/${req.query['id']}.png`))
+        res.sendFile(`${__dirname}/static/previews/default/${req.query['id']}.png`)
+    else
+        res.status(404).send()
+}
+
 export const getOwnVideos = async (req, res) => {
     if (req['user']) {
-        const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_user_id="${req['user']['u_id']}"`)
+        const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_user_id="${req['user']['u_id']}" ORDER BY v_publish_date DESC`)
         res.json(result)
     } else {
         res.status(401).json("Unauthorized")
