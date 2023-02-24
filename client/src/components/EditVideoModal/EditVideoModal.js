@@ -40,7 +40,7 @@ export const EditVideoModal = ({onClose, video}) => {
                 withCredentials: true
             })
             .then(response => {
-                onClose()
+                onClose(true)
             })
     }
 
@@ -63,7 +63,7 @@ export const EditVideoModal = ({onClose, video}) => {
 
     return (
         <Modal
-            onClose={onClose}
+            onClose={() => onClose(false)}
             width={500}
             footer={
                 <div className="add-video-modal-footer">

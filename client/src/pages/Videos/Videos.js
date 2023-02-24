@@ -28,9 +28,10 @@ export const Videos = () => {
         updateVideos()
     }, [user])
 
-    const onCloseModal = () => {
+    const onCloseModal = (videoInfo) => {
         setModal(null)
-        updateVideos()
+        if (videoInfo)
+            updateVideos()
     }
 
     const updateVideos = () => {
@@ -69,7 +70,7 @@ export const Videos = () => {
     return (
         <Page
             title="Ваши видео"
-            actions={
+            actions={user &&
                 <Button
                     className="videos-add-video-btn"
                     icon={<Icon24VideoAddSquareOutline/>}
@@ -86,6 +87,7 @@ export const Videos = () => {
                     <div>У вас еще нет видео.</div>
                     <Button
                         className="page-placeholder-action-button"
+                        icon={<Icon24VideoAddSquareOutline/>}
                         onClick={() => setModal(<AddVideoModal onClose={onCloseModal}/>)}
                     >
                         Добавить видео
@@ -94,11 +96,13 @@ export const Videos = () => {
             }
             {!fetching && user && videos.length > 0 &&
                 <div className="videos-table">
-                    <div className="videos-table-header videos-table-grid">
-                        <div>Видео</div>
-                        <div className="text-center">Параметры доступа</div>
-                        <div className="text-center">Дата</div>
-                        <div className="text-center">Просмотры</div>
+                    <div className="videos-table-header-back">
+                        <div className="videos-table-header videos-table-grid">
+                            <div>Видео</div>
+                            <div className="text-center">Параметры доступа</div>
+                            <div className="text-center">Дата</div>
+                            <div className="text-center">Просмотры</div>
+                        </div>
                     </div>
                     <div className="videos-table-items">
                         {videos.map(video =>
@@ -114,7 +118,7 @@ export const Videos = () => {
                                         </div>
                                     </div>
                                     <div className="videos-item-column">
-                                        {video['v_name']}
+                                        <div className="videos-item-name">{video['v_name']}</div>
                                         <div className="videos-item-column-controls">
                                             <IconButton
                                                 onClick={() => {

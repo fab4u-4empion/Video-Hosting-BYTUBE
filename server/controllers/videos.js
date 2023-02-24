@@ -14,7 +14,8 @@ export const updateVideoInfo = async (req, res) => {
         const data = req.body
         req.file && fs.writeFileSync(`${__dirname}/static/previews/custom/${data['id']}.png`, req.file.buffer)
         await dbPoolSync.query(`UPDATE videos SET v_description="${data['description']}", v_name="${data['name']}", v_access="${data['access']}" WHERE v_id="${data['id']}"`)
-        res.send()
+        const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_id="${data['id']}"`)
+        res.json(result[0])
     } else {
         res.status(401).json("Unauthorized")
     }
@@ -65,8 +66,9 @@ export const uploadVideo = (req, res) => {
                     .on('end', () => {
                         ffmpeg.ffprobe(`${__dirname}/static/videos/uploads/${id}.mp4`, async (err, meta) => {
                             await dbPoolSync.query(`INSERT INTO videos (v_id, v_user_id, v_name, v_access, v_duration) VALUES("${id}", "${req['user']['u_id']}", "${filename['filename']}", "close", "${Math.round(meta.format.duration)}")`)
+                            const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_id="${id}"`)
+                            res.json(result[0])
                         })
-                        res.json({v_id: id})
                     })
                     .run();
             })

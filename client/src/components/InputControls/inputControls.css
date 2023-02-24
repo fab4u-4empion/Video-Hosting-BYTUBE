@@ -10,7 +10,7 @@
     padding: 0 20px;
 }
 
-.input-wrapper:has(.input:focus) {
+.input-control-wrapper:has(.input:focus) {
     border-color: darkblue;
 }
 

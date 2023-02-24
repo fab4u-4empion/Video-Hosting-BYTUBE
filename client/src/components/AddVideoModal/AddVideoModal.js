@@ -60,7 +60,7 @@ export const AddVideoModal = ({onClose}) => {
                 withCredentials: true
             })
             .then(response => {
-                onClose()
+                onClose(true)
             })
     }
 
@@ -85,7 +85,7 @@ export const AddVideoModal = ({onClose}) => {
 
     return (
         <Modal
-            onClose={onClose}
+            onClose={() => onClose(uploadReady)}
             width={500}
             footer={file &&
                 <div className="add-video-modal-footer">
