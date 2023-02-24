@@ -5,7 +5,7 @@ import "../common.css"
 import "./videos.css"
 import {Spinner} from "../../components/Spinner/Spinner";
 import {useUserContextProvider} from "../../context/userContext";
-import {Icon28UserIncomingOutline, Icon28VideoAddSquareOutline} from "@vkontakte/icons";
+import {Icon24VideoAddSquareOutline, Icon28UserIncomingOutline, Icon28VideoAddSquareOutline} from "@vkontakte/icons";
 import {Button} from "../../components/Button/Button";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
 import {AddVideoModal} from "../../components/AddVideoModal/AddVideoModal";
@@ -60,7 +60,18 @@ export const Videos = () => {
     }
 
     return (
-        <Page title="Ваши видео">
+        <Page
+            title="Ваши видео"
+            actions={
+                <Button
+                    className="videos-add-video-btn"
+                    onClick={() => setModal(<AddVideoModal onClose={onCloseModal}/>)}
+                >
+                    <Icon24VideoAddSquareOutline/>
+                    Добавить видео
+                </Button>
+            }
+        >
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
             {!fetching && user && videos.length === 0 &&
                 <div className="page-placeholder">

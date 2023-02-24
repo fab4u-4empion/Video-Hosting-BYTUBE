@@ -2,7 +2,12 @@
     padding: 10px 20px 10px 50px;
 }
 
-.page-title {
+.page-header {
     height: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.page-title {
     font-size: 1.8em;
 }

@@ -9,8 +9,18 @@ const __dirname = path.resolve()
 ffmpeg.setFfmpegPath(`${__dirname}/node_modules/@ffmpeg-installer/win32-x64/ffmpeg.exe`)
 ffmpeg.setFfprobePath(`${__dirname}/node_modules/@ffprobe-installer/win32-x64/ffprobe.exe`)
 
+export const updateVideoInfo = async (req, res) => {
+    if (req['user']) {
+        const data = req.body
+        req.file && fs.writeFileSync(`${__dirname}/static/previews/custom/${data['id']}.png`, req.file.buffer)
+        await dbPoolSync.query(`UPDATE videos SET v_description="${data['description']}", v_name="${data['name']}", v_access="${data['access']}" WHERE v_id="${data['id']}"`)
+        res.send()
+    } else {
+        res.status(401).json("Unauthorized")
+    }
+}
+
 export const getPreview = (req, res) => {
-    console.log(`${__dirname}/static/previews/default/${req.query['id']}.png`)
     if (fs.existsSync(`${__dirname}/static/previews/custom/${req.query['id']}.png`))
         res.sendFile(`${__dirname}/static/previews/custom/${req.query['id']}.png`)
     else if (fs.existsSync(`${__dirname}/static/previews/default/${req.query['id']}.png`))

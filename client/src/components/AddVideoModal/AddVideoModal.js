@@ -16,6 +16,7 @@ export const AddVideoModal = ({onClose}) => {
     const [abortController] = useState(new AbortController())
     const [uploadReady, setUploadReady] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(0)
+    const [videoID, setVideoID] = useState("")
 
     const onOpenFileDialog = id=> {
         document.getElementById(id).click()
@@ -34,6 +35,7 @@ export const AddVideoModal = ({onClose}) => {
             })
             .then(response => {
                 setUploadReady(true)
+                setVideoID(response.data['v_id'])
             })
     }
 
@@ -45,6 +47,22 @@ export const AddVideoModal = ({onClose}) => {
             setPreviewDataUrl(fr.result)
             console.log(fr.result)
         }
+    }
+
+    const onUpdateVideoInfo = () => {
+        const data = new FormData()
+        data.append('preview', document.getElementById("add-video-preview-input").files[0])
+        data.append('access', access)
+        data.append('name', videoName)
+        data.append('description', document.getElementById("add-video-description-input").value)
+        data.append('id', videoID)
+        axios
+            .put('https://localhost:3000/api/v1/videos/update', data, {
+                withCredentials: true
+            })
+            .then(response => {
+                onClose()
+            })
     }
 
     const onVideoNameChange = e => {
@@ -90,7 +108,7 @@ export const AddVideoModal = ({onClose}) => {
                             </div>
                         </div>
                     }
-                    <Button disabled={!uploadReady} className="add-video-modal-save-button">Сохранить</Button>
+                    <Button onClick={onUpdateVideoInfo} disabled={!uploadReady} className="add-video-modal-save-button">Сохранить</Button>
                 </div>
             }
             title="Добавление видео"
@@ -133,7 +151,7 @@ export const AddVideoModal = ({onClose}) => {
                                     </label>
                                     <label className="add-video-modal-label">
                                         Описание
-                                        <Textarea placeholder="Расскажите, о чем ваше видео"/>
+                                        <Textarea id="add-video-description-input" placeholder="Расскажите, о чем ваше видео"/>
                                     </label>
                                 </div>
                             </Group>
