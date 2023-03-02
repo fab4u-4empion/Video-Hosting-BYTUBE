@@ -77,3 +77,31 @@ export const uploadVideo = (req, res) => {
         res.status(401).json("Unauthorized")
     }
 }
+
+export const streamVideo = async (req, res) => {
+    const [videoInfo] = await dbPoolSync.query(`SELECT v_access, v_user_id FROM videos WHERE v_id="${req.query['id']}"`)
+    if (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id']) {
+        res.status(403).send()
+    } else {
+        const range = req.headers.range;
+        const videoPath = `${__dirname}/static/videos/uploads/${req.query['id']}.mp4`;
+        const videoSize = fs.statSync(videoPath).size;
+
+        const chunkSize = 1_000_000;
+        const start = Number(range.replace(/\D/g, ''));
+        const end = Math.min(start + chunkSize, videoSize -1);
+
+        const contentLength = end - start + 1;
+
+        const headers = {
+            "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+            "Accept-Ranges": "bytes",
+            "Content-Length": contentLength,
+            "Content-Type": "video/mp4"
+        }
+        res.writeHead(206, headers);
+
+        const stream = fs.createReadStream(videoPath, { start, end })
+        stream.pipe(res);
+    }
+}
