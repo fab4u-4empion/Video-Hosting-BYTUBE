@@ -4,6 +4,7 @@
     background: transparent;
     border-radius: 50%;
     border: none;
+    color: black;
 }
 
 .icon-button:hover {

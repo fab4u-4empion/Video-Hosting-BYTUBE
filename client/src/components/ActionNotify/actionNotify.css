@@ -1,0 +1,13 @@
+.action-notify {
+    position: fixed;
+    z-index: 2;
+    bottom: 50px;
+    left: 50%;
+    cursor: default;
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 1.2em;
+    padding: 5px 20px;
+    border-radius: 10px;
+    transform: translate(-50%, 0);
+    color: white;
+}
