@@ -6,10 +6,10 @@ import "./videos.css"
 import {Spinner} from "../../components/Spinner/Spinner";
 import {useUserContextProvider} from "../../context/userContext";
 import {
-    Icon24VideoAddSquareOutline,
+    Icon24VideoAddSquareOutline, Icon28CopyOutline,
     Icon28EditOutline,
     Icon28UserIncomingOutline,
-    Icon28VideoAddSquareOutline
+    Icon28VideoAddSquareOutline, Icon28VideoOutline
 } from "@vkontakte/icons";
 import {Button} from "../../components/Button/Button";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
@@ -17,12 +17,17 @@ import {AddVideoModal} from "../../components/AddVideoModal/AddVideoModal";
 import {ACCESS_STATUSES} from "../../consts/access"
 import {IconButton} from "../../components/IconButton/IconButton";
 import {EditVideoModal} from "../../components/EditVideoModal/EditVideoModal";
+import {NavLink} from "react-router-dom";
+import {VIDEO, VIDEOS} from "../../consts/pages";
+import {ActionNotify} from "../../components/ActionNotify/ActionNotify";
+import {useTimeString} from "../../hooks/useTimeString";
 
 export const Videos = () => {
     const [videos, setVideos] = useState([])
     const [fetching, setFetching] = useState(true)
     const {user} = useUserContextProvider()
     const [modal, setModal] = useState(null)
+    const [notify, setNotify] = useState(null)
 
     useEffect(() => {
         updateVideos()
@@ -51,20 +56,13 @@ export const Videos = () => {
             })
     }
 
-    const durationToString = duration => {
-        const hours = Math.floor(duration / 3600)
-        const minutes = Math.floor(duration / 60)
-        const seconds = Math.floor(duration % 60)
-        const components = []
-        if (hours) {
-            components.push(hours.toString())
-            components.push(minutes.toString().padStart(2, '0'))
-            components.push(seconds.toString().padStart(2, '0'))
-        } else {
-            components.push(minutes.toString())
-            components.push(seconds.toString().padStart(2, '0'))
-        }
-        return components.join(":")
+    const onCopyLink = id => {
+        navigator
+            .clipboard
+            .writeText(`https://localhost:10888/video/${id}`)
+            .then(() => {
+                setNotify(<ActionNotify onClose={() => setNotify(null)}>Ссылка скопирована</ActionNotify>)
+            })
     }
 
     return (
@@ -80,6 +78,7 @@ export const Videos = () => {
                 </Button>
             }
         >
+            {notify}
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
             {!fetching && user && videos.length === 0 &&
                 <div className="page-placeholder">
@@ -114,7 +113,7 @@ export const Videos = () => {
                                             src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
                                         />
                                         <div className="videos-video-preview-duration">
-                                            {durationToString(video['v_duration'])}
+                                            {useTimeString(video['v_duration'])}
                                         </div>
                                     </div>
                                     <div className="videos-item-column">
@@ -125,6 +124,14 @@ export const Videos = () => {
                                                     setModal(<EditVideoModal video={video} onClose={onCloseModal}/>)
                                                 }}>
                                                 <Icon28EditOutline/>
+                                            </IconButton>
+                                            <IconButton onClick={() => onCopyLink(video['v_id'])}>
+                                                <Icon28CopyOutline/>
+                                            </IconButton>
+                                            <IconButton>
+                                                <NavLink to={`/${VIDEO}/${video['v_id']}`} style={{color: "black"}}>
+                                                    <Icon28VideoOutline/>
+                                                </NavLink>
                                             </IconButton>
                                         </div>
                                     </div>

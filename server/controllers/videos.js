@@ -105,3 +105,12 @@ export const streamVideo = async (req, res) => {
         stream.pipe(res);
     }
 }
+
+export const getVideoInfo = async (req, res) => {
+    const [videoInfo] = await dbPoolSync.query(`SELECT v_access, v_user_id, v_name, v_description FROM videos WHERE v_id="${req.query['id']}"`)
+    if (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id']) {
+        res.status(403).send()
+    } else {
+        res.json(videoInfo[0])
+    }
+}
