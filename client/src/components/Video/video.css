@@ -1,0 +1,95 @@
+.video-wrapper {
+    width: 800px;
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    color: white;
+    font-size: 1.5em;
+    position: relative;
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+    cursor: none;
+}
+
+.video-overlay-controls {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    position: relative;
+}
+
+.video-overlay-controls-bottom {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.video-overlay-controls-progress {
+    height: 30px;
+    box-sizing: border-box;
+    position: absolute;
+    transform: translate(0, -50%);
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.video-overlay-header {
+    padding: 0 10px;
+    box-sizing: border-box;
+    height: 50px;
+    line-height: 50px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.video-overlay-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.video-overlay {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+}
+
+.video-overlay-controls-button {
+    color: white;
+}
+
+.video-overlay-controls-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.video-overlay.hide {
+    visibility: hidden;
+    transition-delay: 1s;
+}
+
+.video-overlay-controls-progress-input {
+    width: 100%;
+}
+
+.video-overlay-controls-group {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    column-gap: 5px;
+}
