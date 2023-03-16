@@ -34,6 +34,7 @@
     border-radius: 50%;
     background: white;
     cursor: pointer;
+    transition: all 0.1s ease-in-out;
 }
 
 .modal-dismiss-button:hover {

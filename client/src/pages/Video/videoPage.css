@@ -82,6 +82,8 @@
     font-weight: bold;
     font-size: 15px;
     cursor: pointer;
+    width: min-content;
+    transition: all 0.1s ease-in-out;
 }
 
 .video-page-video-description-more-btn:hover {
@@ -118,6 +120,7 @@
     background: lightgray;
     border-radius: 10px;
     position: relative;
+    transition: all 0.1s ease-in-out;
 }
 
 .video-page-other-video-item {
@@ -129,6 +132,7 @@
     color: black;
     text-decoration: none;
     align-items: center;
+    transition: all 0.1s ease-in-out;
 }
 
 .video-page-other-video-item:hover > .video-page-other-video-preview {

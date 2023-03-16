@@ -5,6 +5,7 @@
     border-radius: 50%;
     border: none;
     color: black;
+    transition: all 0.1s ease-in-out;
 }
 
 .icon-button:hover {
