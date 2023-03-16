@@ -18,7 +18,7 @@ import {ACCESS_STATUSES} from "../../consts/access"
 import {IconButton} from "../../components/IconButton/IconButton";
 import {EditVideoModal} from "../../components/EditVideoModal/EditVideoModal";
 import {NavLink} from "react-router-dom";
-import {VIDEO, VIDEOS} from "../../consts/pages";
+import {VIDEO} from "../../consts/pages";
 import {ActionNotify} from "../../components/ActionNotify/ActionNotify";
 import {useTimeString} from "../../hooks/useTimeString";
 
@@ -138,7 +138,7 @@ export const Videos = () => {
                                 </div>
                                 <div className="videos-item-column text-center">{ACCESS_STATUSES[video['v_access']]}</div>
                                 <div className="videos-item-column text-center">
-                                    {new Date(Date.parse(video['v_publish_date'])).toLocaleString("ru-RU", {day: "numeric", month: "2-digit", year: "numeric"})}
+                                    {new Date(Date.parse(video['v_publish_date'])).toLocaleString("ru-RU", {day: "2-digit", month: "2-digit", year: "numeric"})}
                                 </div>
                                 <div className="videos-item-column text-center">{video['v_views']}</div>
                             </div>

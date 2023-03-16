@@ -1,8 +1,8 @@
 import "./button.css"
 
-export const Button = ({className, children, icon, ...restProps}) => {
+export const Button = ({className, children, icon, mode="primary", ...restProps}) => {
     return (
-        <button {...restProps} className={`btn ${className}`}>
+        <button {...restProps} className={`btn ${className} ${mode}`}>
             {icon && icon}
             {children}
         </button>

@@ -1,8 +1,6 @@
 .btn {
     padding: 0 20px;
     border-radius: 20px;
-    color: darkblue;
-    border: 1px solid darkblue;
     cursor: pointer;
     background: white;
     height: 40px;
@@ -10,17 +8,37 @@
     column-gap: 5px;
     align-items: center;
     justify-content: center;
-}
-
-.btn:disabled {
-    color: rgba(0, 0, 139, 0.5);
-    border-color: rgba(0, 0, 139, 0.5);
+    font-size: 15px;
 }
 
 .btn:disabled:hover {
     background: white;
 }
 
-.btn:hover {
+.btn.primary:disabled {
+    color: rgba(0, 0, 139, 0.5);
+    border-color: rgba(0, 0, 139, 0.5);
+}
+
+.btn.primary:hover {
     background: rgba(0, 0, 139, 0.05);
+}
+
+.btn.primary {
+    color: darkblue;
+    border: 1px solid darkblue;
+}
+
+.btn.secondary:disabled {
+    color: rgba(105, 105, 105, 0.5);
+    border-color: rgba(105, 105, 105, 0.5);
+}
+
+.btn.secondary:hover {
+    background: rgba(105, 105, 105, 0.05);
+}
+
+.btn.secondary {
+    color: dimgray;
+    border: 1px solid dimgray;
 }

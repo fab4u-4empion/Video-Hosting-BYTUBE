@@ -39,6 +39,16 @@ export const getOwnVideos = async (req, res) => {
     }
 }
 
+export const getOtherVideos = async (req, res) => {
+    const [result] = await dbPoolSync.query(`SELECT v_id, v_name, v_views, v_publish_date, v_duration FROM videos WHERE v_user_id="${req.query['u_id']}" AND v_access="open" AND v_id!="${req.query['v_id']}" ORDER BY v_publish_date DESC`)
+    res.json(result)
+}
+
+export const getAllVideos = async (req, res) => {
+    const [result] = await dbPoolSync.query(`SELECT videos.v_id, videos.v_name, videos.v_views, videos.v_publish_date, videos.v_duration, users.u_name, users.u_id FROM videos JOIN users ON users.u_id=videos.v_user_id WHERE videos.v_access="open" ORDER BY videos.v_publish_date DESC`)
+    res.json(result)
+}
+
 export const uploadVideo = (req, res) => {
     if (req['user']) {
         const id = uuidv4()
@@ -80,7 +90,7 @@ export const uploadVideo = (req, res) => {
 
 export const streamVideo = async (req, res) => {
     const [videoInfo] = await dbPoolSync.query(`SELECT v_access, v_user_id FROM videos WHERE v_id="${req.query['id']}"`)
-    if (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id']) {
+    if (!videoInfo[0] || (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id'])) {
         res.status(403).send()
     } else {
         const range = req.headers.range;
@@ -107,10 +117,13 @@ export const streamVideo = async (req, res) => {
 }
 
 export const getVideoInfo = async (req, res) => {
-    const [videoInfo] = await dbPoolSync.query(`SELECT v_access, v_user_id, v_name, v_description FROM videos WHERE v_id="${req.query['id']}"`)
-    if (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id']) {
+    const [videoInfo] = await dbPoolSync.query(`SELECT v_access, v_publish_date, v_user_id, v_name, v_description, v_views FROM videos WHERE v_id="${req.query['id']}"`)
+    if (!videoInfo[0] || (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id'])) {
         res.status(403).send()
     } else {
+        await dbPoolSync.query(`UPDATE videos SET v_views=v_views + 1 WHERE v_id="${req.query['id']}"`)
+        const [userInfo] = await dbPoolSync.query(`SELECT u_name FROM users WHERE u_id="${videoInfo[0]['v_user_id']}"`)
+        videoInfo[0].user = userInfo[0]
         res.json(videoInfo[0])
     }
 }

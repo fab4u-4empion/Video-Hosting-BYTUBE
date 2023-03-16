@@ -85,6 +85,7 @@
 
 .video-overlay-controls-progress-input {
     width: 100%;
+    cursor: pointer;
 }
 
 .video-overlay-controls-group {

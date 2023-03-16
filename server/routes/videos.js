@@ -1,5 +1,7 @@
 import {Router} from "express";
 import {
+    getAllVideos,
+    getOtherVideos,
     getOwnVideos,
     getPreview,
     getVideoInfo,
@@ -13,6 +15,8 @@ import busboy from "connect-busboy"
 export const videosRouter = new Router()
 
 videosRouter.get("/", multer().any(), getOwnVideos)
+videosRouter.get("/all", getAllVideos)
+videosRouter.get("/other", getOtherVideos)
 videosRouter.get("/video", streamVideo)
 videosRouter.get("/preview", getPreview)
 videosRouter.get("/info", getVideoInfo)
