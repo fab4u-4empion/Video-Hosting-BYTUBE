@@ -26,6 +26,7 @@ export const AccountButton = () => {
                 <NavLink to={`/${ACCOUNT}`} className="header-account-button-content">
                     <Avatar
                         size={35}
+                        src={`https://localhost:3000/api/v1/users/preview?id=${user['v_id']}`}
                     />
                     <div className="header-account-button-text">{user["u_name"]}</div>
                     <div><Icon20ChevronRight/></div>
