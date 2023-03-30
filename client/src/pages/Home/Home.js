@@ -17,7 +17,6 @@ export const Home = () => {
             .get("https://localhost:3000/api/v1/videos/all")
             .then(response => {
                 setVideos(response.data)
-                console.log(response.data)
                 setFetching(false)
             })
     }, [])
@@ -46,7 +45,7 @@ export const Home = () => {
                                 <div className="home-video-info">
                                     <div className="home-video-title">{video['v_name']}</div>
                                     <div style={{marginTop: 5}}>
-                                        <div className="home-video-subtext">{video['u_name']}</div>
+                                        <div className="home-video-subtext home-video-user-name">{video['u_name']}</div>
                                         <div className="home-video-subtext">
                                             {video['v_views']} просмотров
                                         </div>

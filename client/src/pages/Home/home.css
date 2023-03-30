@@ -69,4 +69,20 @@
 .home-video-subtext {
     color: dimgray;
     font-size: 15px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.home-video-info {
+    max-width: 224px;
+}
+
+.home-video-user-name {
+    transition: all 0.1s ease-in-out;
+}
+
+.home-video-user-name:hover {
+    text-decoration: underline;
+    color: #3d3d3d;
 }

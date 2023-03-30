@@ -6,6 +6,7 @@ import {SUBSCRIPTIONS, HISTORY, VIDEOS, ACCOUNT, VIDEO} from "./consts/pages";
 import {Videos} from "./pages/Videos/Videos";
 import {VideoPage} from "./pages/Video/VideoPage";
 import {Home} from "./pages/Home/Home";
+import {History} from "./pages/History/History";
 
 export const App = () => {
     return (
@@ -15,8 +16,8 @@ export const App = () => {
                     <Route path="/" element={<Layout/>}>
                         <Route index element={<Home/>}/>
                         <Route path={SUBSCRIPTIONS} element={<Page title="Подписки"></Page>}/>
-                        <Route path={HISTORY} element={<Page title="История"></Page>}/>
-                        <Route path={VIDEOS} element={<Videos />}/>
+                        <Route path={HISTORY} element={<History/>}/>
+                        <Route path={VIDEOS} element={<Videos/>}/>
                         <Route path={ACCOUNT} element={<Page title="Аккаунт"></Page>}/>
                         <Route path={`${VIDEO}/:id`} element={<VideoPage/>}/>
                     </Route>
