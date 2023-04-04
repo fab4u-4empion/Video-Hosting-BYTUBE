@@ -28,11 +28,17 @@
     transform: scale(100%);
 }
 
-.avatar-icon {
+.avatar-fallback {
     color: gray;
+    position: absolute;
 }
 
 .avatar-img {
     border-radius: inherit;
     object-fit: cover;
+    visibility: hidden;
+}
+
+.avatar-loaded .avatar-img {
+    visibility: visible;
 }
