@@ -31,7 +31,7 @@ export const registration = async (req, res) => {
     countQueryResult[0].count !== 0 && res.status(400).json("Имя уже занято")
     const hash = bcrypt.hashSync(data["u_password"], bcrypt.genSaltSync(10))
     const id = uuidv4()
-    await dbPoolSync.query(`INSERT INTO users (u_id, u_name, u_password) VALUES ("${id}", "${data["u_name"]}", "${hash}")`)
+    await dbPoolSync.query(`INSERT INTO users (u_id, u_name, u_password, u_reg_date) VALUES ("${id}", "${data["u_name"]}", "${hash}", CURRENT_DATE)`)
     await startSession(id, res)
 }
 
@@ -43,6 +43,18 @@ export const login = async (req, res) => {
     !userQueryResult[0] && res.status(400).json("Пользователя не существует")
     !bcrypt.compareSync(data["u_password"], userQueryResult[0]["u_password"]) && res.status(400).json("Неверный пароль")
     await startSession(userQueryResult[0]["u_id"], res)
+}
+
+export const logout = async (req, res) => {
+    await dbPoolSync.query(`DELETE FROM sessions WHERE s_id="${req['sessionId']}"`)
+    res.cookie("token", ``, {secure:true, httpOnly: true, sameSite: "none"})
+    res.send()
+}
+
+export const closeSessions = async (req, res) => {
+    await dbPoolSync.query(`DELETE FROM sessions WHERE s_user_id="${req['user']['u_id']}" AND s_id!="${req['sessionId']}"`)
+    const [sessions] = await dbPoolSync.query(`SELECT COUNT(*) AS count FROM sessions WHERE s_user_id="${req['user']['u_id']}"`)
+    res.json({sessionsCount: sessions[0]['count']})
 }
 
 export const getUserInfo = async (req, res) => {
@@ -59,6 +71,7 @@ export const auth = (req, res, next) => {
                 .from(tokenParts[1], "base64")
                 .toString("utf-8")
         )
+        req.sessionId = session.id
         dbPool.query(`SELECT s_key, s_user_id FROM sessions WHERE s_id="${session.id}"`, (err, sessionInfo) => {
             if (sessionInfo[0]) {
                 const signature = crypto

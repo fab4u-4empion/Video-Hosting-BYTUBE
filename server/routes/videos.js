@@ -14,7 +14,7 @@ import busboy from "connect-busboy"
 
 export const videosRouter = new Router()
 
-videosRouter.get("/", multer().any(), getOwnVideos)
+videosRouter.get("/", getOwnVideos)
 videosRouter.get("/all", getAllVideos)
 videosRouter.get("/other", getOtherVideos)
 videosRouter.get("/video", streamVideo)

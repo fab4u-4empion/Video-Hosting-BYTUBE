@@ -30,6 +30,17 @@ export const UserContextProvider = ({children}) => {
             })
     }
 
+    const logOut = () => {
+        axios
+            .post("https://localhost:3000/api/v1/auth/logout", {}, {withCredentials: true})
+            .then(() => {
+                setUser(null)
+            })
+            .catch(() => {
+                alert("Не удалось выполнить запрос")
+            })
+    }
+
     useEffect(() => {
         getUser()
     }, [])
@@ -37,7 +48,8 @@ export const UserContextProvider = ({children}) => {
     return (
         <Context.Provider value={{
             user,
-            authHandler
+            authHandler,
+            logOut
         }}>
             {children}
         </Context.Provider>

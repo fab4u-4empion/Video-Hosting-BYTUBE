@@ -21,7 +21,7 @@ export const Avatar = ({src, size = 20, overlay, dataURLContent = false}) => {
 
     return (
         <div
-            className={`avatar-container ${loaded && "avatar-loaded"}`}
+            className={`avatar-container ${loaded ? "avatar-loaded" : ""}`}
             style={{width: size, height: size}}
         >
             {overlay &&

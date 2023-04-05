@@ -9,7 +9,7 @@ import {
     Icon24VideoAddSquareOutline, Icon28CopyOutline,
     Icon28EditOutline,
     Icon28UserIncomingOutline,
-    Icon28VideoAddSquareOutline, Icon28VideoOutline
+    Icon28VideoAddSquareOutline, Icon28VideoOutline, Icon28VideoSquareOutline
 } from "@vkontakte/icons";
 import {Button} from "../../components/Button/Button";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
@@ -78,7 +78,6 @@ export const Videos = () => {
                 </Button>
             }
         >
-            {notify}
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
             {!fetching && user && videos.length === 0 &&
                 <div className="page-placeholder">
@@ -148,7 +147,7 @@ export const Videos = () => {
             }
             {!fetching && !user &&
                 <div className="page-placeholder">
-                    <Icon28UserIncomingOutline width={130} height={130}/>
+                    <Icon28VideoSquareOutline width={130} height={130}/>
                     <div>Войдите, чтобы получить доступ к вашим видео.</div>
                     <Button
                         className="page-placeholder-action-button"
@@ -159,6 +158,7 @@ export const Videos = () => {
                 </div>
             }
             {modal}
+            {notify}
         </Page>
     )
 }

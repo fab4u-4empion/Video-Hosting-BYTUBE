@@ -40,7 +40,7 @@ export const Home = () => {
                             <div className="home-video-description">
                                 <Avatar
                                     size={40}
-                                    src={`https://localhost:3000/api/v1/users/preview?id=${video['u_id']}`}
+                                    src={`https://localhost:3000/api/v1/user/avatar?id=${video['u_id']}`}
                                 />
                                 <div className="home-video-info">
                                     <div className="home-video-title">{video['v_name']}</div>

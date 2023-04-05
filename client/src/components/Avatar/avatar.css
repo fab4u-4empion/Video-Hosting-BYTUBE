@@ -19,13 +19,14 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.08s ease-in-out;
+    transition: all 0.2s ease-in-out;
     border-radius: inherit;
-    transform: scale(0);
+    opacity: 0;
+    z-index: 1;
 }
 
-.avatar-container:hover > .avatar-overlay {
-    transform: scale(100%);
+.avatar-container:hover .avatar-overlay {
+    opacity: 1;
 }
 
 .avatar-fallback {

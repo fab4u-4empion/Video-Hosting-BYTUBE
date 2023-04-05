@@ -1,4 +1,8 @@
 import {dbPoolSync} from "../config/config.js";
+import fs from "fs";
+import path from "path";
+
+const __dirname = path.resolve()
 
 export const getHistory = async (req, res) => {
     if (req['user']) {
@@ -7,4 +11,34 @@ export const getHistory = async (req, res) => {
     } else {
         res.status(401).json("Unauthorized")
     }
+}
+
+export const getAccountInfo = async (req, res) => {
+    if (req['user']) {
+        const [result] = await dbPoolSync.query(`SELECT u_id, u_name, u_description, u_reg_date FROM users WHERE u_id="${req['user']['u_id']}"`)
+        const [sessions] = await dbPoolSync.query(`SELECT COUNT(*) AS count FROM sessions WHERE s_user_id="${req['user']['u_id']}"`)
+        res.json({
+            ...result[0],
+            sessionsCount: sessions[0]['count']
+        })
+    } else {
+        res.status(401).json("Unauthorized")
+    }
+}
+
+export const updateAccountInfo = async (req, res) => {
+    if (req['user']) {
+        req.file && fs.writeFileSync(`${__dirname}/static/avatars/${req['user']['u_id']}.png`, req.file.buffer)
+        await dbPoolSync.query(`UPDATE users SET u_description="${req.body['description']}" WHERE u_id="${req['user']['u_id']}"`)
+        res.send()
+    } else {
+        res.status(401).json("Unauthorized")
+    }
+}
+
+export const getAvatar = (req, res) => {
+    if (fs.existsSync(`${__dirname}/static/avatars/${req.query['id']}.png`))
+        res.set('Cache-Control', 'no-store').sendFile(`${__dirname}/static/avatars/${req.query['id']}.png`)
+    else
+        res.status(404).send()
 }

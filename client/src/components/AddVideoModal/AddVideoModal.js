@@ -7,6 +7,7 @@ import {Input} from "../InputControls/Input";
 import {Textarea} from "../InputControls/Textarea";
 import {Icon20RadioOff, Icon20RadioOn, Icon28PicturePlusOutline, Icon28UploadOutline} from "@vkontakte/icons";
 import axios from "axios";
+import {onOpenFileDialog} from "../../utils/openFileDialog";
 
 export const AddVideoModal = ({onClose}) => {
     const [file, setFile] = useState(null)
@@ -17,10 +18,6 @@ export const AddVideoModal = ({onClose}) => {
     const [uploadReady, setUploadReady] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(0)
     const [videoID, setVideoID] = useState("")
-
-    const onOpenFileDialog = id=> {
-        document.getElementById(id).click()
-    }
 
     const onSelectFile = (e) => {
         setFile(e.target.files[0])

@@ -23,6 +23,7 @@ export const History = () => {
     const {user} = useUserContextProvider()
 
     useEffect(() => {
+        setFetching(true)
         axios
             .get("https://localhost:3000/api/v1/user/history", {withCredentials: true})
             .then(response => {
@@ -36,7 +37,7 @@ export const History = () => {
                     alert(`Ошибка при выполнении запроса.`)
                 }
             })
-    }, [])
+    }, [user])
 
     return (
         <Page title="История">
@@ -68,7 +69,7 @@ export const History = () => {
                                         <div className="history-video-user-info">
                                             <Avatar
                                                 size={35}
-                                                src={`https://localhost:3000/api/v1/users/preview?id=${video['u_id']}`}
+                                                src={`https://localhost:3000/api/v1/user/avatar?id=${video['u_id']}`}
                                             />
                                             <div className="history-video-user-name">{video['u_name']}</div>
                                         </div>

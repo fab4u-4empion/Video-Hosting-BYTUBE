@@ -7,6 +7,7 @@ import {Videos} from "./pages/Videos/Videos";
 import {VideoPage} from "./pages/Video/VideoPage";
 import {Home} from "./pages/Home/Home";
 import {History} from "./pages/History/History";
+import {Account} from "./pages/Account/Account";
 
 export const App = () => {
     return (
@@ -18,7 +19,7 @@ export const App = () => {
                         <Route path={SUBSCRIPTIONS} element={<Page title="Подписки"></Page>}/>
                         <Route path={HISTORY} element={<History/>}/>
                         <Route path={VIDEOS} element={<Videos/>}/>
-                        <Route path={ACCOUNT} element={<Page title="Аккаунт"></Page>}/>
+                        <Route path={ACCOUNT} element={<Account/>}/>
                         <Route path={`${VIDEO}/:id`} element={<VideoPage/>}/>
                     </Route>
                 </Routes>
