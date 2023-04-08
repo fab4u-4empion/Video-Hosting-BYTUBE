@@ -42,3 +42,10 @@ export const getAvatar = (req, res) => {
     else
         res.status(404).send()
 }
+
+export const getChanel = async (req, res) => {
+    const [result] = await dbPoolSync.query(`SELECT u_name, u_id FROM users WHERE u_id="${req.query['id']}"`)
+    const [videos] = await dbPoolSync.query(`SELECT v_name, v_duration, v_views, v_id, v_publish_date FROM videos WHERE v_user_id="${req.query['id']}" AND v_access="open" ORDER BY v_publish_date DESC`)
+    result[0].videos = videos
+    res.json(result[0])
+}

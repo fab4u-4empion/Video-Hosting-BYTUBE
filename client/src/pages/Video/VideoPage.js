@@ -8,10 +8,10 @@ import "./videoPage.css"
 import {Avatar} from "../../components/Avatar/Avatar";
 import {Button} from "../../components/Button/Button";
 import {useUserContextProvider} from "../../context/userContext";
-import {useTimeString} from "../../hooks/useTimeString";
-import {VIDEO} from "../../consts/pages";
+import {secondsToTimeString} from "../../utils/secondsToTimeString";
+import {CHANEL, VIDEO} from "../../consts/pages";
 import {NavLink} from "react-router-dom";
-import {Icon24LinkedOutline, Icon24LockOutline, Icon28LinkOutline} from "@vkontakte/icons";
+import {Icon24LinkedOutline, Icon24LockOutline} from "@vkontakte/icons";
 
 export const VideoPage = () => {
     const params = useParams()
@@ -84,13 +84,15 @@ export const VideoPage = () => {
                                         />
                                         <div className="video-page-chanel-description">
                                             <div className="video-page-chanel-name">{videoInfo['user']['u_name']}</div>
-                                            <div className="vide-gage-chanel-subs">0 подписчиков</div>
+                                            <div className="video-gage-chanel-subs">0 подписчиков</div>
                                         </div>
                                     </div>
                                     {user && user['u_id'] !== videoInfo['v_user_id'] &&
                                         <Button>Подписаться</Button>
                                     }
-                                    <Button mode="secondary">Перейти на канал</Button>
+                                    <NavLink to={`/${CHANEL}/${videoInfo['v_user_id']}`} className="video-page-to-chanel">
+                                        <Button mode="secondary">Перейти на канал</Button>
+                                    </NavLink>
                                 </div>
                                 <div className="video-page-video-description">
                                     <div className="video-page-video-description-title">
@@ -121,7 +123,7 @@ export const VideoPage = () => {
                                                     src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
                                                 />
                                                 <div className="video-page-other-video-preview-duration">
-                                                    {useTimeString(video['v_duration'])}
+                                                    {secondsToTimeString(video['v_duration'])}
                                                 </div>
                                             </div>
                                             <div className="video-page-other-video-info">

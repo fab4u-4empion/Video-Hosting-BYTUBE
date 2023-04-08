@@ -36,7 +36,7 @@
     text-overflow: ellipsis;
 }
 
-.vide-gage-chanel-subs {
+.video-gage-chanel-subs {
     font-size: 13px;
     color: dimgray;
     white-space: nowrap;
@@ -169,4 +169,8 @@
 .video-page-other-placeholder {
     font-size: 20px;
     color: dimgray;
+}
+
+.video-page-to-chanel {
+    text-decoration: none;
 }

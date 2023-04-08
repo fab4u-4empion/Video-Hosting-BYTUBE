@@ -3,9 +3,9 @@ import {Page} from "../../components/Page/Page";
 import {useEffect, useState} from "react";
 import {Spinner} from "../../components/Spinner/Spinner";
 import axios from "axios";
-import {useTimeString} from "../../hooks/useTimeString";
+import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {NavLink} from "react-router-dom";
-import {VIDEO} from "../../consts/pages";
+import {CHANEL, VIDEO} from "../../consts/pages";
 import {Avatar} from "../../components/Avatar/Avatar";
 import {DateSeparator} from "../../components/DateSeparator/DateSeparator";
 import {
@@ -60,7 +60,7 @@ export const History = () => {
                                         src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
                                     />
                                     <div className="history-videos-preview-duration">
-                                        {useTimeString(video['v_duration'])}
+                                        {secondsToTimeString(video['v_duration'])}
                                     </div>
                                 </div>
                                 <div className="history-video-info">
@@ -71,7 +71,7 @@ export const History = () => {
                                                 size={35}
                                                 src={`https://localhost:3000/api/v1/user/avatar?id=${video['u_id']}`}
                                             />
-                                            <div className="history-video-user-name">{video['u_name']}</div>
+                                            <NavLink to={`/${CHANEL}/${video['u_id']}`} className="history-video-user-name">{video['u_name']}</NavLink>
                                         </div>
                                         <div className="history-video-subtext">
                                             {video['v_views']} просмотров

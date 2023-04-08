@@ -20,7 +20,7 @@ import {EditVideoModal} from "../../components/EditVideoModal/EditVideoModal";
 import {NavLink} from "react-router-dom";
 import {VIDEO} from "../../consts/pages";
 import {ActionNotify} from "../../components/ActionNotify/ActionNotify";
-import {useTimeString} from "../../hooks/useTimeString";
+import {secondsToTimeString} from "../../utils/secondsToTimeString";
 
 export const Videos = () => {
     const [videos, setVideos] = useState([])
@@ -112,7 +112,7 @@ export const Videos = () => {
                                             src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
                                         />
                                         <div className="videos-video-preview-duration">
-                                            {useTimeString(video['v_duration'])}
+                                            {secondsToTimeString(video['v_duration'])}
                                         </div>
                                     </div>
                                     <div className="videos-item-column">

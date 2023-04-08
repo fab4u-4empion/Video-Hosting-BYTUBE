@@ -81,6 +81,7 @@
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 .history-video-info {

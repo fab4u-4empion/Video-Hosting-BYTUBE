@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import "./video.css"
 import {IconButton} from "../IconButton/IconButton";
 import {Icon24Fullscreen, Icon24FullscreenExit, Icon28Pause, Icon28Play} from "@vkontakte/icons";
-import {useTimeString} from "../../hooks/useTimeString";
+import {secondsToTimeString} from "../../utils/secondsToTimeString";
 
 export const Video = ({src, name}) => {
     const [error, setError] = useState(false)
@@ -152,7 +152,7 @@ export const Video = ({src, name}) => {
                                         {!videoPlay && <Icon28Play/>}
                                     </IconButton>
                                     <div className="video-overlay-controls-time">
-                                        {useTimeString(time)} / {useTimeString(duration)}
+                                        {secondsToTimeString(time)} / {secondsToTimeString(duration)}
                                     </div>
                                 </div>
                                 <div>
