@@ -62,6 +62,20 @@ export const getUserInfo = async (req, res) => {
     res.status(401).json("Unauthorized")
 }
 
+export const changePassword = async (req, res) => {
+    if (req['user']) {
+        !req.body['oldPassword'] && res.status(400).json("Вы не ввели пароль")
+        !req.body['newPassword'] && res.status(400).json("Вы не ввели новый пароль")
+        const [userPassword] = await dbPoolSync.query(`SELECT u_password FROM users WHERE u_id="${req['user']['u_id']}"`)
+        !bcrypt.compareSync(req.body["oldPassword"], userPassword[0]["u_password"]) && res.status(400).json("Неверный пароль")
+        const hash = bcrypt.hashSync(req.body["newPassword"], bcrypt.genSaltSync(10))
+        await dbPoolSync.query(`UPDATE users SET u_password="${hash}" WHERE u_id="${req['user']['u_id']}"`)
+        res.send()
+    } else {
+        res.status(401).json("Unauthorized")
+    }
+}
+
 export const auth = (req, res, next) => {
     if (req.cookies['token']) {
         const tokenParts = req.cookies['token']

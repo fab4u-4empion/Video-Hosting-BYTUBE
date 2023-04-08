@@ -80,7 +80,7 @@ export const VideoPage = () => {
                                     <div className="video-page-chanel-info">
                                         <Avatar
                                             size={45}
-                                            src={`https://localhost:3000/api/v1/users/preview?id=${user['u_id']}`}
+                                            src={`https://localhost:3000/api/v1/user/avatar?id=${videoInfo['user']['u_id']}`}
                                         />
                                         <div className="video-page-chanel-description">
                                             <div className="video-page-chanel-name">{videoInfo['user']['u_name']}</div>

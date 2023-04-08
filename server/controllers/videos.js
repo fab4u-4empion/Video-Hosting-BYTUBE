@@ -124,7 +124,7 @@ export const getVideoInfo = async (req, res) => {
         await dbPoolSync.query(`UPDATE videos SET v_views=v_views + 1 WHERE v_id="${req.query['id']}"`)
         if (req['user'])
             await dbPoolSync.query(`INSERT INTO views (view_user_id, view_video_id, view_date, view_time) VALUES("${req['user']['u_id']}", "${req.query['id']}", CURRENT_DATE, CURRENT_TIME) ON DUPLICATE KEY UPDATE view_time=CURRENT_TIME`)
-        const [userInfo] = await dbPoolSync.query(`SELECT u_name FROM users WHERE u_id="${videoInfo[0]['v_user_id']}"`)
+        const [userInfo] = await dbPoolSync.query(`SELECT u_name, u_id FROM users WHERE u_id="${videoInfo[0]['v_user_id']}"`)
         videoInfo[0].user = userInfo[0]
         res.json(videoInfo[0])
     }

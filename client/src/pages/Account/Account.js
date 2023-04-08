@@ -12,6 +12,7 @@ import {ActionNotify} from "../../components/ActionNotify/ActionNotify";
 import {onOpenFileDialog} from "../../utils/openFileDialog";
 import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
+import {ChangePasswordModal} from "../../components/ChangePasswordModal/ChangePasswordModal";
 
 export const Account = () => {
     const [fetching, setFetching] = useState(true)
@@ -137,7 +138,16 @@ export const Account = () => {
                             <div className="account-page-group-content">
                                 <div className="account-page-label">Активных сеансов: {userInfo['sessionsCount']}</div>
                                 <div className="account-button-group">
-                                    <Button>Изменить пароль</Button>
+                                    <Button
+                                        onClick={() => setModal(
+                                            <ChangePasswordModal
+                                                onClose={() => setModal(null)}
+                                                onSuccess={() => setNotify(<ActionNotify onClose={() => setNotify(null)}>Пароль изменен</ActionNotify>)}
+                                            />
+                                        )}
+                                    >
+                                        Изменить пароль
+                                    </Button>
                                     <Button onClick={onCloseSessions} mode="secondary">Завершить сеансы</Button>
                                     <Button onClick={onLogOut} mode="danger">Выйти</Button>
                                 </div>
