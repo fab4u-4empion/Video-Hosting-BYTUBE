@@ -44,8 +44,12 @@ export const getAvatar = (req, res) => {
 }
 
 export const getChanel = async (req, res) => {
-    const [result] = await dbPoolSync.query(`SELECT u_name, u_id FROM users WHERE u_id="${req.query['id']}"`)
-    const [videos] = await dbPoolSync.query(`SELECT v_name, v_duration, v_views, v_id, v_publish_date FROM videos WHERE v_user_id="${req.query['id']}" AND v_access="open" ORDER BY v_publish_date DESC`)
-    result[0].videos = videos
-    res.json(result[0])
+    const [result] = await dbPoolSync.query(`SELECT u_name, u_id, u_description, u_reg_date FROM users WHERE u_id="${req.query['id']}"`)
+    if (result[0]) {
+        const [videos] = await dbPoolSync.query(`SELECT v_name, v_duration, v_views, v_id, v_publish_date FROM videos WHERE v_user_id="${req.query['id']}" AND v_access="open" ORDER BY v_publish_date DESC`)
+        result[0].videos = videos
+        res.json(result[0])
+    } else {
+        res.status(404).send()
+    }
 }

@@ -8,15 +8,19 @@ import {Avatar} from "../../components/Avatar/Avatar";
 import {useUserContextProvider} from "../../context/userContext";
 import {Button} from "../../components/Button/Button";
 import {NavLink} from "react-router-dom";
-import {CHANEL, VIDEO} from "../../consts/pages";
+import {VIDEO} from "../../consts/pages";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
-import {Icon28HistoryForwardOutline, Icon28VideoSquareOutline} from "@vkontakte/icons";
+import {Icon28UserOutline, Icon28VideoSquareOutline} from "@vkontakte/icons";
+import {Tabs} from "../../components/Tabs/Tabs";
+import {TabItem} from "../../components/Tabs/TabItem/TabItem";
+import {Group} from "../../components/Group/Group";
 
 export const ChanelPage = () => {
     const params = useParams()
     const {user} = useUserContextProvider()
     const [fetching, setFetching] = useState(true)
     const [chanel, setChanel] = useState(null)
+    const [selected, setSelected] = useState("videos")
 
     useEffect(() => {
         axios
@@ -26,14 +30,23 @@ export const ChanelPage = () => {
                 console.log(response.data)
                 setFetching(false)
             })
-            .catch(() => {
-                alert("Не удалось выполнить запрос")
+            .catch(err => {
+                if (err.response.status === 404)
+                    setFetching(false)
+                else
+                    alert("Не удалось выполнить запрос")
             })
     }, [])
 
     return (
         <Page>
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
+            {!fetching && !chanel &&
+                <div className="page-placeholder">
+                    <Icon28UserOutline width={130} height={130}/>
+                    <div>Канал не найден</div>
+                </div>
+            }
             {!fetching && chanel &&
                 <div>
                     <div className="chanel-header">
@@ -50,10 +63,18 @@ export const ChanelPage = () => {
                                 </div>
                             </div>
                         </div>
-                        {user['u_id'] !== chanel['u_id'] && <Button>Подписаться</Button>}
+                        {user && user?.['u_id'] !== chanel['u_id'] && <Button>Подписаться</Button>}
+                    </div>
+                    <div className="chanel-tabs-wrapper">
+                        <div className="chanel-tabs">
+                            <Tabs>
+                                <TabItem onClick={() => setSelected("videos")} selected={selected === "videos"} text="Видео"/>
+                                <TabItem onClick={() => setSelected("about")} selected={selected === "about"} text="О канале"/>
+                            </Tabs>
+                        </div>
                     </div>
                     <div className="chanel-videos-table">
-                        {chanel.videos.length > 0 && chanel.videos.map(video =>
+                        {selected === "videos" && chanel.videos.length > 0 && chanel.videos.map(video =>
                             <NavLink to={`/${VIDEO}/${video['v_id']}`} key={video['v_id']} className="chanel-videos-table-item">
                                 <div className="chanel-videos-preview">
                                     <img
@@ -80,10 +101,31 @@ export const ChanelPage = () => {
                             </NavLink>
                         )}
                     </div>
-                    {chanel.videos.length === 0 &&
+                    {selected === "videos" && chanel.videos.length === 0 &&
                         <div className="page-placeholder">
                             <Icon28VideoSquareOutline width={130} height={130}/>
                             <div>На этом канале еще нет видео</div>
+                        </div>
+                    }
+                    {selected === "about" &&
+                        <div className="chanel-about">
+                            {chanel['u_description'] &&
+                                <Group
+                                    title="Описание"
+                                    className="chanel-about-group"
+                                >
+                                    <div className="chanel-about-text">
+                                        {chanel['u_description']}
+                                    </div>
+                                </Group>
+                            }
+                            <Group
+                                title="Другое"
+                            >
+                                <div className="chanel-about-text">
+                                    Канал создан {new Date(Date.parse(chanel['u_reg_date'])).toLocaleString("ru-RU", {day: "numeric", month: "long", year: "numeric"})}
+                                </div>
+                            </Group>
                         </div>
                     }
                 </div>

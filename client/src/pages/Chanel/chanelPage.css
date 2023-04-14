@@ -5,7 +5,22 @@
     width: 80%;
     margin-right: auto;
     margin-left: auto;
+    margin-bottom: 20px;
+}
+
+.chanel-tabs {
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.chanel-tabs-wrapper {
+    position: sticky;
+    top: 59px;
+    background: white;
+    z-index: 1;
     margin-bottom: 30px;
+    border-bottom: 1px solid lightgrey;
 }
 
 .chanel-header-user {
@@ -15,7 +30,7 @@
 }
 
 .chanel-user-name {
-    font-size: 35px;
+    font-size: 30px;
 }
 
 .chanel-user-info {
@@ -104,4 +119,20 @@
 
 .chanel-video-info {
     max-width: 290px;
+}
+
+.chanel-about-text {
+    padding: 15px 0;
+    box-sizing: border-box;
+    color: dimgray;
+    border-bottom: 1px solid lightgrey;
+    white-space: pre-wrap;
+}
+
+.chanel-about-group {
+    margin-bottom: 30px;
+}
+
+.chanel-about {
+    width: 50%;
 }
