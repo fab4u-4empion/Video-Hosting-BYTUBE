@@ -5,8 +5,6 @@ import {useEffect, useState} from "react";
 import {Spinner} from "../../components/Spinner/Spinner";
 import axios from "axios";
 import {Avatar} from "../../components/Avatar/Avatar";
-import {useUserContextProvider} from "../../context/userContext";
-import {Button} from "../../components/Button/Button";
 import {NavLink} from "react-router-dom";
 import {VIDEO} from "../../consts/pages";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
@@ -14,20 +12,21 @@ import {Icon28UserOutline, Icon28VideoSquareOutline} from "@vkontakte/icons";
 import {Tabs} from "../../components/Tabs/Tabs";
 import {TabItem} from "../../components/Tabs/TabItem/TabItem";
 import {Group} from "../../components/Group/Group";
+import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 
 export const ChanelPage = () => {
     const params = useParams()
-    const {user} = useUserContextProvider()
     const [fetching, setFetching] = useState(true)
     const [chanel, setChanel] = useState(null)
+    const [subsInfo, setSubsInfo] = useState(null)
     const [selected, setSelected] = useState("videos")
 
     useEffect(() => {
         axios
-            .get(`https://localhost:3000/api/v1/user/chanel?id=${params['id']}`)
+            .get(`https://localhost:3000/api/v1/user/chanel?id=${params['id']}`, {withCredentials: true})
             .then(response => {
                 setChanel(response.data)
-                console.log(response.data)
+                setSubsInfo(response.data.subsInfo)
                 setFetching(false)
             })
             .catch(err => {
@@ -58,12 +57,12 @@ export const ChanelPage = () => {
                             <div className="chanel-user-info">
                                 <div className="chanel-user-name">{chanel['u_name']}</div>
                                 <div className="chanel-user-description">
-                                    <div>0 подписчиков</div>
+                                    <div>{subsInfo['subsCount']} подписчиков</div>
                                     <div>{chanel.videos.length} видео</div>
                                 </div>
                             </div>
                         </div>
-                        {user && user?.['u_id'] !== chanel['u_id'] && <Button>Подписаться</Button>}
+                        <SubscribeButton sub={subsInfo['sub']} chanel={chanel['u_id']} onAction={setSubsInfo}/>
                     </div>
                     <div className="chanel-tabs-wrapper">
                         <div className="chanel-tabs">

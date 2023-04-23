@@ -126,6 +126,13 @@ export const getVideoInfo = async (req, res) => {
             await dbPoolSync.query(`INSERT INTO views (view_user_id, view_video_id, view_date, view_time) VALUES("${req['user']['u_id']}", "${req.query['id']}", CURRENT_DATE, CURRENT_TIME) ON DUPLICATE KEY UPDATE view_time=CURRENT_TIME`)
         const [userInfo] = await dbPoolSync.query(`SELECT u_name, u_id FROM users WHERE u_id="${videoInfo[0]['v_user_id']}"`)
         videoInfo[0].user = userInfo[0]
+        const [subs] = await dbPoolSync.query(`SELECT COUNT(*) AS result FROM subscriptions WHERE s_user_to="${userInfo[0]['u_id']}"`)
+        videoInfo[0].user.subsInfo = {}
+        videoInfo[0].user.subsInfo.subsCount = subs[0]['result']
+        if (req['user']) {
+            const [sub] = await dbPoolSync.query(`SELECT EXISTS(SELECT * FROM subscriptions WHERE s_user_from="${req['user']['u_id']}" AND s_user_to="${userInfo[0]['u_id']}") as result`)
+            videoInfo[0].user.subsInfo.sub = sub[0]['result']
+        }
         res.json(videoInfo[0])
     }
 }
