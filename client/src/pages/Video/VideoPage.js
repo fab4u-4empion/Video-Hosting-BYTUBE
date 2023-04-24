@@ -117,12 +117,12 @@ export const VideoPage = () => {
                                     <div className="video-page-other-title">Другие видео на этом канале</div>
                                     {otherVideos.map(video =>
                                         <NavLink to={`/${VIDEO}/${video['v_id']}`} className="video-page-other-video-item" key={video['v_id']}>
-                                            <div className="video-page-other-video-preview">
+                                            <div className="video-page-other-video-preview video-preview">
                                                 <img
-                                                    className="video-page-other-video-preview-img"
+                                                    className="video-preview-img"
                                                     src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
                                                 />
-                                                <div className="video-page-other-video-preview-duration">
+                                                <div className="video-preview-duration">
                                                     {secondsToTimeString(video['v_duration'])}
                                                 </div>
                                             </div>

@@ -13,6 +13,22 @@ export const getHistory = async (req, res) => {
     }
 }
 
+export const getSubs = async (req, res) => {
+    if (req['user']) {
+        const [videos] = await dbPoolSync.query(`SELECT videos.v_id, videos.v_name, videos.v_publish_date, videos.v_duration, users.u_name, users.u_id, videos.v_views, videos.v_description FROM subscriptions JOIN videos ON subscriptions.s_user_to=videos.v_user_id JOIN users ON videos.v_user_id=users.u_id WHERE subscriptions.s_user_from="${req['user']['u_id']}" AND videos.v_access="open" ORDER BY videos.v_publish_date DESC`)
+        const [channels] = await dbPoolSync.query(`SELECT users.u_id, users.u_name, users.u_description FROM subscriptions JOIN users ON subscriptions.s_user_to=users.u_id WHERE subscriptions.s_user_from="${req['user']['u_id']}" ORDER BY users.u_name`)
+        for (let channel of channels) {
+            const [subs] = await dbPoolSync.query(`SELECT COUNT(*) AS result FROM subscriptions WHERE s_user_to="${channel['u_id']}"`)
+            const [videos] = await dbPoolSync.query(`SELECT COUNT(*) AS result FROM videos WHERE v_user_id="${channel['u_id']}" AND v_access="open"`)
+            channel.u_subs_count = subs[0]['result']
+            channel.u_videos_count = videos[0]['result']
+        }
+        res.json({videos, channels})
+    } else {
+        res.status(401).json("Unauthorized")
+    }
+}
+
 export const getAccountInfo = async (req, res) => {
     if (req['user']) {
         const [result] = await dbPoolSync.query(`SELECT u_id, u_name, u_description, u_reg_date FROM users WHERE u_id="${req['user']['u_id']}"`)
@@ -43,7 +59,7 @@ export const getAvatar = (req, res) => {
         res.status(404).send()
 }
 
-export const getChanel = async (req, res) => {
+export const getChannel = async (req, res) => {
     const [result] = await dbPoolSync.query(`SELECT u_name, u_id, u_description, u_reg_date FROM users WHERE u_id="${req.query['id']}"`)
     if (result[0]) {
         const [videos] = await dbPoolSync.query(`SELECT v_name, v_duration, v_views, v_id, v_publish_date FROM videos WHERE v_user_id="${req.query['id']}" AND v_access="open" ORDER BY v_publish_date DESC`)

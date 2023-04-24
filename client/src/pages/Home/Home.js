@@ -28,12 +28,12 @@ export const Home = () => {
                 <div className="home-videos-table">
                     {videos.map(video =>
                         <NavLink to={`/${VIDEO}/${video['v_id']}`} key={video['v_id']} className="home-videos-table-item">
-                            <div className="home-videos-preview">
+                            <div className="home-video-preview video-preview">
                                 <img
-                                    className="home-videos-preview-img"
+                                    className="video-preview-img"
                                     src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
                                 />
-                                <div className="home-videos-preview-duration">
+                                <div className="video-preview-duration">
                                     {secondsToTimeString(video['v_duration'])}
                                 </div>
                             </div>

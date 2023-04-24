@@ -2,8 +2,8 @@ import {Router} from "express"
 import {
     getAccountInfo,
     getAvatar,
-    getChanel,
-    getHistory,
+    getChannel,
+    getHistory, getSubs,
     subscribe,
     unsubscribe,
     updateAccountInfo
@@ -15,7 +15,8 @@ export const userRouter = new Router()
 userRouter.get("/history", getHistory)
 userRouter.get("/account", getAccountInfo)
 userRouter.get("/avatar", getAvatar)
-userRouter.get("/chanel", getChanel)
+userRouter.get("/channel", getChannel)
+userRouter.get("/subs", getSubs)
 userRouter.post("/subscribe", subscribe)
 userRouter.post("/unsubscribe", unsubscribe)
 userRouter.post("/account", multer().single("avatar"), updateAccountInfo)

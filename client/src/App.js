@@ -8,7 +8,8 @@ import {VideoPage} from "./pages/Video/VideoPage";
 import {Home} from "./pages/Home/Home";
 import {History} from "./pages/History/History";
 import {Account} from "./pages/Account/Account";
-import {ChanelPage} from "./pages/Chanel/ChanelPage";
+import {ChannelPage} from "./pages/Channel/ChannelPage";
+import {Subscriptions} from "./pages/Subscriptions/Subscriptions";
 
 export const App = () => {
     return (
@@ -17,12 +18,12 @@ export const App = () => {
                 <Routes>
                     <Route path="/" element={<Layout/>}>
                         <Route index element={<Home/>}/>
-                        <Route path={SUBSCRIPTIONS} element={<Page title="Подписки"></Page>}/>
+                        <Route path={SUBSCRIPTIONS} element={<Subscriptions/>}/>
                         <Route path={HISTORY} element={<History/>}/>
                         <Route path={VIDEOS} element={<Videos/>}/>
                         <Route path={ACCOUNT} element={<Account/>}/>
                         <Route path={`${VIDEO}/:id`} element={<VideoPage/>}/>
-                        <Route path={`${CHANEL}/:id`} element={<ChanelPage/>}/>
+                        <Route path={`${CHANEL}/:id`} element={<ChannelPage/>}/>
                     </Route>
                 </Routes>
             </UserContextProvider>

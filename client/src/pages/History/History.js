@@ -54,12 +54,12 @@ export const History = () => {
                         <div key={video['v_id']}>
                             <DateSeparator className="history-date-separator" date={video['view_date']} index={index} array={array}/>
                             <NavLink to={`/${VIDEO}/${video['v_id']}`} className="history-video-table-item">
-                                <div className="history-videos-preview">
+                                <div className="history-video-preview video-preview">
                                     <img
-                                        className="history-videos-preview-img"
+                                        className="video-preview-img"
                                         src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
                                     />
-                                    <div className="history-videos-preview-duration">
+                                    <div className="video-preview-duration">
                                         {secondsToTimeString(video['v_duration'])}
                                     </div>
                                 </div>

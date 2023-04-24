@@ -1,0 +1,150 @@
+.subs-tabs {
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.subs-tabs-wrapper {
+    position: sticky;
+    top: 59px;
+    background: white;
+    z-index: 1;
+    margin-bottom: 30px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.subs-content {
+    margin: auto;
+    width: 80%;
+}
+
+.subs-videos-table {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.subs-video-item, .subs-channel-item {
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    width: 100%;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    column-gap: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.subs-channel-item {
+    align-items: center;
+}
+
+.subs-channel-item {
+    padding: 10px;
+    column-gap: 25px;
+}
+
+.subs-video-preview {
+    width: 290px;
+    height: 162px;
+}
+
+.subs-video-item:hover, .subs-channel-item:hover {
+    background: rgba(0, 0, 0, 0.09);
+}
+
+.subs-video-item:hover > .subs-video-preview {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.subs-videos-table-item {
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.subs-video-user-info {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    width: fit-content;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+}
+
+.subs-video-user-name {
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.1s ease-in-out;
+    border-bottom: 2px solid transparent;
+}
+
+.subs-video-user-info:hover > .subs-video-user-name {
+    border-bottom: 2px solid black;
+}
+
+.subs-video-info {
+    padding: 10px 10px 10px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.subs-video-title {
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.subs-subtext {
+    color: dimgray;
+    font-size: 15px;
+}
+
+.subs-video-about, .subs-channel-about {
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+}
+
+.subs-video-description, .subs-channel-description {
+    color: dimgray;
+    font-size: 15px;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    white-space: pre-wrap;
+}
+
+.subs-channel-description {
+    white-space: normal;
+    -webkit-line-clamp: 2;
+}
+
+.subs-channels-table {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.subs-channel-name {
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.subs-channel-info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
