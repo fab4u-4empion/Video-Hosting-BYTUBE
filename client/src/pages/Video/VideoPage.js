@@ -23,6 +23,7 @@ export const VideoPage = () => {
     const [descriptionOpen, setDescriptionOpen] = useState(false)
     const [otherVideos, setOtherVideos] = useState([])
     const [subsInfo, setSubsInfo] = useState(null)
+    const [fetchingComments, setFetchingComments] = useState(true)
 
     useEffect(() => {
         setFetching(true)
@@ -89,7 +90,7 @@ export const VideoPage = () => {
                                             <div className="video-gage-chanel-subs">{subsInfo['subsCount']} подписчиков</div>
                                         </div>
                                     </div>
-                                    <SubscribeButton sub={subsInfo['sub']} chanel={videoInfo['user']['u_id']} onAction={setSubsInfo}/>
+                                    <SubscribeButton sub={subsInfo['sub']} channel={videoInfo['user']['u_id']} onAction={setSubsInfo}/>
                                     <NavLink to={`/${CHANEL}/${videoInfo['v_user_id']}`} className="video-page-to-chanel">
                                         <Button mode="secondary">Перейти на канал</Button>
                                     </NavLink>
@@ -105,6 +106,9 @@ export const VideoPage = () => {
                                     <div className="video-page-video-description-more-btn" onClick={onToggleDescription}>
                                         {descriptionOpen ? "Свернуть" : "Еще"}
                                     </div>
+                                </div>
+                                <div className="video-page-comments">
+                                    {fetchingComments && <div className="page-centred-content"><Spinner size={30} color="gray"/></div>}
                                 </div>
                             </>
                         }

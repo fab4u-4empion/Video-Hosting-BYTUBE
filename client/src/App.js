@@ -1,8 +1,7 @@
 import {UserContextProvider} from "./context/userContext";
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import {Layout} from "./components/Layout/Layout";
-import {Page} from "./components/Page/Page";
-import {SUBSCRIPTIONS, HISTORY, VIDEOS, ACCOUNT, VIDEO, CHANEL} from "./consts/pages";
+import {SUBSCRIPTIONS, HISTORY, VIDEOS, ACCOUNT, VIDEO, CHANEL, SEARCH} from "./consts/pages";
 import {Videos} from "./pages/Videos/Videos";
 import {VideoPage} from "./pages/Video/VideoPage";
 import {Home} from "./pages/Home/Home";
@@ -10,6 +9,7 @@ import {History} from "./pages/History/History";
 import {Account} from "./pages/Account/Account";
 import {ChannelPage} from "./pages/Channel/ChannelPage";
 import {Subscriptions} from "./pages/Subscriptions/Subscriptions";
+import {SearchPage} from "./pages/Search/SearchPage";
 
 export const App = () => {
     return (
@@ -24,6 +24,7 @@ export const App = () => {
                         <Route path={ACCOUNT} element={<Account/>}/>
                         <Route path={`${VIDEO}/:id`} element={<VideoPage/>}/>
                         <Route path={`${CHANEL}/:id`} element={<ChannelPage/>}/>
+                        <Route path={`${SEARCH}/:query`} element={<SearchPage/>}/>
                     </Route>
                 </Routes>
             </UserContextProvider>

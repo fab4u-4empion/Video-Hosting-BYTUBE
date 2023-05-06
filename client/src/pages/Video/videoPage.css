@@ -67,6 +67,10 @@
     font-size: 15px;
 }
 
+.video-page-video-description-text {
+    white-space: break-spaces;
+}
+
 .video-page-video-description-text.hide {
     overflow: hidden;
     -webkit-line-clamp: 3;
