@@ -37,12 +37,20 @@ export const registration = async (req, res) => {
 
 export const login = async (req, res) => {
     const data = req.body
-    !data["u_name"] && res.status(400).json("Вы не ввели имя")
-    !data["u_password"] && res.status(400).json("Вы не ввели пароль")
+    const error = false
+    if (!data["u_name"])
+        res.status(400).json("Вы не ввели имя")
+    else if (!data["u_password"])
+        res.status(400).json("Вы не ввели пароль")
+
     const [userQueryResult] = await dbPoolSync.query(`SELECT * FROM users WHERE u_name="${data["u_name"]}"`)
-    !userQueryResult[0] && res.status(400).json("Пользователя не существует")
-    !bcrypt.compareSync(data["u_password"], userQueryResult[0]["u_password"]) && res.status(400).json("Неверный пароль")
-    await startSession(userQueryResult[0]["u_id"], res)
+
+    if (!userQueryResult[0])
+        res.status(400).json("Пользователя не существует")
+    else if (!bcrypt.compareSync(data["u_password"], userQueryResult[0]["u_password"]))
+        res.status(400).json("Неверный пароль")
+    else
+        await startSession(userQueryResult[0]["u_id"], res)
 }
 
 export const logout = async (req, res) => {

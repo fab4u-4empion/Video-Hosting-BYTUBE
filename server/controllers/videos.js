@@ -122,8 +122,13 @@ export const getVideoInfo = async (req, res) => {
         res.status(403).send()
     } else {
         await dbPoolSync.query(`UPDATE videos SET v_views=v_views + 1 WHERE v_id="${req.query['id']}"`)
-        if (req['user'])
+        if (req['user']) {
             await dbPoolSync.query(`INSERT INTO views (view_user_id, view_video_id, view_date, view_time) VALUES("${req['user']['u_id']}", "${req.query['id']}", CURRENT_DATE, CURRENT_TIME) ON DUPLICATE KEY UPDATE view_time=CURRENT_TIME`)
+            const [liked] = await dbPoolSync.query(`SELECT COUNT(*) as count FROM likes WHERE l_video_id="${req.query['id']}" AND l_user_id="${req['user']['u_id']}"`)
+            videoInfo[0].liked = liked[0].count > 0
+        }
+        const [likes] = await dbPoolSync.query(`SELECT COUNT(*) as count FROM likes WHERE l_video_id="${req.query['id']}"`)
+        videoInfo[0].likes = likes[0].count
         const [userInfo] = await dbPoolSync.query(`SELECT u_name, u_id FROM users WHERE u_id="${videoInfo[0]['v_user_id']}"`)
         videoInfo[0].user = userInfo[0]
         const [subs] = await dbPoolSync.query(`SELECT COUNT(*) AS result FROM subscriptions WHERE s_user_to="${userInfo[0]['u_id']}"`)
@@ -134,5 +139,37 @@ export const getVideoInfo = async (req, res) => {
             videoInfo[0].user.subsInfo.sub = sub[0]['result']
         }
         res.json(videoInfo[0])
+    }
+}
+
+export const getComments = async (req, res) => {
+    const [comments] = await dbPoolSync.query(`SELECT comments.c_id, comments.c_date, comments.c_text, users.u_name, users.u_id FROM comments JOIN users ON comments.c_user_id=users.u_id WHERE c_video_id="${req.query['v_id']}" ORDER BY c_date ASC`)
+    res.json(comments)
+}
+
+export const saveComment = async (req, res) => {
+    const newComment = {
+        c_id: uuidv4(),
+        c_text: req.body['text'],
+        u_id: req.user['u_id'],
+        c_video_id: req.body['video'],
+        u_name: req.user['u_name'],
+        c_date: null
+    }
+    await dbPoolSync.query(`INSERT INTO comments (c_id, c_text, c_user_id, c_video_id) VALUES("${newComment.c_id}", "${newComment.c_text}", "${newComment.u_id}", "${newComment.c_video_id}")`)
+    res.json(newComment)
+}
+
+export const toggleLike = async (req, res) => {
+    if (req['user']) {
+        const [liked] = await dbPoolSync.query(`SELECT COUNT(*) as count FROM likes WHERE l_video_id="${req.query['id']}" AND l_user_id="${req['user']['u_id']}"`)
+        if (liked[0].count > 0)
+            await dbPoolSync.query(`DELETE FROM likes WHERE l_video_id="${req.query['id']}" AND l_user_id="${req['user']['u_id']}"`)
+        else
+            await dbPoolSync.query(`INSERT INTO likes (l_video_id, l_user_id) VALUES("${req.query['id']}", "${req['user']['u_id']}")`)
+        const [likes] = await dbPoolSync.query(`SELECT COUNT(*) as count FROM likes WHERE l_video_id="${req.query['id']}"`)
+        res.json({likes: likes[0].count, liked: !(liked[0].count > 0)})
+    } else {
+        res.status(401).json("Unauthorized")
     }
 }
