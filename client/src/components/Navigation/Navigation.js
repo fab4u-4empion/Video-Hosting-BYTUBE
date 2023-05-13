@@ -1,11 +1,11 @@
 import "./navigation.css"
 import {
     Icon28HistoryForwardOutline,
-    Icon28HomeOutline,
+    Icon28HomeOutline, Icon28LikeOutline,
     Icon28UserAddOutline,
     Icon28VideoSquareOutline
 } from "@vkontakte/icons";
-import {HISTORY, HOME, SUBSCRIPTIONS, VIDEOS} from "../../consts/pages";
+import {HISTORY, HOME, LIKES, SUBSCRIPTIONS, VIDEOS} from "../../consts/pages";
 import {NavLink} from "react-router-dom";
 
 const navItems = [
@@ -23,6 +23,11 @@ const navItems = [
         text: "История",
         icon: <Icon28HistoryForwardOutline />,
         page: HISTORY
+    },
+    {
+        text: "Понравилось",
+        icon: <Icon28LikeOutline />,
+        page: LIKES
     },
     {
         text: "Ваши видео",

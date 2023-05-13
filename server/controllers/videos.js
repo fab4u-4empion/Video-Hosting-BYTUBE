@@ -173,3 +173,12 @@ export const toggleLike = async (req, res) => {
         res.status(401).json("Unauthorized")
     }
 }
+
+export const getLikedVideos = async (req, res) => {
+    if (req['user']) {
+        const [result] = await dbPoolSync.query(`SELECT videos.v_name, videos.v_publish_date, videos.v_views, videos.v_id, videos.v_duration, users.u_name, users.u_id FROM likes JOIN videos ON likes.l_video_id=videos.v_id JOIN users ON users.u_id=videos.v_user_id WHERE likes.l_user_id="${req['user']['u_id']}" ORDER BY likes.l_date DESC`)
+        res.json(result)
+    } else {
+        res.status(401).json("Unauthorized")
+    }
+}

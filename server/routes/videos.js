@@ -1,7 +1,7 @@
 import express, {Router} from "express";
 import {
     getAllVideos,
-    getComments,
+    getComments, getLikedVideos,
     getOtherVideos,
     getOwnVideos,
     getPreview,
@@ -24,5 +24,6 @@ videosRouter.get("/info", getVideoInfo)
 videosRouter.get("/comments", getComments)
 videosRouter.post("/comments", express.json(), saveComment)
 videosRouter.post("/like", express.json(), toggleLike)
+videosRouter.get("/like", getLikedVideos)
 videosRouter.post("/upload", busboy({highWaterMark: 2 * 1024 * 1024}), uploadVideo)
 videosRouter.put("/update", multer().single('preview'), updateVideoInfo)
