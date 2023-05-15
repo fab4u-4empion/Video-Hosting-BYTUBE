@@ -13,7 +13,6 @@ import {NavLink} from "react-router-dom";
 import {Icon24LinkedOutline, Icon24LockOutline, Icon28LikeFillRed, Icon28LikeOutline} from "@vkontakte/icons";
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
-import {Textarea} from "../../components/InputControls/Textarea";
 
 export const VideoPage = () => {
     const params = useParams()

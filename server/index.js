@@ -1,6 +1,5 @@
 import express from "express"
 import {authRouter} from "./routes/auth.js";
-import multer from "multer"
 import cors from "cors"
 import {auth} from "./controllers/auth.js";
 import https from "https"

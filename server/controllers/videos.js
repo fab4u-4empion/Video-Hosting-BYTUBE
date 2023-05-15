@@ -89,7 +89,8 @@ export const uploadVideo = (req, res) => {
 }
 
 export const streamVideo = async (req, res) => {
-    const [videoInfo] = await dbPoolSync.query(`SELECT v_access, v_user_id FROM videos WHERE v_id="${req.query['id']}"`)
+    const [videoInfo] =
+        await dbPoolSync.query(`SELECT v_access, v_user_id FROM videos WHERE v_id="${req.query['id']}"`)
     if (!videoInfo[0] || (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id'])) {
         res.status(403).send()
     } else {
