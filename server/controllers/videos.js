@@ -94,26 +94,27 @@ export const streamVideo = async (req, res) => {
     if (!videoInfo[0] || (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id'])) {
         res.status(403).send()
     } else {
-        const range = req.headers.range;
+        //const range = req.headers.range;
         const videoPath = `${__dirname}/static/videos/uploads/${req.query['id']}.mp4`;
-        const videoSize = fs.statSync(videoPath).size;
-
-        const chunkSize = 1_000_000;
-        const start = Number(range.replace(/\D/g, ''));
-        const end = Math.min(start + chunkSize, videoSize -1);
-
-        const contentLength = end - start + 1;
-
-        const headers = {
-            "Content-Range": `bytes ${start}-${end}/${videoSize}`,
-            "Accept-Ranges": "bytes",
-            "Content-Length": contentLength,
-            "Content-Type": "video/mp4"
-        }
-        res.writeHead(206, headers);
-
-        const stream = fs.createReadStream(videoPath, { start, end })
-        stream.pipe(res);
+        res.sendFile(videoPath)
+        // const videoSize = fs.statSync(videoPath).size;
+        //
+        // const chunkSize = 10_000_000;
+        // const start = Number(range.replace(/\D/g, ''));
+        // const end = Math.min(start + chunkSize, videoSize -1);
+        //
+        // const contentLength = end - start + 1;
+        //
+        // const headers = {
+        //     "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+        //     "Accept-Ranges": "bytes",
+        //     "Content-Length": contentLength,
+        //     "Content-Type": "video/mp4"
+        // }
+        // res.writeHead(206, headers);
+        //
+        // const stream = fs.createReadStream(videoPath, { start, end })
+        // stream.pipe(res);
     }
 }
 
@@ -177,7 +178,7 @@ export const toggleLike = async (req, res) => {
 
 export const getLikedVideos = async (req, res) => {
     if (req['user']) {
-        const [result] = await dbPoolSync.query(`SELECT videos.v_name, videos.v_publish_date, videos.v_views, videos.v_id, videos.v_duration, users.u_name, users.u_id FROM likes JOIN videos ON likes.l_video_id=videos.v_id JOIN users ON users.u_id=videos.v_user_id WHERE likes.l_user_id="${req['user']['u_id']}" ORDER BY likes.l_date DESC`)
+        const [result] = await dbPoolSync.query(`SELECT videos.v_name, videos.v_publish_date, videos.v_views, videos.v_id, videos.v_duration, users.u_name, users.u_id FROM likes JOIN videos ON likes.l_video_id=videos.v_id JOIN users ON users.u_id=videos.v_user_id WHERE likes.l_user_id="${req['user']['u_id']}" AND videos.v_access!="close" ORDER BY likes.l_date DESC`)
         res.json(result)
     } else {
         res.status(401).json("Unauthorized")
