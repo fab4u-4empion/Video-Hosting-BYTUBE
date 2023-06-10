@@ -1,4 +1,10 @@
 .tabs-container {
     display: flex;
     column-gap: 10px;
+    overflow: hidden;
+}
+
+.tabs-container::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }

@@ -1,6 +1,6 @@
 create table users
 (
-    u_id          varchar(100)  not null
+    u_id          varchar(36)  not null
         primary key,
     u_name        varchar(30)   null,
     u_password    varchar(100)  null,
@@ -11,9 +11,9 @@ create table users
 
 create table sessions
 (
-    s_id      varchar(100) not null
+    s_id      varchar(36) not null
         primary key,
-    s_user_id varchar(100) not null,
+    s_user_id varchar(36) not null,
     s_key     varchar(255) not null,
     constraint pk_s_key
         unique (s_key),
@@ -24,8 +24,8 @@ create table sessions
 
 create table subscriptions
 (
-    s_user_from varchar(100) not null,
-    s_user_to   varchar(100) not null,
+    s_user_from varchar(36) not null,
+    s_user_to   varchar(36) not null,
     constraint subscriptions_pk
         unique (s_user_from, s_user_to),
     constraint subscriptions_users_u_id_fk
@@ -40,9 +40,9 @@ create fulltext index users_u_name_index
 
 create table videos
 (
-    v_id           varchar(100)                          not null
+    v_id           varchar(36)                          not null
         primary key,
-    v_user_id      varchar(100)                          not null,
+    v_user_id      varchar(36)                          not null,
     v_name         varchar(100)                          null,
     v_description  varchar(1000)                         null,
     v_publish_date timestamp   default CURRENT_TIMESTAMP null,
@@ -58,8 +58,8 @@ create table comments
 (
     c_id       varchar(36)                        not null
         primary key,
-    c_user_id  varchar(100)                       not null,
-    c_video_id varchar(100)                       not null,
+    c_user_id  varchar(36)                       not null,
+    c_video_id varchar(36)                       not null,
     c_date     datetime default CURRENT_TIMESTAMP not null,
     c_text     varchar(1000)                      null,
     constraint comments_users_u_id_fk
@@ -71,8 +71,8 @@ create table comments
 
 create table likes
 (
-    l_user_id  varchar(100)                       not null,
-    l_video_id varchar(100)                       not null,
+    l_user_id  varchar(36)                       not null,
+    l_video_id varchar(36)                       not null,
     l_date     datetime default CURRENT_TIMESTAMP not null,
     constraint likes_users_u_id_fk
         foreign key (l_user_id) references users (u_id),
@@ -86,8 +86,8 @@ create fulltext index videos_v_name_index
 
 create table views
 (
-    view_user_id  varchar(100) not null,
-    view_video_id varchar(100) not null,
+    view_user_id  varchar(36) not null,
+    view_video_id varchar(36) not null,
     view_date     date         not null,
     view_time     time         not null,
     primary key (view_video_id, view_user_id, view_date),

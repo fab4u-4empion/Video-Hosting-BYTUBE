@@ -1,18 +1,45 @@
 .tab-item {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tab-item.underline {
     padding: 10px 20px;
     font-size: 19px;
     color: gray;
-    cursor: pointer;
     transition: all 0.1s ease-in-out;
     box-sizing: border-box;
     border-bottom: 3px solid transparent;
 }
 
-.tab-item.selected {
+.tab-item.button {
+    padding: 10px 15px;
+    font-size: 17px;
+    color: dimgray;
+    transition: all 0.1s ease-in-out;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.09);
+}
+
+.tab-item.underline.selected {
     color: #4d4d4d;
     border-bottom: 3px solid #4d4d4d;
 }
 
-.tab-item:hover {
+.tab-item.button.selected {
+    color: white;
+    background: black;
+}
+
+.tab-item.underline:hover {
     color: #4d4d4d;
+}
+
+.tab-item.button:hover {
+    background: rgba(0, 0, 0, 0.18);
+}
+.tab-item.button.selected:hover {
+    color: white;
+    background: black;
 }

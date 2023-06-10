@@ -1,4 +1,4 @@
-import {dbPoolSync} from "../config/config.js";
+import {dbPool, dbPoolSync} from "../config/config.js";
 import fs from "fs";
 import {v4 as uuidv4} from "uuid"
 import path from "path";
@@ -45,8 +45,12 @@ export const getOtherVideos = async (req, res) => {
 }
 
 export const getAllVideos = async (req, res) => {
+    const [categories] = await dbPoolSync.query(`SELECT * FROM categories`)
     const [result] = await dbPoolSync.query(`SELECT videos.v_id, videos.v_name, videos.v_views, videos.v_publish_date, videos.v_duration, users.u_name, users.u_id FROM videos JOIN users ON users.u_id=videos.v_user_id WHERE videos.v_access="open" ORDER BY videos.v_publish_date DESC`)
-    res.json(result)
+    res.json({
+        videos: result,
+        categories: categories
+    })
 }
 
 export const uploadVideo = (req, res) => {
@@ -89,9 +93,9 @@ export const uploadVideo = (req, res) => {
 }
 
 export const streamVideo = async (req, res) => {
-    const [videoInfo] =
-        await dbPoolSync.query(`SELECT v_access, v_user_id FROM videos WHERE v_id="${req.query['id']}"`)
-    if (!videoInfo[0] || (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id'])) {
+    const [check_access] =
+        await dbPoolSync.query(`SELECT check_access("${req.user?.u_id}", "${req.query.id}") as result`)
+    if (!check_access[0]['result']) {
         res.status(403).send()
     } else {
         //const range = req.headers.range;
