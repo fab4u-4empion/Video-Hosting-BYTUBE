@@ -53,6 +53,20 @@ export const getAllVideos = async (req, res) => {
     })
 }
 
+export const getVideosByCategory = async (req, res) => {
+    if (req.query['q'] === "0") {
+        const [result] = await dbPoolSync.query(`SELECT videos.v_id, videos.v_name, videos.v_views, videos.v_publish_date, videos.v_duration, users.u_name, users.u_id FROM videos JOIN users ON users.u_id=videos.v_user_id WHERE videos.v_access="open" ORDER BY videos.v_publish_date DESC`)
+        res.json({
+            videos: result
+        })
+    } else {
+        const [result] = await dbPoolSync.query(`SELECT videos.v_id, videos.v_name, videos.v_views, videos.v_publish_date, videos.v_duration, users.u_name, users.u_id FROM videos JOIN users ON users.u_id=videos.v_user_id WHERE videos.v_access="open" AND videos.v_category="${req.query['q']}" ORDER BY videos.v_publish_date DESC`)
+        res.json({
+            videos: result
+        })
+    }
+}
+
 export const uploadVideo = (req, res) => {
     if (req['user']) {
         const id = uuidv4()

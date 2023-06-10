@@ -4,7 +4,7 @@ import {
     getComments, getLikedVideos,
     getOtherVideos,
     getOwnVideos,
-    getPreview,
+    getPreview, getVideosByCategory,
     getVideoInfo, saveComment,
     streamVideo, toggleLike,
     updateVideoInfo,
@@ -22,6 +22,7 @@ videosRouter.get("/video", streamVideo)
 videosRouter.get("/preview", getPreview)
 videosRouter.get("/info", getVideoInfo)
 videosRouter.get("/comments", getComments)
+videosRouter.get("/category", getVideosByCategory)
 videosRouter.post("/comments", express.json(), saveComment)
 videosRouter.post("/like", express.json(), toggleLike)
 videosRouter.get("/like", getLikedVideos)
