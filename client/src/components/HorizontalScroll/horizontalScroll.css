@@ -1,0 +1,36 @@
+.scroll-container {
+    position: relative;
+}
+
+.scroll-in {
+    overflow: hidden;
+}
+
+.scroll-arrow-right-container {
+    height: 100%;
+    width: 100px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.scroll-arrow-left {
+    background: linear-gradient(to right, white 60%, transparent);
+    justify-content: start;
+    left: 0;
+    padding-left: 15px;
+}
+
+.scroll-arrow-right {
+    background: linear-gradient(to left, white 60%, transparent);
+    right: 0;
+    justify-content: end;
+    padding-right: 15px;
+}
+
+.scroll-button {
+    height: 35px;
+    width: 35px;
+    color: dimgray;
+}
