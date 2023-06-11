@@ -1,0 +1,121 @@
+.custom-select-container {
+    position: relative;
+}
+
+.custom-select-wrapper {
+    border: 1px solid darkgray;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.custom-select-value {
+    color: black;
+    cursor: text;
+}
+
+.custom-select-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.custom-select-wrapper.focused {
+    border-color: darkblue;
+}
+
+.custom-select-wrapper.opened {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.custom-select-arrow {
+    transition: all 0.2s linear;
+}
+
+.custom-select-arrow.opened {
+    rotate: -180deg;
+}
+
+.custom-select-opened-back {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.custom-select-options {
+    max-height: 150px;
+    background: white;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    border: 1px solid darkgray;
+    border-top-color: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: auto;
+    user-select: none;
+}
+
+.custom-select-options::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-select-options::-webkit-scrollbar-thumb {
+    background: darkgray;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+.custom-select-options::-webkit-scrollbar-thumb:hover {
+    background: gray;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+.custom-select-buttons {
+    display: flex;
+    color: darkgrey;
+}
+
+.custom-select-clear, .custom-select-arrow {
+    transition: all 0.1s ease-in-out;
+}
+
+.custom-select-clear:hover, .custom-select-arrow:hover {
+    color: dimgray;
+}
+
+.custom-select-option {
+    font-size: 15px;
+    color: black;
+    cursor: pointer;
+    padding: 0 15px;
+    transition: all 0.1s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    height: 35px;
+}
+
+.custom-select-option:hover {
+    background: rgba(0, 0, 0, 0.09);
+}
+
+.custom-select-selected-icon {
+    color: dimgray;
+}

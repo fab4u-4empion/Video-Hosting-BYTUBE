@@ -3,6 +3,7 @@
     border-radius: 20px;
     display: flex;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .input-wrapper {
