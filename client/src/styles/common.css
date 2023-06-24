@@ -33,3 +33,21 @@
 .hidden {
     display: none;
 }
+
+.page-centred-content {
+    display: flex;
+    justify-content: center;
+}
+
+.page-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.8em;
+    color: dimgray;
+    row-gap: 10px;
+}
+
+.page-placeholder-action-button {
+    font-size: 0.55em;
+}

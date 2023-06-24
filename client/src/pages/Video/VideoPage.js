@@ -3,7 +3,6 @@ import {useParams} from "react-router";
 import {useCallback, useEffect, useState} from "react";
 import {Video} from "../../components/Video/Video";
 import {Spinner} from "../../components/Spinner/Spinner";
-import axios from "axios";
 import "./videoPage.css"
 import {Avatar} from "../../components/Avatar/Avatar";
 import {Button} from "../../components/Button/Button";
@@ -13,6 +12,7 @@ import {NavLink} from "react-router-dom";
 import {Icon24LinkedOutline, Icon24LockOutline, Icon28LikeFillRed, Icon28LikeOutline} from "@vkontakte/icons";
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
+import {API} from "../../api/api";
 
 export const VideoPage = () => {
     const params = useParams()
@@ -38,8 +38,15 @@ export const VideoPage = () => {
     useEffect(() => {
         setFetching(true)
         setError(false)
-        axios
-            .get(`https://localhost:3000/api/v1/videos/info?id=${params.id}`, {withCredentials: true})
+        API.videos
+            .request({
+                method: "get",
+                url: "/info",
+                params: {
+                    id: params.id
+                },
+                withCredentials: true
+            })
             .then(response => {
                 setVideoInfo(response.data)
                 setSubsInfo(response.data.user.subsInfo)
@@ -67,8 +74,15 @@ export const VideoPage = () => {
     }, [descriptionOpen])
 
     const loadOtherVideos = (u_id) => {
-        axios
-            .get(`https://localhost:3000/api/v1/videos/other?u_id=${u_id}&v_id=${params.id}`)
+        API.videos
+            .request({
+                method: "get",
+                url: "/other",
+                params: {
+                    u_id: u_id,
+                    v_id: params.id
+                }
+            })
             .then(response => {
                 setOtherVideos(response.data)
                 setFetchingOtherVideos(false)
@@ -76,12 +90,17 @@ export const VideoPage = () => {
     }
 
     const loadComments = (v_id) => {
-        axios
-            .get(`https://localhost:3000/api/v1/videos/comments?v_id=${params.id}`)
+        API.videos
+            .request({
+                method: "get",
+                url: "/comments",
+                params: {
+                    v_id: params.id
+                }
+            })
             .then(response => {
                 setFetchingComments(false)
                 setComments(response.data)
-                console.log(response.data)
             })
     }
 
@@ -103,12 +122,16 @@ export const VideoPage = () => {
 
     const sendComment = () => {
         setSending(true)
-        const body = {
-            text: commentText,
-            video: params.id
-        }
-        axios
-            .post(`https://localhost:3000/api/v1/videos/comments`, body, {withCredentials: true})
+        API.videos
+            .request({
+                method: "post",
+                url: "/comments",
+                data: {
+                    text: commentText,
+                    video: params.id
+                },
+                withCredentials: true
+            })
             .then(response => {
                 setComments(prev => [response.data, ...prev])
                 commentCancel()
@@ -118,8 +141,15 @@ export const VideoPage = () => {
 
     const toggleLike = () => {
         setFetchingLike(true)
-        axios
-            .post(`https://localhost:3000/api/v1/videos/like?id=${params.id}`, null, {withCredentials: true})
+        API.videos
+            .request({
+                method: "post",
+                url: "/like",
+                params: {
+                    id: params.id
+                },
+                withCredentials: true
+            })
             .then(response => {
                 setFetchingLike(false)
                 setLikes(response.data.likes)

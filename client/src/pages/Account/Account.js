@@ -2,8 +2,7 @@ import {Page} from "../../components/Page/Page";
 import {Spinner} from "../../components/Spinner/Spinner";
 import {useEffect, useState} from "react";
 import {Avatar} from "../../components/Avatar/Avatar";
-import axios from "axios";
-import {Icon28EditOutline, Icon28UserIncomingOutline, Icon28UserOutline} from "@vkontakte/icons";
+import {Icon28EditOutline, Icon28UserOutline} from "@vkontakte/icons";
 import "./account.css"
 import {Textarea} from "../../components/InputControls/Textarea";
 import {Group} from "../../components/Group/Group";
@@ -13,6 +12,7 @@ import {onOpenFileDialog} from "../../utils/openFileDialog";
 import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
 import {ChangePasswordModal} from "../../components/ChangePasswordModal/ChangePasswordModal";
+import {API} from "../../api/api";
 
 export const Account = () => {
     const [fetching, setFetching] = useState(true)
@@ -26,8 +26,12 @@ export const Account = () => {
 
     useEffect(() => {
         setFetching(true)
-        axios
-            .get("https://localhost:3000/api/v1/user/account", {withCredentials: true})
+        API.user
+            .request({
+                method: "get",
+                url: "/account",
+                withCredentials: true
+            })
             .then(response => {
                 setFetching(false)
                 setUserInfo(response.data)
@@ -51,8 +55,13 @@ export const Account = () => {
         const data = new FormData()
         data.append("description", description)
         data.append("avatar", document.getElementById("add-avatar-file-input").files[0])
-        axios
-            .post("https://localhost:3000/api/v1/user/account", data, {withCredentials: true})
+        API.user
+            .request({
+                method: "post",
+                url: "/account",
+                data: data,
+                withCredentials: true
+            })
             .then(response => {
                 setNotify(<ActionNotify onClose={() => setNotify(null)}>Информация сохранена</ActionNotify>)
             })
@@ -78,8 +87,12 @@ export const Account = () => {
     }
 
     const onCloseSessions = () => {
-        axios
-            .post("https://localhost:3000/api/v1/auth/closeSessions", {}, {withCredentials: true})
+        API.auth
+            .request({
+                method: "post",
+                url: "/closeSessions",
+                withCredentials: true
+            })
             .then(response => {
                 setUserInfo(prev => {
                     prev['sessionsCount'] = response.data.sessionsCount

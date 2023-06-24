@@ -1,14 +1,11 @@
 import {Page} from "../../components/Page/Page";
 import {useEffect, useState} from "react";
-import axios from "axios";
-import "../common.css"
 import "./videos.css"
 import {Spinner} from "../../components/Spinner/Spinner";
 import {useUserContextProvider} from "../../context/userContext";
 import {
     Icon24VideoAddSquareOutline, Icon28CopyOutline,
     Icon28EditOutline,
-    Icon28UserIncomingOutline,
     Icon28VideoAddSquareOutline, Icon28VideoOutline, Icon28VideoSquareOutline
 } from "@vkontakte/icons";
 import {Button} from "../../components/Button/Button";
@@ -21,6 +18,7 @@ import {NavLink} from "react-router-dom";
 import {VIDEO} from "../../consts/pages";
 import {ActionNotify} from "../../components/ActionNotify/ActionNotify";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
+import {API} from "../../api/api";
 
 export const Videos = () => {
     const [videos, setVideos] = useState([])
@@ -41,8 +39,11 @@ export const Videos = () => {
 
     const updateVideos = () => {
         setFetching(true)
-        axios
-            .get("https://localhost:3000/api/v1/videos", {withCredentials: true})
+        API.videos
+            .request({
+                method: "get",
+                withCredentials: true
+            })
             .then(response => {
                 setFetching(false)
                 setVideos(response.data)

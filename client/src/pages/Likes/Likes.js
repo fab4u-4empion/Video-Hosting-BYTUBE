@@ -1,7 +1,6 @@
 import {Page} from "../../components/Page/Page";
 import "./likes.css"
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {useUserContextProvider} from "../../context/userContext";
 import {Spinner} from "../../components/Spinner/Spinner";
 import {Button} from "../../components/Button/Button";
@@ -11,6 +10,7 @@ import {NavLink} from "react-router-dom";
 import {CHANEL, VIDEO} from "../../consts/pages";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {Avatar} from "../../components/Avatar/Avatar";
+import {API} from "../../api/api";
 
 export const Likes = () => {
     const [fetching, setFetching] = useState(true)
@@ -19,8 +19,12 @@ export const Likes = () => {
     const {user} = useUserContextProvider()
 
     useEffect(() => {
-        axios
-            .get("https://localhost:3000/api/v1/videos/like", {withCredentials: true})
+        API.videos
+            .request({
+                method: "get",
+                url: "/like",
+                withCredentials: true
+            })
             .then(response => {
                 setVideos(response.data)
                 setFetching(false)

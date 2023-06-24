@@ -2,7 +2,6 @@ import {Page} from "../../components/Page/Page";
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
 import {Spinner} from "../../components/Spinner/Spinner";
-import axios from "axios";
 import {NavLink} from "react-router-dom";
 import {CHANEL, VIDEO} from "../../consts/pages";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
@@ -10,7 +9,7 @@ import {Avatar} from "../../components/Avatar/Avatar";
 import "./searchPage.css"
 import {Tabs} from "../../components/Tabs/Tabs";
 import {TabItem} from "../../components/Tabs/TabItem/TabItem";
-import {Icon28VideoSquareOutline} from "@vkontakte/icons";
+import {API} from "../../api/api";
 
 export const SearchPage = () => {
     const [fetching, setFetching] = useState(true)
@@ -21,8 +20,13 @@ export const SearchPage = () => {
 
     useEffect(() => {
         setFetching(true)
-        axios
-            .get(`https://localhost:3000/api/v1/search?q=${query}`)
+        API.search
+            .request({
+                method: "get",
+                params: {
+                    q: query
+                }
+            })
             .then(response => {
                 setVideos(response.data.videos)
                 setChannels(response.data.channels)

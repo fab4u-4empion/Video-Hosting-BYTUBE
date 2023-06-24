@@ -6,7 +6,41 @@ import {Input} from "../InputControls/Input";
 import {Textarea} from "../InputControls/Textarea";
 import {Icon20RadioOff, Icon20RadioOn, Icon28PicturePlusOutline} from "@vkontakte/icons";
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {CustomSelect} from "../CustomSelect/CustomSelect";
+
+const options = [
+    {
+        label: "option 1",
+        value: "value 1",
+        key: 1
+    },
+    {
+        label: "option 2",
+        value: "value 2",
+        key: 2
+    },
+    {
+        label: "option 3",
+        value: "value 3",
+        key: 3
+    },
+    {
+        label: "option 4",
+        value: "value 4",
+        key: 4
+    },
+    {
+        label: "option 5",
+        value: "value 5",
+        key: 5
+    },
+    {
+        label: "option 6",
+        value: "value 6",
+        key: 6
+    }
+]
 
 export const EditVideoModal = ({onClose, video}) => {
     const [previewUrl, setPreviewUrl] = useState(`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`)
@@ -14,6 +48,7 @@ export const EditVideoModal = ({onClose, video}) => {
     const [access, setAccess] = useState(video['v_access'])
     const [videoID] = useState(video['v_id'])
     const [description, setDescription] = useState(video['v_description'])
+    const [selectedCategory, setSelectedCategory] = useState(null)
 
     const onOpenFileDialog = id=> {
         document.getElementById(id).click()
@@ -60,6 +95,14 @@ export const EditVideoModal = ({onClose, video}) => {
     const onAccessChange = e => {
         setAccess(e.target.value)
     }
+
+    const onSelectCategory = (value) => {
+        setSelectedCategory(value)
+    }
+
+    useEffect(() => {
+        console.log(selectedCategory)
+    }, [selectedCategory])
 
     return (
         <Modal
@@ -113,6 +156,19 @@ export const EditVideoModal = ({onClose, video}) => {
                                     onChange={onSelectPreview}
                                 />
                             </div>
+                        </Group>
+                        <Group
+                            title={"Категория"}
+                            subtitle={"Выберите категорию. Это поможет пользователям в поиске вашего видео."}
+                        >
+                            <label className="add-video-modal-label">
+                                <CustomSelect
+                                    placeholder={"Категория"}
+                                    onChange={onSelectCategory}
+                                    options={options}
+                                    cleanable={true}
+                                />
+                            </label>
                         </Group>
                         <Group
                             title="Доступ"

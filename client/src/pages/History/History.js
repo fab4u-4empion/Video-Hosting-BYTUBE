@@ -2,7 +2,6 @@ import "./history.css"
 import {Page} from "../../components/Page/Page";
 import {useEffect, useState} from "react";
 import {Spinner} from "../../components/Spinner/Spinner";
-import axios from "axios";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {NavLink} from "react-router-dom";
 import {CHANEL, VIDEO} from "../../consts/pages";
@@ -14,6 +13,7 @@ import {
 import {Button} from "../../components/Button/Button";
 import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
+import {API} from "../../api/api";
 
 export const History = () => {
     const [fetching, setFetching] = useState(true)
@@ -24,8 +24,12 @@ export const History = () => {
 
     useEffect(() => {
         setFetching(true)
-        axios
-            .get("https://localhost:3000/api/v1/user/history", {withCredentials: true})
+        API.user
+            .request({
+                method: "get",
+                url: "/history",
+                withCredentials: true
+            })
             .then(response => {
                 setVideos(response.data)
                 setFetching(false)

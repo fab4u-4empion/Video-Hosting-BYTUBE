@@ -6,7 +6,8 @@
   "homepage": "./",
   "scripts": {
     "test": "",
-    "start": "cross-env SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem HTTPS=true PORT=10888 react-scripts start"
+    "start": "cross-env SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem HTTPS=true PORT=10888 react-scripts start",
+    "build": "react-scripts build"
   },
   "author": "",
   "license": "ISC",

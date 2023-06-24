@@ -1,7 +1,6 @@
 import {Page} from "../../components/Page/Page";
 import {useEffect, useState} from "react";
 import {Spinner} from "../../components/Spinner/Spinner";
-import axios from "axios";
 import "./home.css"
 import {CHANEL, VIDEO} from "../../consts/pages";
 import {NavLink} from "react-router-dom";
@@ -10,7 +9,8 @@ import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {Tabs} from "../../components/Tabs/Tabs";
 import {TabItem} from "../../components/Tabs/TabItem/TabItem";
 import {HorizontalScroll} from "../../components/HorizontalScroll/HorizontalScroll";
-import {Icon28HistoryForwardOutline, Icon28VideoOutline} from "@vkontakte/icons";
+import {Icon28VideoOutline} from "@vkontakte/icons";
+import {API} from "../../api/api";
 
 export const Home = () => {
     const [fetching, setFetching] = useState(true)
@@ -20,8 +20,11 @@ export const Home = () => {
     const [disabled, setDisabled] = useState(false)
 
     useEffect(() => {
-        axios
-            .get("https://localhost:3000/api/v1/videos/all")
+        API.videos
+            .request({
+                method: "get",
+                url: "/all"
+            })
             .then(response => {
                 setVideos(response.data.videos)
                 setCategories(response.data.categories)
@@ -35,8 +38,14 @@ export const Home = () => {
     const onSelectCategory = (category) => {
         setSelected(category)
         setDisabled(true)
-        axios
-            .get(`https://localhost:3000/api/v1/videos/category?q=${category}`)
+        API.videos
+            .request({
+                method: "get",
+                url: "/category",
+                params: {
+                    q: category
+                }
+            })
             .then(response => {
                 setVideos(response.data.videos)
                 setDisabled(false)

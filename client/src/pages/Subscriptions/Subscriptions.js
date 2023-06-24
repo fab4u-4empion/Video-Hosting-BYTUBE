@@ -7,11 +7,11 @@ import {Spinner} from "../../components/Spinner/Spinner";
 import {
     Icon28UserAddOutline, Icon28VideoSquareOutline,
 } from "@vkontakte/icons";
-import axios from "axios";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {Avatar} from "../../components/Avatar/Avatar";
 import {NavLink} from "react-router-dom";
 import {CHANEL, VIDEO} from "../../consts/pages";
+import {API} from "../../api/api";
 
 export const Subscriptions = () => {
     const [selected, setSelected] = useState("videos")
@@ -19,8 +19,12 @@ export const Subscriptions = () => {
     const [subs, setSubs] = useState(null)
 
     useEffect(() => {
-        axios
-            .get("https://localhost:3000/api/v1/user/subs", {withCredentials: true})
+        API.user
+            .request({
+                method: "get",
+                url: "/subs",
+                withCredentials: true
+            })
             .then(response => {
                 setSubs(response.data)
                 setFetching(false)

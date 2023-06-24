@@ -3,7 +3,6 @@ import {useParams} from "react-router";
 import "./channelPage.css"
 import {useEffect, useState} from "react";
 import {Spinner} from "../../components/Spinner/Spinner";
-import axios from "axios";
 import {Avatar} from "../../components/Avatar/Avatar";
 import {NavLink} from "react-router-dom";
 import {VIDEO} from "../../consts/pages";
@@ -13,6 +12,7 @@ import {Tabs} from "../../components/Tabs/Tabs";
 import {TabItem} from "../../components/Tabs/TabItem/TabItem";
 import {Group} from "../../components/Group/Group";
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
+import {API} from "../../api/api";
 
 export const ChannelPage = () => {
     const params = useParams()
@@ -22,8 +22,15 @@ export const ChannelPage = () => {
     const [selected, setSelected] = useState("videos")
 
     useEffect(() => {
-        axios
-            .get(`https://localhost:3000/api/v1/user/channel?id=${params['id']}`, {withCredentials: true})
+        API.user
+            .request({
+                method: "get",
+                url: "/channel",
+                params: {
+                    id: params.id
+                },
+                withCredentials: true
+            })
             .then(response => {
                 setChannel(response.data)
                 setSubsInfo(response.data.subsInfo)

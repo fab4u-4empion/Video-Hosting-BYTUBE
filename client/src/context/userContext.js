@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect} from "react";
-import axios from "axios";
 import {useSessionStorage} from "../hooks/useSessionStorage";
+import {API} from "../api/api";
 
 const Context = createContext(undefined, undefined)
 
@@ -16,12 +16,12 @@ export const UserContextProvider = ({children}) => {
     }
 
     const getUser = (callback) => {
-        axios
-            .post(
-                "https://localhost:3000/api/v1/auth/account",
-                {},
-                {withCredentials: true}
-            )
+        API.auth
+            .request({
+                method: "post",
+                url: "/account",
+                withCredentials: true
+            })
             .then(response => {
                 setUser(response.data)
             })
@@ -31,8 +31,12 @@ export const UserContextProvider = ({children}) => {
     }
 
     const logOut = () => {
-        axios
-            .post("https://localhost:3000/api/v1/auth/logout", {}, {withCredentials: true})
+        API.auth
+            .request({
+                method: "post",
+                url: "/logout",
+                withCredentials: true
+            })
             .then(() => {
                 setUser(null)
             })
