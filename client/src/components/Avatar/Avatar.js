@@ -1,7 +1,6 @@
 import "./avatar.css"
 import {Icon28UserOutline} from "@vkontakte/icons";
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useState} from "react";
 
 export const Avatar = ({src, size = 20, overlay, dataURLContent = false}) => {
     const [loaded, setLoaded] = useState(false)

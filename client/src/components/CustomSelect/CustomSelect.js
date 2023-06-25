@@ -1,6 +1,6 @@
 import "./customSelect.css"
 import {Icon24Cancel, Icon24ChevronDown, Icon24Done} from "@vkontakte/icons";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 
 export const CustomSelect = ({className, placeholder, options, onChange, cleanable = false}) => {
     const [opened, setOpened] = useState(false)

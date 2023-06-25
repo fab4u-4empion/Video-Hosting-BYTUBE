@@ -1,5 +1,5 @@
 import {Modal} from "../Modal/Modal";
-import {useContext, useState} from "react";
+import {useState} from "react";
 import axios from "axios"
 import "./signInModal.css"
 import {useUserContextProvider} from "../../context/userContext";
