@@ -7,3 +7,4 @@
 /client/key.pem
 /server/static
 /client/build
+/client/.env

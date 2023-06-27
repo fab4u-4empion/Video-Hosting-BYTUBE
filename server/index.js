@@ -15,7 +15,7 @@ const app = express()
 const __dirname = path.resolve()
 
 app.use(cors({
-    origin: ["https://localhost:10888", "http://127.0.0.1:5500"],
+    origin: ["https://localhost:10888", "https://video-hosting-bytube.vercel.app"],
     credentials: true
 }))
 app.use(cookieParser())
