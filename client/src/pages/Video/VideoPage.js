@@ -13,6 +13,7 @@ import {Icon24LinkedOutline, Icon24LockOutline, Icon28LikeFillRed, Icon28LikeOut
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {API} from "../../api/api";
+import {pluralRules, pluralSubs} from "../../utils/pluralRules";
 
 export const VideoPage = () => {
     const params = useParams()
@@ -182,7 +183,7 @@ export const VideoPage = () => {
                                         />
                                         <div className="video-page-chanel-description">
                                             <div className="video-page-chanel-name">{videoInfo['user']['u_name']}</div>
-                                            <div className="video-gage-chanel-subs">{subsInfo['subsCount']} подписчиков</div>
+                                            <div className="video-gage-chanel-subs">{pluralSubs(subsInfo['subsCount'])}</div>
                                         </div>
                                     </div>
                                     <SubscribeButton sub={subsInfo['sub']} channel={videoInfo['user']['u_id']} onAction={setSubsInfo}/>
@@ -193,7 +194,7 @@ export const VideoPage = () => {
                                 </div>
                                 <div className="video-page-video-description">
                                     <div className="video-page-video-description-title">
-                                        <div>{videoInfo['v_views']} просмотров</div>
+                                        <div>{pluralRules(videoInfo['v_views'])}</div>
                                         <div>{new Date(Date.parse(videoInfo['v_publish_date'])).toLocaleString("ru-RU", {day: "numeric", month: "short", year: "numeric"})}</div>
                                     </div>
                                     <pre className={`video-page-video-description-text ${descriptionOpen ? "open" : "hide"}`}>

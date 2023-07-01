@@ -12,6 +12,7 @@ import {Avatar} from "../../components/Avatar/Avatar";
 import {NavLink} from "react-router-dom";
 import {CHANEL, VIDEO} from "../../consts/pages";
 import {API} from "../../api/api";
+import {pluralRules, pluralSubs} from "../../utils/pluralRules";
 
 export const Subscriptions = () => {
     const [selected, setSelected] = useState("videos")
@@ -78,9 +79,7 @@ export const Subscriptions = () => {
                                             <div className="subs-video-info">
                                                 <div className="subs-video-title">{video['v_name']}</div>
                                                 <div className="subs-video-about">
-                                                    <div className="subs-subtext">
-                                                        {video['v_views']} просмотров
-                                                    </div>
+                                                    <div className="subs-subtext">{pluralRules(video['v_views'])}</div>
                                                     <div className="interpunct"></div>
                                                     <div className="subs-subtext">
                                                         {new Date(Date.parse(video['v_publish_date'])).toLocaleString("ru-RU", {day: "numeric", month: "long", year: "numeric"})}
@@ -107,9 +106,7 @@ export const Subscriptions = () => {
                                             <div className="subs-channel-info">
                                                 <div className="subs-channel-name">{channel['u_name']}</div>
                                                 <div className="subs-channel-about">
-                                                    <div className="subs-subtext">
-                                                        {channel['u_subs_count']} подписчиков
-                                                    </div>
+                                                    <div className="subs-subtext">{pluralSubs(channel['u_subs_count'])}</div>
                                                     <div className="interpunct"></div>
                                                     <div className="subs-subtext">
                                                         {channel['u_videos_count']} видео

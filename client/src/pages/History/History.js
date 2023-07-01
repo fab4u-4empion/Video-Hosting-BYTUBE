@@ -14,6 +14,7 @@ import {Button} from "../../components/Button/Button";
 import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
 import {API} from "../../api/api";
+import {pluralRules} from "../../utils/pluralRules";
 
 export const History = () => {
     const [fetching, setFetching] = useState(true)
@@ -77,9 +78,7 @@ export const History = () => {
                                             />
                                             <NavLink to={`/${CHANEL}/${video['u_id']}`} className="history-video-user-name">{video['u_name']}</NavLink>
                                         </div>
-                                        <div className="history-video-subtext">
-                                            {video['v_views']} просмотров
-                                        </div>
+                                        <div className="history-video-subtext">{pluralRules(video['v_views'])}</div>
                                         <div className="history-video-subtext">
                                             {new Date(Date.parse(video['v_publish_date'])).toLocaleString("ru-RU", {day: "numeric", month: "long", year: "numeric"})}
                                         </div>

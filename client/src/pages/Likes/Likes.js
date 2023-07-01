@@ -11,6 +11,7 @@ import {CHANEL, VIDEO} from "../../consts/pages";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {Avatar} from "../../components/Avatar/Avatar";
 import {API} from "../../api/api";
+import {pluralRules} from "../../utils/pluralRules";
 
 export const Likes = () => {
     const [fetching, setFetching] = useState(true)
@@ -97,9 +98,7 @@ export const Likes = () => {
                                                 />
                                                 <NavLink to={`/${CHANEL}/${video['u_id']}`} className="playlist-video-user-name">{video['u_name']}</NavLink>
                                             </div>
-                                            <div className="playlist-video-subtext">
-                                                {video['v_views']} просмотров
-                                            </div>
+                                            <div className="playlist-video-subtext">{pluralRules(video['v_views'])}</div>
                                             <div className="playlist-video-subtext">
                                                 {new Date(Date.parse(video['v_publish_date'])).toLocaleString("ru-RU", {day: "numeric", month: "long", year: "numeric"})}
                                             </div>

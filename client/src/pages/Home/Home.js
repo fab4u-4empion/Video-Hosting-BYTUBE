@@ -11,6 +11,7 @@ import {TabItem} from "../../components/Tabs/TabItem/TabItem";
 import {HorizontalScroll} from "../../components/HorizontalScroll/HorizontalScroll";
 import {Icon28VideoOutline} from "@vkontakte/icons";
 import {API} from "../../api/api";
+import {pluralRules} from "../../utils/pluralRules";
 
 export const Home = () => {
     const [fetching, setFetching] = useState(true)
@@ -98,9 +99,7 @@ export const Home = () => {
                                             <div className="home-video-title">{video['v_name']}</div>
                                             <div style={{marginTop: 5}}>
                                                 <NavLink to={`/${CHANEL}/${video['u_id']}`} className="home-video-subtext home-video-user-name">{video['u_name']}</NavLink>
-                                                <div className="home-video-subtext">
-                                                    {video['v_views']} просмотров
-                                                </div>
+                                                <div className="home-video-subtext">{pluralRules(video['v_views'])}</div>
                                                 <div className="home-video-subtext">
                                                     {new Date(Date.parse(video['v_publish_date'])).toLocaleString("ru-RU", {day: "numeric", month: "long", year: "numeric"})}
                                                 </div>

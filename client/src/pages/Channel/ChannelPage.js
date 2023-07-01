@@ -13,6 +13,7 @@ import {TabItem} from "../../components/Tabs/TabItem/TabItem";
 import {Group} from "../../components/Group/Group";
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 import {API} from "../../api/api";
+import {pluralSubs} from "../../utils/pluralRules";
 
 export const ChannelPage = () => {
     const params = useParams()
@@ -64,7 +65,7 @@ export const ChannelPage = () => {
                             <div className="channel-user-info">
                                 <div className="channel-user-name">{channel['u_name']}</div>
                                 <div className="channel-user-description">
-                                    <div>{subsInfo['subsCount']} подписчиков</div>
+                                    <div>{pluralSubs(subsInfo['subsCount'])}</div>
                                     <div>{channel.videos.length} видео</div>
                                 </div>
                             </div>

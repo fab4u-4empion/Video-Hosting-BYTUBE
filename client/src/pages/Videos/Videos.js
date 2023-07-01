@@ -19,6 +19,7 @@ import {VIDEO} from "../../consts/pages";
 import {ActionNotify} from "../../components/ActionNotify/ActionNotify";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {API} from "../../api/api";
+import {separateDigits} from "../../utils/separateDigits";
 
 export const Videos = () => {
     const [videos, setVideos] = useState([])
@@ -140,7 +141,7 @@ export const Videos = () => {
                                 <div className="videos-item-column text-center">
                                     {new Date(Date.parse(video['v_publish_date'])).toLocaleString("ru-RU", {day: "2-digit", month: "2-digit", year: "numeric"})}
                                 </div>
-                                <div className="videos-item-column text-center">{video['v_views']}</div>
+                                <div className="videos-item-column text-center">{separateDigits(video['v_views'])}</div>
                             </div>
                         )}
                     </div>
