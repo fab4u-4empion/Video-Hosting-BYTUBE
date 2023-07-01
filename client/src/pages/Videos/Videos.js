@@ -27,6 +27,7 @@ export const Videos = () => {
     const {user} = useUserContextProvider()
     const [modal, setModal] = useState(null)
     const [notify, setNotify] = useState(null)
+    const [categories, setCategories] = useState(null)
 
     useEffect(() => {
         updateVideos()
@@ -47,7 +48,8 @@ export const Videos = () => {
             })
             .then(response => {
                 setFetching(false)
-                setVideos(response.data)
+                setVideos(response.data.videos)
+                setCategories(response.data.categories)
             })
             .catch(err => {
                 if (err.response?.status === 401) {
@@ -122,7 +124,7 @@ export const Videos = () => {
                                         <div className="videos-item-column-controls">
                                             <IconButton
                                                 onClick={() => {
-                                                    setModal(<EditVideoModal video={video} onClose={onCloseModal}/>)
+                                                    setModal(<EditVideoModal video={video} onClose={onCloseModal} categories={categories}/>)
                                                 }}>
                                                 <Icon28EditOutline/>
                                             </IconButton>

@@ -13,7 +13,7 @@ export const updateVideoInfo = async (req, res) => {
     if (req['user']) {
         const data = req.body
         req.file && fs.writeFileSync(`${__dirname}/static/previews/custom/${data['id']}.png`, req.file.buffer)
-        await dbPoolSync.query(`UPDATE videos SET v_description="${data['description']}", v_name="${data['name']}", v_access="${data['access']}" WHERE v_id="${data['id']}"`)
+        await dbPoolSync.query(`UPDATE videos SET v_description="${data['description']}", v_name="${data['name']}", v_access="${data['access']}", v_category="${data['category']}" WHERE v_id="${data['id']}"`)
         const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_id="${data['id']}"`)
         res.json(result[0])
     } else {
@@ -32,8 +32,12 @@ export const getPreview = (req, res) => {
 
 export const getOwnVideos = async (req, res) => {
     if (req['user']) {
+        const [categories] = await dbPoolSync.query(`SELECT * FROM categories`)
         const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_user_id="${req['user']['u_id']}" ORDER BY v_publish_date DESC`)
-        res.json(result)
+        res.json({
+            videos: result,
+            categories: categories
+        })
     } else {
         res.status(401).json("Unauthorized")
     }

@@ -2,10 +2,10 @@ import "./customSelect.css"
 import {Icon24Cancel, Icon24ChevronDown, Icon24Done} from "@vkontakte/icons";
 import {useEffect, useState} from "react";
 
-export const CustomSelect = ({className, placeholder, options, onChange, cleanable = false}) => {
+export const CustomSelect = ({className, placeholder, options, defaultOption, onChange, cleanable = false}) => {
     const [opened, setOpened] = useState(false)
     const [focused, setFocused] = useState(false)
-    const [value, setValue] = useState(null)
+    const [value, setValue] = useState(defaultOption || null)
 
     const onSelectClick = (e) => {
         if (e.target.closest(".custom-select-container")) {

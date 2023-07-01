@@ -9,46 +9,24 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import {CustomSelect} from "../CustomSelect/CustomSelect";
 
-const options = [
-    {
-        label: "option 1",
-        value: "value 1",
-        key: 1
-    },
-    {
-        label: "option 2",
-        value: "value 2",
-        key: 2
-    },
-    {
-        label: "option 3",
-        value: "value 3",
-        key: 3
-    },
-    {
-        label: "option 4",
-        value: "value 4",
-        key: 4
-    },
-    {
-        label: "option 5",
-        value: "value 5",
-        key: 5
-    },
-    {
-        label: "option 6",
-        value: "value 6",
-        key: 6
-    }
-]
-
-export const EditVideoModal = ({onClose, video}) => {
+export const EditVideoModal = ({onClose, video, categories}) => {
     const [previewUrl, setPreviewUrl] = useState(`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`)
     const [videoName, setVideoName] = useState(video['v_name'])
     const [access, setAccess] = useState(video['v_access'])
     const [videoID] = useState(video['v_id'])
     const [description, setDescription] = useState(video['v_description'])
-    const [selectedCategory, setSelectedCategory] = useState(null)
+    const [selectedCategory, setSelectedCategory] = useState(video['v_category'])
+    const [categoriesOptions] = useState(
+        categories.reduce((acc, cur) => {
+            if (cur['cg_id'] !== 0)
+                return [...acc, {
+                    label: cur['cg_name'],
+                    value: cur['cg_id'],
+                    key: cur['cg_id'],
+                }]
+            return acc
+        }, [])
+    )
 
     const onOpenFileDialog = id=> {
         document.getElementById(id).click()
@@ -70,6 +48,7 @@ export const EditVideoModal = ({onClose, video}) => {
         data.append('name', videoName)
         data.append('description', document.getElementById("add-video-description-input").value)
         data.append('id', videoID)
+        data.append('category', selectedCategory)
         axios
             .put('https://localhost:3000/api/v1/videos/update', data, {
                 withCredentials: true
@@ -97,12 +76,8 @@ export const EditVideoModal = ({onClose, video}) => {
     }
 
     const onSelectCategory = (value) => {
-        setSelectedCategory(value)
+        setSelectedCategory(value || 0)
     }
-
-    useEffect(() => {
-        console.log(selectedCategory)
-    }, [selectedCategory])
 
     return (
         <Modal
@@ -165,8 +140,9 @@ export const EditVideoModal = ({onClose, video}) => {
                                 <CustomSelect
                                     placeholder={"Категория"}
                                     onChange={onSelectCategory}
-                                    options={options}
+                                    options={categoriesOptions}
                                     cleanable={true}
+                                    defaultOption={categoriesOptions.filter(c => c.key === selectedCategory)[0]}
                                 />
                             </label>
                         </Group>
