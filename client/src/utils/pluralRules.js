@@ -16,4 +16,13 @@ export const pluralSubs = (subs) => {
     return `${subs} ${russianPluralRules(subs, options)}`
 }
 
+export const pluralComments = (comments) => {
+    const options = {
+        one: "комментарий",
+        few: "комментария",
+        many: "комментариев",
+    }
+    return `${comments} ${russianPluralRules(comments, options)}`
+}
+
 const russianPluralRules = (number, options) => options[new Intl.PluralRules("ru-RU").select(number)]

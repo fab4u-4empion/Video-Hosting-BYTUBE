@@ -13,7 +13,7 @@ import {Icon24LinkedOutline, Icon24LockOutline, Icon28LikeFillRed, Icon28LikeOut
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {API} from "../../api/api";
-import {pluralRules, pluralSubs} from "../../utils/pluralRules";
+import {pluralComments, pluralRules, pluralSubs} from "../../utils/pluralRules";
 
 export const VideoPage = () => {
     const params = useParams()
@@ -208,7 +208,7 @@ export const VideoPage = () => {
                                     {fetchingComments && <div className="page-centred-content"><Spinner size={30} color="gray"/></div>}
                                     {!fetchingComments &&
                                         <>
-                                            <div className="video-page-comments-header">{comments.length} комментариев</div>
+                                            <div className="video-page-comments-header">{pluralComments(comments.length)}</div>
                                             {user &&
                                                 <div className="video-page-comment-form">
                                                     <Avatar size={40} src={`https://localhost:3000/api/v1/user/avatar?id=${user['u_id']}`}/>
