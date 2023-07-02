@@ -20,6 +20,7 @@ export const Likes = () => {
     const {user} = useUserContextProvider()
 
     useEffect(() => {
+        setFetching(true)
         API.videos
             .request({
                 method: "get",
@@ -37,7 +38,7 @@ export const Likes = () => {
                     alert(`Ошибка при выполнении запроса.`)
                 }
             })
-    }, [])
+    }, [user])
 
     return (
         <Page>

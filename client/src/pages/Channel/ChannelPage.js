@@ -23,6 +23,7 @@ export const ChannelPage = () => {
     const [selected, setSelected] = useState("videos")
 
     useEffect(() => {
+        setFetching(true)
         API.user
             .request({
                 method: "get",
@@ -43,7 +44,7 @@ export const ChannelPage = () => {
                 else
                     alert("Не удалось выполнить запрос")
             })
-    }, [])
+    }, [user])
 
     return (
         <Page>
