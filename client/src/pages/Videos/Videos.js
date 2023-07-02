@@ -16,7 +16,7 @@ import {IconButton} from "../../components/IconButton/IconButton";
 import {EditVideoModal} from "../../components/EditVideoModal/EditVideoModal";
 import {NavLink} from "react-router-dom";
 import {VIDEO} from "../../consts/pages";
-import {Snackbar} from "../../components/ActionNotify/Snackbar";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {API} from "../../api/api";
 import {separateDigits} from "../../utils/separateDigits";

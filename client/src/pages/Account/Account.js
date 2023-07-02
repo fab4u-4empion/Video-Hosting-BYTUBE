@@ -7,7 +7,7 @@ import "./account.css"
 import {Textarea} from "../../components/InputControls/Textarea";
 import {Group} from "../../components/Group/Group";
 import {Button} from "../../components/Button/Button";
-import {Snackbar} from "../../components/ActionNotify/Snackbar";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 import {onOpenFileDialog} from "../../utils/openFileDialog";
 import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
