@@ -167,32 +167,3 @@
     margin-bottom: 20px;
 }
 
-.video-page-comment {
-    display: grid;
-    grid-template-columns: min-content 1fr;
-    column-gap: 15px;
-    margin-bottom: 30px;
-}
-
-.video-page-comment-info {
-    display: flex;
-    column-gap: 10px;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.video-page-comment-user-name {
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.video-page-comment-date {
-    color: dimgray;
-    font-size: 12px;
-}
-
-.video-page-comment-text {
-    font-size: 14.5px;
-    white-space: pre-wrap;
-}
-

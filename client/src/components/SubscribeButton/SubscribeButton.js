@@ -1,13 +1,14 @@
 import {Button} from "../Button/Button";
 import {useUserContextProvider} from "../../context/userContext";
 import axios from "axios";
+import {baseURLs} from "../../api/api";
 
 export const SubscribeButton = ({sub, channel, onAction}) => {
     const {user} = useUserContextProvider()
 
     const subscribe = () => {
         axios
-            .post(`https://localhost:3000/api/v1/user/subscribe?id=${channel}`, {}, {withCredentials: true})
+            .post(`${baseURLs.user}/subscribe?id=${channel}`, {}, {withCredentials: true})
             .then(response => {
                 onAction(response.data)
             })
@@ -18,7 +19,7 @@ export const SubscribeButton = ({sub, channel, onAction}) => {
 
     const unsubscribe = () => {
         axios
-            .post(`https://localhost:3000/api/v1/user/unsubscribe?id=${channel}`, {}, {withCredentials: true})
+            .post(`${baseURLs.user}/unsubscribe?id=${channel}`, {}, {withCredentials: true})
             .then(response => {
                 onAction(response.data)
             })

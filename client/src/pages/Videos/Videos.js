@@ -18,7 +18,7 @@ import {NavLink} from "react-router-dom";
 import {VIDEO} from "../../consts/pages";
 import {Snackbar} from "../../components/Snackbar/Snackbar";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 import {separateDigits} from "../../utils/separateDigits";
 
 export const Videos = () => {
@@ -63,7 +63,7 @@ export const Videos = () => {
     const onCopyLink = id => {
         navigator
             .clipboard
-            .writeText(`https://localhost:10888/video/${id}`)
+            .writeText(`${window.location.origin}/video/${id}`)
             .then(() => {
                 setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ссылка скопирована</Snackbar>)
             })
@@ -113,7 +113,7 @@ export const Videos = () => {
                                     <div className="videos-video-preview">
                                         <img
                                             className="videos-video-preview-img"
-                                            src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                            src={`${baseURLs.videos}/preview?id=${video['v_id']}`}
                                         />
                                         <div className="videos-video-preview-duration">
                                             {secondsToTimeString(video['v_duration'])}

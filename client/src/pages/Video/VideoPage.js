@@ -12,9 +12,10 @@ import {NavLink} from "react-router-dom";
 import {Icon24LinkedOutline, Icon24LockOutline, Icon28LikeFillRed, Icon28LikeOutline} from "@vkontakte/icons";
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 import {pluralComments, pluralRules, pluralSubs} from "../../utils/pluralRules";
 import {CommentForm} from "../../components/Comments/CommentForm/CommentForm";
+import {Comment} from "../../components/Comments/Comment/Comment";
 
 export const VideoPage = () => {
     const params = useParams()
@@ -152,7 +153,7 @@ export const VideoPage = () => {
                 <div className="video-page-layout">
                     <div className="video-page-video-container">
                         <Video
-                            src={`https://localhost:3000/api/v1/videos/video?id=${params.id}`}
+                            src={`${baseURLs.videos}/video?id=${params.id}`}
                             name={videoInfo['v_name']}
                         />
                         {!error &&
@@ -166,7 +167,7 @@ export const VideoPage = () => {
                                     <div className="video-page-chanel-info">
                                         <Avatar
                                             size={45}
-                                            src={`https://localhost:3000/api/v1/user/avatar?id=${videoInfo['user']['u_id']}`}
+                                            src={`${baseURLs.user}/avatar?id=${videoInfo['user']['u_id']}`}
                                         />
                                         <div className="video-page-chanel-description">
                                             <div className="video-page-chanel-name">{videoInfo['user']['u_name']}</div>
@@ -207,16 +208,7 @@ export const VideoPage = () => {
                                             }
                                             <div>
                                                 {comments.map(comment =>
-                                                    <div key={comment['c_id']} className="video-page-comment">
-                                                        <Avatar size={40} src={`https://localhost:3000/api/v1/user/avatar?id=${comment['u_id']}`}/>
-                                                        <div>
-                                                            <div className="video-page-comment-info">
-                                                                <div className="video-page-comment-user-name">{comment['u_name']}</div>
-                                                                <div className="video-page-comment-date">{comment['c_date'] ? new Date(Date.parse(comment['c_date'])).toLocaleString("ru-RU", {day: "numeric", month: "short", year: "numeric"}) : "сейчас"}</div>
-                                                            </div>
-                                                            <div className="video-page-comment-text">{comment['c_text']}</div>
-                                                        </div>
-                                                    </div>
+                                                    <Comment comment={comment}/>
                                                 )}
                                             </div>
                                         </>
@@ -236,7 +228,7 @@ export const VideoPage = () => {
                                             <div className="video-page-other-video-preview video-preview">
                                                 <img
                                                     className="video-preview-img"
-                                                    src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                                    src={`${baseURLs.videos}/preview?id=${video['v_id']}`}
                                                 />
                                                 <div className="video-preview-duration">
                                                     {secondsToTimeString(video['v_duration'])}

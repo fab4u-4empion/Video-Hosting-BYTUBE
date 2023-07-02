@@ -11,7 +11,7 @@ import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {Avatar} from "../../components/Avatar/Avatar";
 import {NavLink} from "react-router-dom";
 import {CHANEL, VIDEO} from "../../consts/pages";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 import {pluralRules, pluralSubs} from "../../utils/pluralRules";
 
 export const Subscriptions = () => {
@@ -62,7 +62,7 @@ export const Subscriptions = () => {
                                         <NavLink to={`/${CHANEL}/${video['u_id']}`} className="subs-video-user-info">
                                             <Avatar
                                                 size={35}
-                                                src={`https://localhost:3000/api/v1/user/avatar?id=${video['u_id']}`}
+                                                src={`${baseURLs.user}/avatar?id=${video['u_id']}`}
                                             />
                                             <div className="subs-video-user-name">{video['u_name']}</div>
                                         </NavLink>
@@ -70,7 +70,7 @@ export const Subscriptions = () => {
                                             <div className="subs-video-preview video-preview">
                                                 <img
                                                     className="video-preview-img"
-                                                    src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                                    src={`${baseURLs.videos}/preview?id=${video['v_id']}`}
                                                 />
                                                 <div className="video-preview-duration">
                                                     {secondsToTimeString(video['v_duration'])}
@@ -101,7 +101,7 @@ export const Subscriptions = () => {
                                         <NavLink to={`/${CHANEL}/${channel['u_id']}`} className="subs-channel-item">
                                             <Avatar
                                                 size={100}
-                                                src={`https://localhost:3000/api/v1/user/avatar?id=${channel['u_id']}`}
+                                                src={`${baseURLs.user}/avatar?id=${channel['u_id']}`}
                                             />
                                             <div className="subs-channel-info">
                                                 <div className="subs-channel-name">{channel['u_name']}</div>

@@ -6,7 +6,7 @@ import {Input} from "../InputControls/Input";
 import {Textarea} from "../InputControls/Textarea";
 import {Icon20RadioOff, Icon20RadioOn, Icon28PicturePlusOutline} from "@vkontakte/icons";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {CustomSelect} from "../CustomSelect/CustomSelect";
 
 export const EditVideoModal = ({onClose, video, categories}) => {
@@ -49,9 +49,12 @@ export const EditVideoModal = ({onClose, video, categories}) => {
         data.append('description', document.getElementById("add-video-description-input").value)
         data.append('id', videoID)
         data.append('category', selectedCategory)
-        axios
-            .put('https://localhost:3000/api/v1/videos/update', data, {
-                withCredentials: true
+        API.videos
+            .request({
+                method: "put",
+                url: "/update",
+                withCredentials: true,
+                data: data
             })
             .then(response => {
                 onClose(true)

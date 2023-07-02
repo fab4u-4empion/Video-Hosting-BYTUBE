@@ -13,7 +13,7 @@ import {
 import {Button} from "../../components/Button/Button";
 import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 import {pluralRules} from "../../utils/pluralRules";
 
 export const History = () => {
@@ -62,7 +62,7 @@ export const History = () => {
                                 <div className="history-video-preview video-preview">
                                     <img
                                         className="video-preview-img"
-                                        src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                        src={`${baseURLs.videos}/preview?id=${video['v_id']}`}
                                     />
                                     <div className="video-preview-duration">
                                         {secondsToTimeString(video['v_duration'])}
@@ -74,7 +74,7 @@ export const History = () => {
                                         <div className="history-video-user-info">
                                             <Avatar
                                                 size={35}
-                                                src={`https://localhost:3000/api/v1/user/avatar?id=${video['u_id']}`}
+                                                src={`${baseURLs.user}/avatar?id=${video['u_id']}`}
                                             />
                                             <NavLink to={`/${CHANEL}/${video['u_id']}`} className="history-video-user-name">{video['u_name']}</NavLink>
                                         </div>

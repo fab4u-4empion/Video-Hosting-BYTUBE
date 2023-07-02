@@ -12,7 +12,7 @@ import {onOpenFileDialog} from "../../utils/openFileDialog";
 import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
 import {ChangePasswordModal} from "../../components/ChangePasswordModal/ChangePasswordModal";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 
 export const Account = () => {
     const [fetching, setFetching] = useState(true)
@@ -35,7 +35,7 @@ export const Account = () => {
             .then(response => {
                 setFetching(false)
                 setUserInfo(response.data)
-                setAvatarUrl(`https://localhost:3000/api/v1/user/avatar?id=${response.data['u_id']}`)
+                setAvatarUrl(`${baseURLs.user}/avatar?id=${response.data['u_id']}`)
                 console.log(response.data)
             })
             .catch((err) => {

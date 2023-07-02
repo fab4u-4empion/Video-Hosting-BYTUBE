@@ -10,7 +10,7 @@ import {Tabs} from "../../components/Tabs/Tabs";
 import {TabItem} from "../../components/Tabs/TabItem/TabItem";
 import {HorizontalScroll} from "../../components/HorizontalScroll/HorizontalScroll";
 import {Icon28VideoOutline} from "@vkontakte/icons";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 import {pluralRules} from "../../utils/pluralRules";
 
 export const Home = () => {
@@ -84,7 +84,7 @@ export const Home = () => {
                                     <div className="home-video-preview video-preview">
                                         <img
                                             className="video-preview-img"
-                                            src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                            src={`${baseURLs.videos}/preview?id=${video['v_id']}`}
                                         />
                                         <div className="video-preview-duration">
                                             {secondsToTimeString(video['v_duration'])}
@@ -93,7 +93,7 @@ export const Home = () => {
                                     <div className="home-video-description">
                                         <Avatar
                                             size={40}
-                                            src={`https://localhost:3000/api/v1/user/avatar?id=${video['u_id']}`}
+                                            src={`${baseURLs.videos}/avatar?id=${video['u_id']}`}
                                         />
                                         <div className="home-video-info">
                                             <div className="home-video-title">{video['v_name']}</div>

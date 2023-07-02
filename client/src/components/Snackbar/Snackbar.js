@@ -11,7 +11,6 @@ export const Snackbar = ({children, onClose}) => {
     useEffect(() => {
         setTimeout(close, 2500)
         setTimeout(() => setOpen(true), 100)
-        //return () => clearTimeout(closeTimeout)
     }, [])
 
     return (

@@ -7,6 +7,7 @@ import {Icon20ChevronRight} from "@vkontakte/icons";
 import {NavLink} from "react-router-dom";
 import {ACCOUNT} from "../../consts/pages";
 import {Button} from "../Button/Button";
+import {baseURLs} from "../../api/api";
 
 export const AccountButton = () => {
     const {user} = useUserContextProvider()
@@ -26,7 +27,7 @@ export const AccountButton = () => {
                 <NavLink to={`/${ACCOUNT}`} className="header-account-button-content">
                     <Avatar
                         size={35}
-                        src={`https://localhost:3000/api/v1/user/avatar?id=${user['u_id']}`}
+                        src={`${baseURLs.user}/avatar?id=${user['u_id']}`}
                     />
                     <div className="header-account-button-text">{user["u_name"]}</div>
                     <div><Icon20ChevronRight/></div>

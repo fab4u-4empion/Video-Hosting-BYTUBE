@@ -9,7 +9,7 @@ import {Avatar} from "../../components/Avatar/Avatar";
 import "./searchPage.css"
 import {Tabs} from "../../components/Tabs/Tabs";
 import {TabItem} from "../../components/Tabs/TabItem/TabItem";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 
 export const SearchPage = () => {
     const [fetching, setFetching] = useState(true)
@@ -62,7 +62,7 @@ export const SearchPage = () => {
                                             <div className="search-video-preview video-preview">
                                                 <img
                                                     className="video-preview-img"
-                                                    src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                                    src={`${baseURLs.videos}/preview?id=${video['v_id']}`}
                                                 />
                                                 <div className="video-preview-duration">
                                                     {secondsToTimeString(video['v_duration'])}
@@ -71,7 +71,7 @@ export const SearchPage = () => {
                                             <div className="search-video-description">
                                                 <Avatar
                                                     size={40}
-                                                    src={`https://localhost:3000/api/v1/user/avatar?id=${video['u_id']}`}
+                                                    src={`${baseURLs.user}/avatar?id=${video['u_id']}`}
                                                 />
                                                 <div className="search-video-info">
                                                     <div className="search-video-title">{video['v_name']}</div>

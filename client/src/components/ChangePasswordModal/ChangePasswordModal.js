@@ -4,6 +4,7 @@ import {Input} from "../InputControls/Input";
 import {Button} from "../Button/Button";
 import {useState} from "react";
 import axios from "axios";
+import {API} from "../../api/api";
 
 export const ChangePasswordModal = ({onClose, onSuccess}) => {
     const [errorMessage, setErrorMessage] = useState("")
@@ -13,12 +14,13 @@ export const ChangePasswordModal = ({onClose, onSuccess}) => {
         e.preventDefault()
         setDisabled(true)
         setErrorMessage("")
-        axios
-            .post(
-                "https://localhost:3000/api/v1/auth/changePassword",
-                new FormData(document.forms['changePassword']),
-                {withCredentials: true}
-            )
+        API.auth
+            .request({
+                method: "post",
+                url: "/changePassword",
+                data: new FormData(document.forms['changePassword']),
+                withCredentials: true
+            })
             .then(response => {
                 onClose()
                 onSuccess()

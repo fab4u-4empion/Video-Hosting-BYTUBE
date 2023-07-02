@@ -8,6 +8,7 @@ import {Textarea} from "../InputControls/Textarea";
 import {Icon20RadioOff, Icon20RadioOn, Icon28PicturePlusOutline, Icon28UploadOutline} from "@vkontakte/icons";
 import axios from "axios";
 import {onOpenFileDialog} from "../../utils/openFileDialog";
+import {API} from "../../api/api";
 
 export const AddVideoModal = ({onClose}) => {
     const [file, setFile] = useState(null)
@@ -24,11 +25,14 @@ export const AddVideoModal = ({onClose}) => {
         setVideoName(e.target.files[0].name)
         const data = new FormData()
         data.append('file', e.target.files[0])
-        axios
-            .post('https://localhost:3000/api/v1/videos/upload', data, {
+        API.videos
+            .request({
+                method: "post",
+                url: "/upload",
+                data: data,
+                withCredentials: true,
                 signal: abortController.signal,
-                onUploadProgress: p => setUploadProgress(Math.round(p.loaded / p.total * 100)),
-                withCredentials: true
+                onUploadProgress: p => setUploadProgress(Math.round(p.loaded / p.total * 100))
             })
             .then(response => {
                 setUploadReady(true)
@@ -52,9 +56,12 @@ export const AddVideoModal = ({onClose}) => {
         data.append('name', videoName)
         data.append('description', document.getElementById("add-video-description-input").value)
         data.append('id', videoID)
-        axios
-            .put('https://localhost:3000/api/v1/videos/update', data, {
-                withCredentials: true
+        API.videos
+            .request({
+                method: "put",
+                url: "/update",
+                withCredentials: true,
+                data: data
             })
             .then(response => {
                 onClose(true)

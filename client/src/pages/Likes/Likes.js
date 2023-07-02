@@ -10,7 +10,7 @@ import {NavLink} from "react-router-dom";
 import {CHANEL, VIDEO} from "../../consts/pages";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {Avatar} from "../../components/Avatar/Avatar";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 import {pluralRules} from "../../utils/pluralRules";
 
 export const Likes = () => {
@@ -63,9 +63,9 @@ export const Likes = () => {
             {!fetching && user && videos.length > 0 &&
                 <div>
                     <div className="playlist-info-card">
-                        <img className="playlist-back-img" src={`https://localhost:3000/api/v1/videos/preview?id=${videos[0]['v_id']}`} alt=""/>
+                        <img className="playlist-back-img" src={`${baseURLs.videos}/preview?id=${videos[0]['v_id']}`} alt=""/>
                         <div className="playlist-preview">
-                            <img className="playlist-preview-img" src={`https://localhost:3000/api/v1/videos/preview?id=${videos[0]['v_id']}`} alt=""/>
+                            <img className="playlist-preview-img" src={`${baseURLs.videos}/preview?id=${videos[0]['v_id']}`} alt=""/>
                         </div>
                         <div className="playlist-title">Понравилось</div>
                         <div className="playlist-info">
@@ -81,7 +81,7 @@ export const Likes = () => {
                                     <div className="playlist-video-preview video-preview">
                                         <img
                                             className="video-preview-img"
-                                            src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                            src={`${baseURLs.videos}/preview?id=${video['v_id']}`}
                                             alt=""
                                         />
                                         <div className="video-preview-duration">
@@ -94,7 +94,7 @@ export const Likes = () => {
                                             <div className="playlist-video-user-info">
                                                 <Avatar
                                                     size={35}
-                                                    src={`https://localhost:3000/api/v1/user/avatar?id=${video['u_id']}`}
+                                                    src={`${baseURLs.user}/avatar?id=${video['u_id']}`}
                                                 />
                                                 <NavLink to={`/${CHANEL}/${video['u_id']}`} className="playlist-video-user-name">{video['u_name']}</NavLink>
                                             </div>

@@ -12,7 +12,7 @@ import {Tabs} from "../../components/Tabs/Tabs";
 import {TabItem} from "../../components/Tabs/TabItem/TabItem";
 import {Group} from "../../components/Group/Group";
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
-import {API} from "../../api/api";
+import {API, baseURLs} from "../../api/api";
 import {pluralSubs} from "../../utils/pluralRules";
 
 export const ChannelPage = () => {
@@ -59,7 +59,7 @@ export const ChannelPage = () => {
                     <div className="channel-header">
                         <div className="channel-header-user">
                             <Avatar
-                                src={`https://localhost:3000/api/v1/user/avatar?id=${channel['u_id']}`}
+                                src={`${baseURLs.user}/avatar?id=${channel['u_id']}`}
                                 size={100}
                             />
                             <div className="channel-user-info">
@@ -86,7 +86,7 @@ export const ChannelPage = () => {
                                 <div className="channel-video-preview video-preview">
                                     <img
                                         className="video-preview-img"
-                                        src={`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`}
+                                        src={`${baseURLs.videos}/preview?id=${video['v_id']}`}
                                     />
                                     <div className="video-preview-duration">
                                         {secondsToTimeString(video['v_duration'])}
