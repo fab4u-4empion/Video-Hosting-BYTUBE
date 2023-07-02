@@ -14,6 +14,7 @@ import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton"
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {API} from "../../api/api";
 import {pluralComments, pluralRules, pluralSubs} from "../../utils/pluralRules";
+import {CommentForm} from "../../components/Comments/CommentForm/CommentForm";
 
 export const VideoPage = () => {
     const params = useParams()
@@ -27,12 +28,10 @@ export const VideoPage = () => {
     const [fetchingComments, setFetchingComments] = useState(true)
     const [comments, setComments] = useState(null)
     const [commentText, setCommentText] = useState("")
-    const [commentActive, setCommentActive] = useState(false)
-    const [sending, setSending] = useState(false)
-    const [limit, setLimit] = useState(false)
     const [likes, setLikes] = useState(0)
     const [liked, setLiked] = useState(false)
     const [fetchingLike, setFetchingLike] = useState(false)
+    const [commentSending, setCommentSending] = useState(false)
 
     const {user} = useUserContextProvider()
 
@@ -105,24 +104,8 @@ export const VideoPage = () => {
             })
     }
 
-    const inputCommentChangeHandler = e => {
-        setCommentText(e.target.value)
-        e.target.value.length > 1000 ? setLimit(true) : setLimit(false)
-        e.target.style.height = "auto";
-        if (e.target.scrollHeight > 40)
-            e.target.style.height = (e.target.scrollHeight) + "px"
-        else
-            e.target.style.height = "25px"
-    }
-
-    const commentCancel = () => {
-        setCommentText("")
-        setCommentActive(false)
-        document.getElementById("video-page-comment-input").style.height = "25px"
-    }
-
-    const sendComment = () => {
-        setSending(true)
+    const sendComment = (cancelForm) => {
+        setCommentSending(true)
         API.videos
             .request({
                 method: "post",
@@ -135,8 +118,8 @@ export const VideoPage = () => {
             })
             .then(response => {
                 setComments(prev => [response.data, ...prev])
-                commentCancel()
-                setSending(false)
+                setCommentSending(false)
+                cancelForm()
             })
     }
 
@@ -156,6 +139,10 @@ export const VideoPage = () => {
                 setLikes(response.data.likes)
                 setLiked(response.data.liked)
             })
+    }
+
+    const commentTextChangeHandler = (newText) => {
+        setCommentText(newText)
     }
 
     return (
@@ -210,29 +197,13 @@ export const VideoPage = () => {
                                         <>
                                             <div className="video-page-comments-header">{pluralComments(comments.length)}</div>
                                             {user &&
-                                                <div className="video-page-comment-form">
-                                                    <Avatar size={40} src={`https://localhost:3000/api/v1/user/avatar?id=${user['u_id']}`}/>
-                                                    <div>
-                                                        <textarea
-                                                            rows={1}
-                                                            value={commentText}
-                                                            placeholder="Введите комментарий"
-                                                            className="video-page-comment-input"
-                                                            id="video-page-comment-input"
-                                                            onChange={inputCommentChangeHandler}
-                                                            onClick={() => setCommentActive(true)}
-                                                        />
-                                                        {commentActive &&
-                                                            <div className="video-page-comment-active-bar">
-                                                                <div className="video-page-comment-limit">{commentText.length} / 1000</div>
-                                                                <div className="video-comment-form-buttons">
-                                                                    <Button onClick={commentCancel} size="small" mode="secondary">Отмена</Button>
-                                                                    <Button onClick={sendComment} disabled={commentText === "" || sending || limit} size="small">Оставить комментарий</Button>
-                                                                </div>
-                                                            </div>
-                                                        }
-                                                    </div>
-                                                </div>
+                                                <CommentForm
+                                                    onChange={commentTextChangeHandler}
+                                                    defaultText={commentText}
+                                                    action={sendComment}
+                                                    actionTitle={"Оставить комментарий"}
+                                                    actionDisabled={commentSending}
+                                                />
                                             }
                                             <div>
                                                 {comments.map(comment =>
