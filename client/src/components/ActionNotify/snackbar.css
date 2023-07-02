@@ -1,0 +1,21 @@
+.snackbar {
+    position: fixed;
+    z-index: 2;
+    bottom: 10px;
+    left: 10px;
+    cursor: default;
+    background: #000;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.snackbar.close {
+    transform: translate(calc(-100% - 10px));
+}
+
+.snackbar.open {
+    transform: translate(0);
+}

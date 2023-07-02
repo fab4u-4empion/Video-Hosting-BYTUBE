@@ -16,7 +16,7 @@ import {IconButton} from "../../components/IconButton/IconButton";
 import {EditVideoModal} from "../../components/EditVideoModal/EditVideoModal";
 import {NavLink} from "react-router-dom";
 import {VIDEO} from "../../consts/pages";
-import {ActionNotify} from "../../components/ActionNotify/ActionNotify";
+import {Snackbar} from "../../components/ActionNotify/Snackbar";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {API} from "../../api/api";
 import {separateDigits} from "../../utils/separateDigits";
@@ -26,7 +26,7 @@ export const Videos = () => {
     const [fetching, setFetching] = useState(true)
     const {user} = useUserContextProvider()
     const [modal, setModal] = useState(null)
-    const [notify, setNotify] = useState(null)
+    const [snackbar, setSnackbar] = useState(null)
     const [categories, setCategories] = useState(null)
 
     useEffect(() => {
@@ -65,7 +65,7 @@ export const Videos = () => {
             .clipboard
             .writeText(`https://localhost:10888/video/${id}`)
             .then(() => {
-                setNotify(<ActionNotify onClose={() => setNotify(null)}>Ссылка скопирована</ActionNotify>)
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ссылка скопирована</Snackbar>)
             })
     }
 
@@ -162,7 +162,7 @@ export const Videos = () => {
                 </div>
             }
             {modal}
-            {notify}
+            {snackbar}
         </Page>
     )
 }

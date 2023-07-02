@@ -7,7 +7,7 @@ import "./account.css"
 import {Textarea} from "../../components/InputControls/Textarea";
 import {Group} from "../../components/Group/Group";
 import {Button} from "../../components/Button/Button";
-import {ActionNotify} from "../../components/ActionNotify/ActionNotify";
+import {Snackbar} from "../../components/ActionNotify/Snackbar";
 import {onOpenFileDialog} from "../../utils/openFileDialog";
 import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
@@ -19,7 +19,7 @@ export const Account = () => {
     const [userInfo, setUserInfo] = useState(null)
     const [description, setDescription] = useState(null)
     const [avatarURL, setAvatarUrl] = useState(null)
-    const [notify, setNotify] = useState(null)
+    const [snackbar, setSnackbar] = useState(null)
     const [modal, setModal] = useState(null)
 
     const {logOut, user} = useUserContextProvider()
@@ -63,7 +63,7 @@ export const Account = () => {
                 withCredentials: true
             })
             .then(response => {
-                setNotify(<ActionNotify onClose={() => setNotify(null)}>Информация сохранена</ActionNotify>)
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Информация сохранена</Snackbar>)
             })
             .catch(() => {
                 alert("Не удалось выполнить запрос")
@@ -98,7 +98,7 @@ export const Account = () => {
                     prev['sessionsCount'] = response.data.sessionsCount
                     return {...prev}
                 })
-                setNotify(<ActionNotify onClose={() => setNotify(null)}>Все сеансы завершены</ActionNotify>)
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Сеансы завершены</Snackbar>)
             })
             .catch(() => {
                 alert("Не удалось выполнить запрос")
@@ -155,7 +155,7 @@ export const Account = () => {
                                         onClick={() => setModal(
                                             <ChangePasswordModal
                                                 onClose={() => setModal(null)}
-                                                onSuccess={() => setNotify(<ActionNotify onClose={() => setNotify(null)}>Пароль изменен</ActionNotify>)}
+                                                onSuccess={() => setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Пароль изменен</Snackbar>)}
                                             />
                                         )}
                                     >
@@ -181,7 +181,7 @@ export const Account = () => {
                     </Button>
                 </div>
             }
-            {notify}
+            {snackbar}
             {modal}
         </Page>
     )
