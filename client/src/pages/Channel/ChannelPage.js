@@ -14,6 +14,7 @@ import {Group} from "../../components/Group/Group";
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 import {API, baseURLs} from "../../api/api";
 import {pluralSubs} from "../../utils/pluralRules";
+import {useUserContextProvider} from "../../context/userContext";
 
 export const ChannelPage = () => {
     const params = useParams()
@@ -21,6 +22,8 @@ export const ChannelPage = () => {
     const [channel, setChannel] = useState(null)
     const [subsInfo, setSubsInfo] = useState(null)
     const [selected, setSelected] = useState("videos")
+
+    const {user} = useUserContextProvider()
 
     useEffect(() => {
         setFetching(true)

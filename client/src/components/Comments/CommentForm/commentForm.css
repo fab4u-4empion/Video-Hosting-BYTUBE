@@ -2,7 +2,6 @@
     display: grid;
     grid-template-columns: min-content 1fr;
     column-gap: 15px;
-    margin-bottom: 30px;
 }
 
 .comment-form-input {
@@ -22,6 +21,11 @@
 
 .comment-form-input:focus {
     border-bottom: 2px solid dimgray;
+}
+
+.comment-form-input:disabled {
+    background: white;
+    color: black;
 }
 
 .comment-form-buttons {

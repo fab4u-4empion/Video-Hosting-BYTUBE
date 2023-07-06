@@ -6,16 +6,14 @@ import {Spinner} from "../../components/Spinner/Spinner";
 import "./videoPage.css"
 import {Avatar} from "../../components/Avatar/Avatar";
 import {Button} from "../../components/Button/Button";
-import {useUserContextProvider} from "../../context/userContext";
 import {CHANEL, VIDEO} from "../../consts/pages";
 import {NavLink} from "react-router-dom";
 import {Icon24LinkedOutline, Icon24LockOutline, Icon28LikeFillRed, Icon28LikeOutline} from "@vkontakte/icons";
 import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {API, baseURLs} from "../../api/api";
-import {pluralComments, pluralRules, pluralSubs} from "../../utils/pluralRules";
-import {CommentForm} from "../../components/Comments/CommentForm/CommentForm";
-import {Comment} from "../../components/Comments/Comment/Comment";
+import {pluralRules, pluralSubs} from "../../utils/pluralRules";
+import {Comments} from "./commentsSection/Comments";
 
 export const VideoPage = () => {
     const params = useParams()
@@ -26,15 +24,10 @@ export const VideoPage = () => {
     const [descriptionOpen, setDescriptionOpen] = useState(false)
     const [otherVideos, setOtherVideos] = useState([])
     const [subsInfo, setSubsInfo] = useState(null)
-    const [fetchingComments, setFetchingComments] = useState(true)
-    const [comments, setComments] = useState(null)
-    const [commentText, setCommentText] = useState("")
     const [likes, setLikes] = useState(0)
     const [liked, setLiked] = useState(false)
     const [fetchingLike, setFetchingLike] = useState(false)
-    const [commentSending, setCommentSending] = useState(false)
-
-    const {user} = useUserContextProvider()
+    const [snackbar, setSnackbar] = useState(null)
 
     useEffect(() => {
         setFetching(true)
@@ -54,7 +47,6 @@ export const VideoPage = () => {
                 setLikes(response.data['likes'])
                 setLiked(response.data['liked'])
                 loadOtherVideos(response.data['v_user_id'])
-                loadComments(response.data['v_id'])
             })
             .catch(() => {
                 setError(true)
@@ -90,40 +82,6 @@ export const VideoPage = () => {
             })
     }
 
-    const loadComments = (v_id) => {
-        API.videos
-            .request({
-                method: "get",
-                url: "/comments",
-                params: {
-                    v_id: params.id
-                }
-            })
-            .then(response => {
-                setFetchingComments(false)
-                setComments(response.data)
-            })
-    }
-
-    const sendComment = (cancelForm) => {
-        setCommentSending(true)
-        API.videos
-            .request({
-                method: "post",
-                url: "/comments",
-                data: {
-                    text: commentText,
-                    video: params.id
-                },
-                withCredentials: true
-            })
-            .then(response => {
-                setComments(prev => [response.data, ...prev])
-                setCommentSending(false)
-                cancelForm()
-            })
-    }
-
     const toggleLike = () => {
         setFetchingLike(true)
         API.videos
@@ -142,13 +100,10 @@ export const VideoPage = () => {
             })
     }
 
-    const commentTextChangeHandler = (newText) => {
-        setCommentText(newText)
-    }
-
     return (
         <Page>
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
+            {snackbar}
             {!fetching &&
                 <div className="video-page-layout">
                     <div className="video-page-video-container">
@@ -192,28 +147,7 @@ export const VideoPage = () => {
                                         {descriptionOpen ? "Свернуть" : "Еще"}
                                     </div>
                                 </div>
-                                <div className="video-page-comments">
-                                    {fetchingComments && <div className="page-centred-content"><Spinner size={30} color="gray"/></div>}
-                                    {!fetchingComments &&
-                                        <>
-                                            <div className="video-page-comments-header">{pluralComments(comments.length)}</div>
-                                            {user &&
-                                                <CommentForm
-                                                    onChange={commentTextChangeHandler}
-                                                    defaultText={commentText}
-                                                    action={sendComment}
-                                                    actionTitle={"Оставить комментарий"}
-                                                    actionDisabled={commentSending}
-                                                />
-                                            }
-                                            <div>
-                                                {comments.map(comment =>
-                                                    <Comment comment={comment}/>
-                                                )}
-                                            </div>
-                                        </>
-                                    }
-                                </div>
+                                <Comments videoId={params.id}/>
                             </>
                         }
                     </div>

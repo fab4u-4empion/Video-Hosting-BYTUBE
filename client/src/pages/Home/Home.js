@@ -12,6 +12,7 @@ import {HorizontalScroll} from "../../components/HorizontalScroll/HorizontalScro
 import {Icon28VideoOutline} from "@vkontakte/icons";
 import {API, baseURLs} from "../../api/api";
 import {pluralRules} from "../../utils/pluralRules";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 
 export const Home = () => {
     const [fetching, setFetching] = useState(true)
@@ -19,6 +20,7 @@ export const Home = () => {
     const [categories, setCategories] = useState(null)
     const [selected, setSelected] = useState(0)
     const [disabled, setDisabled] = useState(false)
+    const [snackbar, setSnackbar] = useState(null)
 
     useEffect(() => {
         API.videos
@@ -32,7 +34,9 @@ export const Home = () => {
                 setFetching(false)
             })
             .catch(() => {
-                alert("Не удалось выполнить запрос.")
+                setSnackbar(
+                    <Snackbar onClose={() => setSnackbar(null)}>Не удалось выполнить запрос</Snackbar>
+                )
             })
     }, [])
 
@@ -60,6 +64,7 @@ export const Home = () => {
     return (
         <Page disabled={disabled}>
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
+            {snackbar}
             {!fetching &&
                 <>
                     <div className="home-tabs-wrapper">
@@ -93,7 +98,7 @@ export const Home = () => {
                                     <div className="home-video-description">
                                         <Avatar
                                             size={40}
-                                            src={`${baseURLs.videos}/avatar?id=${video['u_id']}`}
+                                            src={`${baseURLs.user}/avatar?id=${video['u_id']}`}
                                         />
                                         <div className="home-video-info">
                                             <div className="home-video-title">{video['v_name']}</div>

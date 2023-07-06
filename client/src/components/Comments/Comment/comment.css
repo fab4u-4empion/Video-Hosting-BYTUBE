@@ -1,8 +1,12 @@
 .comment {
+    margin-bottom: 30px;
+}
+
+.comment-content {
     display: grid;
     grid-template-columns: min-content 1fr;
     column-gap: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .comment-info {
@@ -10,6 +14,7 @@
     column-gap: 10px;
     align-items: center;
     margin-bottom: 5px;
+    position: relative;
 }
 
 .comment-user-name {
@@ -25,4 +30,17 @@
 .comment-text {
     font-size: 15px;
     white-space: pre-wrap;
+    padding-right: 38px;
+}
+
+.comment-actions-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    transition: all 0.05s ease-in-out;
+}
+
+.comment:hover .comment-actions-button{
+    opacity: 1;
 }

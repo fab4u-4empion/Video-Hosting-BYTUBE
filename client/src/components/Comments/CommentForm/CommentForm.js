@@ -2,14 +2,14 @@ import "./commentForm.css"
 import {useUserContextProvider} from "../../../context/userContext";
 import {Avatar} from "../../Avatar/Avatar";
 import {Button} from "../../Button/Button";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 
-export const CommentForm = ({defaultText = "", onChange, actionTitle, action, actionDisabled}) => {
+export const CommentForm = ({defaultText = "", onChange, actionTitle, action, actionDisabled, onCancel, defaultActive = false}) => {
     const {user} = useUserContextProvider()
 
     const inputRef = useRef(null)
 
-    const [active, setActive] = useState(false)
+    const [active, setActive] = useState(defaultActive)
     const [text, setText] = useState(defaultText)
     const [limitReached, setLimitReached] = useState(false)
 
@@ -24,9 +24,13 @@ export const CommentForm = ({defaultText = "", onChange, actionTitle, action, ac
     }
 
     const commentCancel = () => {
-        setText("")
-        setActive(false)
-        inputRef.current.style.height = "25px"
+        if (onCancel) {
+            onCancel()
+        } else {
+            setText("")
+            setActive(false)
+            inputRef.current.style.height = "25px"
+        }
     }
 
     const actionHandler = () => {
@@ -36,6 +40,10 @@ export const CommentForm = ({defaultText = "", onChange, actionTitle, action, ac
     useEffect(() => {
         onChange(text)
     }, [text])
+
+    useEffect(() => {
+        commentTextChangeHandler()
+    }, [])
 
     return (
         <div className="comment-form">
@@ -49,12 +57,13 @@ export const CommentForm = ({defaultText = "", onChange, actionTitle, action, ac
                     onChange={commentTextChangeHandler}
                     onClick={() => setActive(true)}
                     ref={inputRef}
+                    disabled={actionDisabled}
                 />
                 {active &&
                     <div className="comment-form-active-bar">
                         <div className="comment-form-limit">{text.length} / 1000</div>
                         <div className="comment-form-buttons">
-                            <Button onClick={commentCancel} size="small" mode="secondary">Отмена</Button>
+                            <Button onClick={commentCancel} disabled={actionDisabled} size="small" mode="secondary">Отмена</Button>
                             <Button onClick={actionHandler} disabled={text === "" || limitReached || actionDisabled} size="small">{actionTitle}</Button>
                         </div>
                     </div>

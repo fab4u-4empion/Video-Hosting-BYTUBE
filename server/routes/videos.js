@@ -1,19 +1,25 @@
 import express, {Router} from "express";
 import {
     getAllVideos,
-    getComments, getLikedVideos,
+    getLikedVideos,
     getOtherVideos,
     getOwnVideos,
     getPreview, getVideosByCategory,
-    getVideoInfo, saveComment,
+    getVideoInfo,
     streamVideo, toggleLike,
     updateVideoInfo,
     uploadVideo
-} from "../controllers/videos.js";
+} from "../controllers/videos/videos.js";
 import multer from "multer";
 import busboy from "connect-busboy"
+import {deleteComment, editComment, getComments, saveComment} from "../controllers/videos/comments.js";
 
 export const videosRouter = new Router()
+
+videosRouter.get("/comments", getComments)
+videosRouter.post("/comments", express.json(), saveComment)
+videosRouter.delete("/comments", deleteComment)
+videosRouter.put("/comments", express.json(), editComment)
 
 videosRouter.get("/", getOwnVideos)
 videosRouter.get("/all", getAllVideos)
@@ -21,9 +27,7 @@ videosRouter.get("/other", getOtherVideos)
 videosRouter.get("/video", streamVideo)
 videosRouter.get("/preview", getPreview)
 videosRouter.get("/info", getVideoInfo)
-videosRouter.get("/comments", getComments)
 videosRouter.get("/category", getVideosByCategory)
-videosRouter.post("/comments", express.json(), saveComment)
 videosRouter.post("/like", express.json(), toggleLike)
 videosRouter.get("/like", getLikedVideos)
 videosRouter.post("/upload", busboy({highWaterMark: 2 * 1024 * 1024}), uploadVideo)

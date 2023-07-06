@@ -1,4 +1,4 @@
-import {dbPool, dbPoolSync} from "../config/config.js";
+import {dbPool, dbPoolSync} from "../../config/config.js";
 import fs from "fs";
 import {v4 as uuidv4} from "uuid"
 import path from "path";
@@ -164,24 +164,6 @@ export const getVideoInfo = async (req, res) => {
         }
         res.json(videoInfo[0])
     }
-}
-
-export const getComments = async (req, res) => {
-    const [comments] = await dbPoolSync.query(`SELECT comments.c_id, comments.c_date, comments.c_text, users.u_name, users.u_id FROM comments JOIN users ON comments.c_user_id=users.u_id WHERE c_video_id="${req.query['v_id']}" ORDER BY c_date ASC`)
-    res.json(comments)
-}
-
-export const saveComment = async (req, res) => {
-    const newComment = {
-        c_id: uuidv4(),
-        c_text: req.body['text'],
-        u_id: req.user['u_id'],
-        c_video_id: req.body['video'],
-        u_name: req.user['u_name'],
-        c_date: null
-    }
-    await dbPoolSync.query(`INSERT INTO comments (c_id, c_text, c_user_id, c_video_id) VALUES("${newComment.c_id}", "${newComment.c_text}", "${newComment.u_id}", "${newComment.c_video_id}")`)
-    res.json(newComment)
 }
 
 export const toggleLike = async (req, res) => {

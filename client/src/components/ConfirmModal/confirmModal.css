@@ -1,0 +1,16 @@
+.confirm-modal-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 30px;
+}
+
+.confirm-modal-buttons {
+    display: flex;
+    column-gap: 20px;
+}
+
+.confirm-modal-text {
+    color: dimgray;
+    font-size: 17px;
+}

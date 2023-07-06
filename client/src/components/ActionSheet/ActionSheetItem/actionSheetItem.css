@@ -1,0 +1,25 @@
+.action-sheet-item {
+    padding: 0 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    column-gap: 10px;
+}
+
+.action-sheet-item:hover {
+    background: rgba(0, 0, 0, 0.09);
+}
+
+.action-sheet-item-icon {
+    width: 20px;
+    height: 20px;
+    transform: translate(0, -2px);
+}
+
+.action-sheet-item.danger {
+    color: #e30000;
+}

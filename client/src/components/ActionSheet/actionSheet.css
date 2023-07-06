@@ -1,0 +1,24 @@
+.action-sheet-wrapper {
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.action-sheet {
+    position: relative;
+    padding: 10px 0;
+    border-radius: 10px;
+    background: white;
+    width: min-content;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 7px;
+    user-select: none;
+    opacity: 0;
+    transition: all 0.1s  ease-in-out;
+}
+
+.action-sheet.visible {
+    opacity: 1;
+}
