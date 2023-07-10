@@ -15,11 +15,13 @@ import {useUserContextProvider} from "../../context/userContext";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
 import {API, baseURLs} from "../../api/api";
 import {pluralRules} from "../../utils/pluralRules";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 
 export const History = () => {
     const [fetching, setFetching] = useState(true)
     const [videos, setVideos] = useState([])
     const [modal, setModal] = useState(null)
+    const [snackbar, setSnackbar] = useState(null)
 
     const {user} = useUserContextProvider()
 
@@ -39,7 +41,7 @@ export const History = () => {
                 if (err.response?.status === 401) {
                     setFetching(false)
                 } else {
-                    alert(`Ошибка при выполнении запроса.`)
+                    setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
                 }
             })
     }, [user])
@@ -102,6 +104,7 @@ export const History = () => {
                 </div>
             }
             {modal}
+            {snackbar}
         </Page>
     )
 }

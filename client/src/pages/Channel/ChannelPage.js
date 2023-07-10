@@ -15,6 +15,7 @@ import {SubscribeButton} from "../../components/SubscribeButton/SubscribeButton"
 import {API, baseURLs} from "../../api/api";
 import {pluralSubs} from "../../utils/pluralRules";
 import {useUserContextProvider} from "../../context/userContext";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 
 export const ChannelPage = () => {
     const params = useParams()
@@ -22,6 +23,7 @@ export const ChannelPage = () => {
     const [channel, setChannel] = useState(null)
     const [subsInfo, setSubsInfo] = useState(null)
     const [selected, setSelected] = useState("videos")
+    const [snackbar, setSnackbar] = useState(null)
 
     const {user} = useUserContextProvider()
 
@@ -45,13 +47,14 @@ export const ChannelPage = () => {
                 if (err.response.status === 404)
                     setFetching(false)
                 else
-                    alert("Не удалось выполнить запрос")
+                    setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
             })
     }, [user])
 
     return (
         <Page>
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
+            {snackbar}
             {!fetching && !channel &&
                 <div className="page-placeholder">
                     <Icon28UserOutline width={130} height={130}/>

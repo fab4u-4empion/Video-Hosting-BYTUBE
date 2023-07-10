@@ -1,0 +1,30 @@
+.custom-progress-track {
+    width: 100%;
+    background: lightgrey;
+    height: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.custom-progress-bar {
+    height: inherit;
+    background: #e30000;
+    border-radius: inherit;
+    position: relative;
+}
+
+.custom-progress-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e30000;
+    right: 0;
+    position: absolute;
+    transform: translate(50%, -25%);
+    opacity: 0;
+    transition: all 0.1s ease-in-out;
+}
+
+.custom-progress-track:hover .custom-progress-point, .custom-progress-point.show {
+    opacity: 1;
+}

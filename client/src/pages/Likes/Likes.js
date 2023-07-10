@@ -12,11 +12,13 @@ import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {Avatar} from "../../components/Avatar/Avatar";
 import {API, baseURLs} from "../../api/api";
 import {pluralRules} from "../../utils/pluralRules";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 
 export const Likes = () => {
     const [fetching, setFetching] = useState(true)
     const [modal, setModal] = useState(null)
     const [videos, setVideos] = useState([])
+    const [snackbar, setSnackbar] = useState(null)
     const {user} = useUserContextProvider()
 
     useEffect(() => {
@@ -35,7 +37,7 @@ export const Likes = () => {
                 if (err.response?.status === 401) {
                     setFetching(false)
                 } else {
-                    alert(`Ошибка при выполнении запроса.`)
+                    setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
                 }
             })
     }, [user])
@@ -112,6 +114,7 @@ export const Likes = () => {
                 </div>
             }
             {modal}
+            {snackbar}
         </Page>
     )
 }

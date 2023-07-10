@@ -16,12 +16,14 @@ import {pluralRules, pluralSubs} from "../../utils/pluralRules";
 import {useUserContextProvider} from "../../context/userContext";
 import {Button} from "../../components/Button/Button";
 import {SignInModal} from "../../components/SignInModal/SignInModal";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 
 export const Subscriptions = () => {
     const [selected, setSelected] = useState("videos")
     const [fetching, setFetching] = useState(true)
     const [subs, setSubs] = useState(null)
     const [modal, setModal] = useState(null)
+    const [snackbar, setSnackbar] = useState(null)
 
     const {user} = useUserContextProvider()
 
@@ -42,7 +44,7 @@ export const Subscriptions = () => {
                 if (err.response?.status === 401) {
                     setFetching(false)
                 } else {
-                    alert(`Ошибка при выполнении запроса.`)
+                    setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
                 }
             })
     }, [user])
@@ -155,6 +157,7 @@ export const Subscriptions = () => {
             }
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
             {modal}
+            {snackbar}
         </Page>
     )
 }

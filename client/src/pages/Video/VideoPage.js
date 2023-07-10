@@ -14,6 +14,7 @@ import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {API, baseURLs} from "../../api/api";
 import {pluralRules, pluralSubs} from "../../utils/pluralRules";
 import {Comments} from "./commentsSection/Comments";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 
 export const VideoPage = () => {
     const params = useParams()
@@ -94,10 +95,17 @@ export const VideoPage = () => {
                 withCredentials: true
             })
             .then(response => {
-                setFetchingLike(false)
                 setLikes(response.data.likes)
                 setLiked(response.data.liked)
             })
+            .catch(err => {
+                if (err.response?.status === 401) {
+                    setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Необходимо войти</Snackbar>)
+                } else {
+                    setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
+                }
+            })
+            .finally(() => setFetchingLike(false))
     }
 
     return (

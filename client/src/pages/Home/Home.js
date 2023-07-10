@@ -34,9 +34,7 @@ export const Home = () => {
                 setFetching(false)
             })
             .catch(() => {
-                setSnackbar(
-                    <Snackbar onClose={() => setSnackbar(null)}>Не удалось выполнить запрос</Snackbar>
-                )
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
             })
     }, [])
 
@@ -57,7 +55,7 @@ export const Home = () => {
                 window.scrollTo(0, 0)
             })
             .catch(() => {
-                alert("Не удалось выполнить запрос.")
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
             })
     }
 

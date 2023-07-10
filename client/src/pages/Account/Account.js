@@ -42,7 +42,7 @@ export const Account = () => {
                 if (err.response.status === 401) {
                     setFetching(false)
                 } else {
-                    alert("Не удалось выполнить запрос")
+                    setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
                 }
             })
     }, [user])
@@ -66,7 +66,7 @@ export const Account = () => {
                 setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Информация сохранена</Snackbar>)
             })
             .catch(() => {
-                alert("Не удалось выполнить запрос")
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
             })
     }
 
@@ -101,7 +101,7 @@ export const Account = () => {
                 setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Сеансы завершены</Snackbar>)
             })
             .catch(() => {
-                alert("Не удалось выполнить запрос")
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
             })
     }
 

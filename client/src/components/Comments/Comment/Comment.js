@@ -119,7 +119,7 @@ export const Comment = ({comment, onDelete, onEdit}) => {
                                 }
                                 {!comment['c_date'] && "сейчас"}
                             </div>
-                            {user['u_id'] === comment['c_user_id'] && !waitingAction &&
+                            {user && user['u_id'] === comment['c_user_id'] && !waitingAction &&
                                 <div className={`comment-actions-button`} ref={actionsButtonRer}>
                                     <IconButton onClick={openActions}><Icon24MoreVertical/></IconButton>
                                 </div>

@@ -5,9 +5,10 @@ import {Button} from "../Button/Button";
 import {Input} from "../InputControls/Input";
 import {Textarea} from "../InputControls/Textarea";
 import {Icon20RadioOff, Icon20RadioOn, Icon28PicturePlusOutline} from "@vkontakte/icons";
-import axios from "axios";
 import {useState} from "react";
 import {CustomSelect} from "../CustomSelect/CustomSelect";
+import {Snackbar} from "../Snackbar/Snackbar";
+import {API} from "../../api/api";
 
 export const EditVideoModal = ({onClose, video, categories}) => {
     const [previewUrl, setPreviewUrl] = useState(`https://localhost:3000/api/v1/videos/preview?id=${video['v_id']}`)
@@ -27,6 +28,7 @@ export const EditVideoModal = ({onClose, video, categories}) => {
             return acc
         }, [])
     )
+    const [snackbar, setSnackbar] = useState(null)
 
     const onOpenFileDialog = id=> {
         document.getElementById(id).click()
@@ -58,6 +60,9 @@ export const EditVideoModal = ({onClose, video, categories}) => {
             })
             .then(response => {
                 onClose(true)
+            })
+            .catch(() => {
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
             })
     }
 
@@ -93,6 +98,7 @@ export const EditVideoModal = ({onClose, video, categories}) => {
             }
             title="Редактирование видео"
         >
+            {snackbar}
             <div className="add-video-modal-content">
                 <div className="add-video-modal-group">
                     <div className="add-video-modal-groups">

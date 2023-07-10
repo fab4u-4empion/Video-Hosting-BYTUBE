@@ -10,12 +10,14 @@ import "./searchPage.css"
 import {Tabs} from "../../components/Tabs/Tabs";
 import {TabItem} from "../../components/Tabs/TabItem/TabItem";
 import {API, baseURLs} from "../../api/api";
+import {Snackbar} from "../../components/Snackbar/Snackbar";
 
 export const SearchPage = () => {
     const [fetching, setFetching] = useState(true)
     const [videos, setVideos] = useState(null)
     const [channels, setChannels] = useState(null)
     const [selected, setSelected] = useState('videos')
+    const [snackbar, setSnackbar] = useState(null)
     const {query} = useParams()
 
     useEffect(() => {
@@ -30,14 +32,17 @@ export const SearchPage = () => {
             .then(response => {
                 setVideos(response.data.videos)
                 setChannels(response.data.channels)
-                console.log(response.data)
                 setFetching(false)
+            })
+            .catch(() => {
+                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
             })
     }, [query])
 
     return (
         <Page title={`Результат поиска: "${query}"`}>
             {fetching && <div className="page-centred-content"><Spinner size={35} color="gray"/></div>}
+            {snackbar}
             {!fetching &&
                 <>
                     <div className="search-tabs-wrapper">

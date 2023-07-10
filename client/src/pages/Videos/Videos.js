@@ -55,7 +55,7 @@ export const Videos = () => {
                 if (err.response?.status === 401) {
                     setFetching(false)
                 } else {
-                    alert(`Ошибка при выполнении запроса.`)
+                    setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
                 }
             })
     }

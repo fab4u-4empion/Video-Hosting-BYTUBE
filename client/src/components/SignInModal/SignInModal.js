@@ -30,7 +30,7 @@ export const SignInModal = ({onClose}) => {
                 authHandler(onClose)
             })
             .catch(err => {
-                if (err.response.status === 400)
+                if (err.response?.status === 400)
                     setErrorMessage(err.response.data)
                 else
                     setErrorMessage("Ошибка регистрации")
@@ -52,7 +52,7 @@ export const SignInModal = ({onClose}) => {
                 authHandler(onClose)
             })
             .catch(err => {
-                if (err.response.status === 400)
+                if (err.response?.status === 400)
                     setErrorMessage(err.response.data)
                 else
                     setErrorMessage("Ошибка входа")
