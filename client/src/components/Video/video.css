@@ -19,7 +19,7 @@
 .video-overlay-controls {
     width: 100%;
     position: relative;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
     background: rgba(0, 0, 0, 0.65);
 }
 
@@ -52,7 +52,7 @@
     text-overflow: ellipsis;
     width: 100%;
     background: rgba(0, 0, 0, 0.65);
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .video-overlay-wrapper {
@@ -67,6 +67,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    user-select: none;
 }
 
 .video-overlay-controls-button {
@@ -98,5 +99,25 @@
     display: flex;
     align-items: center;
     font-size: 15px;
+    column-gap: 10px;
+}
+
+.video-time-progress-slider .slider-bar, .video-time-progress-slider .slider-point{
+    background: #e30000;
+}
+
+.video-volume-slider {
+    background: rgba(255, 255, 255, 0.7)!important;
+}
+
+.video-volume-slider .slider-bar, .video-volume-slider .slider-point{
+    background: white;
+}
+
+.video-overlay-controls-volume {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    width: 120px;
+    align-items: center;
     column-gap: 5px;
 }

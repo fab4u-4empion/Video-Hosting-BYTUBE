@@ -1,9 +1,16 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import "./video.css"
 import {IconButton} from "../IconButton/IconButton";
-import {Icon24Fullscreen, Icon24FullscreenExit, Icon28Pause, Icon28Play} from "@vkontakte/icons";
+import {
+    Icon24Fullscreen,
+    Icon24FullscreenExit,
+    Icon24MuteOutline,
+    Icon24VolumeOutline,
+    Icon28Pause,
+    Icon28Play
+} from "@vkontakte/icons";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
-import {CustomProgress} from "./CustomProgress/CustomProgress";
+import {CustomRangeSlider} from "../CustomRangeSlider/CustomRangeSlider";
 
 let timer = null
 
@@ -14,31 +21,43 @@ export const Video = ({src, name}) => {
     const [fullscreen, setFullscreen] = useState(false)
     const [duration, setDuration] = useState(0)
     const [time, setTime] = useState(0)
-    const [changeStart, setChangeStart] = useState(false)
     const [wasPlay, setWasPlay] = useState(true)
+    const [controlsHovered, setControlsHovered] = useState(false)
+    const [muted, setMuted] = useState(false)
+    const [volume, setVolume] = useState(1)
+    const [prevVolume, setPrevVolume] = useState(1)
 
     const videoRef = useRef(null)
     const videoWrapperRef = useRef(null)
+
+    const overlayContentMouseMove = useCallback(() => {
+        setControlsHovered(true)
+    }, [])
+
+    const overlayContentMouseLeave = useCallback(() => {
+        setControlsHovered(false)
+    }, [])
 
     const closeOverlay = useCallback(() => {
         setShowOverlayMode("hide")
     }, [])
 
-    const onChangeTimeStart = useCallback(() => {
-        if (wasPlay) {
-            videoRef.current.pause()
-        }
-        setChangeStart(true)
-    }, [wasPlay])
+    const changeTimeStart = useCallback(() => {
+        videoRef.current.pause()
+    }, [])
 
-    const onChangeTimeEnd = useCallback(() => {
-        if (wasPlay) {
+    const changeTimeEnd = useCallback(() => {
+        if (wasPlay)
             videoRef.current.play()
-        }
-        setChangeStart(false)
     }, [wasPlay])
 
-    const onTogglePlay = useCallback(() => {
+    const volumeChangeHandler = useCallback(value => {
+        setVolume(value)
+        setPrevVolume(value)
+        setMuted(value === 0)
+    }, [])
+
+    const togglePlay = useCallback(() => {
         const video = videoRef.current
         if (videoPlay) {
             video.pause()
@@ -51,79 +70,77 @@ export const Video = ({src, name}) => {
     }, [videoPlay])
 
     const toggleFullscreen = useCallback(() => {
-        const video = videoWrapperRef.current
         if (document.fullscreenElement)
             document.exitFullscreen().then()
         else
-            video.requestFullscreen().then()
+            videoWrapperRef.current.requestFullscreen().then()
     }, [])
 
-    const onFullscreenChange = useCallback(() => {
+    const toggleMuted = useCallback(() => {
+        if (muted && prevVolume === 0)
+            setVolume(0.1)
+        else if (muted)
+            setVolume(prevVolume)
+        else
+            setVolume(0)
+        setMuted(prev => !prev)
+    }, [muted])
+
+    const fullscreenChangeHandler = useCallback(() => {
         document.fullscreenElement ? setFullscreen(true) : setFullscreen(false)
     }, [])
 
-    const onMouseLeave = useCallback(() => {
+    const overlayMouseLeaveHandler = useCallback(() => {
         videoPlay && setShowOverlayMode("hide")
         clearTimeout(timer)
     }, [videoPlay])
 
-    const onMouseEnter = useCallback(() => {
+    const overlayMouseEnterHandler = useCallback(() => {
         videoPlay && setShowOverlayMode("show")
     }, [videoPlay])
 
-    const onMouseMove = useCallback(() => {
+    const overlayMouseMoveHandler = useCallback(() => {
         clearTimeout(timer)
         setShowOverlayMode("show")
-        if (videoPlay)
-            timer = setTimeout(closeOverlay, 4000)
-    }, [videoPlay, closeOverlay])
+        if (videoPlay && !controlsHovered)
+            timer = setTimeout(closeOverlay, 3000)
+    }, [videoPlay, controlsHovered])
 
-    const onPlayListener = useCallback(() => {
-        timer = setTimeout(closeOverlay, 4000)
+    const playHandler = useCallback(() => {
+        timer = setTimeout(closeOverlay, 3000)
         setVideoPlay(true)
     }, [])
 
-    const onPauseListener = useCallback(() => {
+    const pauseHandler = useCallback(() => {
         clearTimeout(timer)
         setShowOverlayMode("show")
         setVideoPlay(false)
     }, [])
 
-    const onLoadMetadata = useCallback(e => {
+    const loadMetaDataHandler = useCallback(e => {
         setDuration(e.target.duration)
     }, [])
 
-    const onTimeChange = useCallback(value => {
+    const timeUpdateHandler = useCallback(() => {
         setTime(videoRef.current.currentTime)
     }, [])
 
-    const onProgressChange = useCallback(value => {
+    const timeCodeChangeHandler = useCallback(value => {
         setTime(value)
         videoRef.current.currentTime = value
     }, [])
 
     useEffect(() => {
-        !videoPlay && setShowOverlayMode("show")
-    }, [showOverlayMode])
-
-    useEffect(() => {
-        const video = videoRef.current
         const wrapper = videoWrapperRef.current
-
-        video.addEventListener("loadeddata", onLoadMetadata)
-        video.addEventListener("play", onPlayListener)
-        video.addEventListener("pause", onPauseListener)
-        video.addEventListener("timeupdate", onTimeChange)
-        wrapper.addEventListener("fullscreenchange", onFullscreenChange)
-
+        wrapper.addEventListener("fullscreenchange", fullscreenChangeHandler)
         return () => {
-            video.removeEventListener("play", onPlayListener)
-            video.removeEventListener("pause", onPauseListener)
-            video.removeEventListener("loadeddata", onLoadMetadata)
-            video.removeEventListener("timeupdate", onTimeChange)
-            wrapper.removeEventListener("fullscreenchange", onFullscreenChange)
+            wrapper.removeEventListener("fullscreenchange", fullscreenChangeHandler)
         }
     }, [])
+
+    useEffect(() => {
+        videoRef.current.volume = volume
+    }, [volume])
 
     return (
         <div className="video-wrapper" ref={videoWrapperRef}>
@@ -137,52 +154,59 @@ export const Video = ({src, name}) => {
                         src={src}
                         autoPlay={true}
                         ref={videoRef}
+                        onLoadedData={loadMetaDataHandler}
+                        onPlay={playHandler}
+                        onPause={pauseHandler}
+                        onTimeUpdate={timeUpdateHandler}
                     ></video>
                     <div
                         className={`video-overlay ${showOverlayMode}`}
-                        onMouseLeave={onMouseLeave}
-                        onMouseEnter={onMouseEnter}
-                        onMouseMove={onMouseMove}
+                        onMouseLeave={overlayMouseLeaveHandler}
+                        onMouseEnter={overlayMouseEnterHandler}
+                        onMouseMove={overlayMouseMoveHandler}
                     >
                         <div className="video-overlay-header">
                             {name}
                         </div>
-                        <div className="video-overlay-controls">
+                        <div
+                            className="video-overlay-controls"
+                            onMouseLeave={overlayContentMouseLeave}
+                            onMouseMove={overlayContentMouseMove}
+                        >
                             <div className="video-overlay-controls-progress">
-                                {/*<input*/}
-                                {/*    min={0}*/}
-                                {/*    max={duration}*/}
-                                {/*    type="range"*/}
-                                {/*    value={time}*/}
-                                {/*    step={0.1}*/}
-                                {/*    onMouseUp={onChangeTimeEnd}*/}
-                                {/*    onMouseDown={onChangeTimeStart}*/}
-                                {/*    onChange={onTimeChange}*/}
-                                {/*    className="video-overlay-controls-progress-input"*/}
-                                {/*/>*/}
-                                <CustomProgress
+                                <CustomRangeSlider
                                     max={duration}
                                     value={time}
-                                    onMouseDown={onChangeTimeStart}
-                                    onMouseUp={onChangeTimeEnd}
-                                    onChange={onProgressChange}
-                                    pause={!videoPlay}
+                                    onMouseDown={changeTimeStart}
+                                    onMouseUp={changeTimeEnd}
+                                    onChange={timeCodeChangeHandler}
+                                    showPoint={!videoPlay}
+                                    className={"video-time-progress-slider"}
                                 />
                             </div>
                             <div className="video-overlay-controls-bottom">
                                 <div className="video-overlay-controls-group">
-                                    <IconButton onClick={onTogglePlay} className="video-overlay-controls-button">
-                                        {videoPlay && <Icon28Pause/>}
-                                        {!videoPlay && <Icon28Play/>}
+                                    <IconButton onClick={togglePlay} className="video-overlay-controls-button">
+                                        {videoPlay ? <Icon28Pause/> : <Icon28Play/>}
                                     </IconButton>
                                     <div className="video-overlay-controls-time">
                                         {secondsToTimeString(time)} / {secondsToTimeString(duration)}
                                     </div>
                                 </div>
-                                <div>
+                                <div className="video-overlay-controls-group">
+                                    <div className="video-overlay-controls-volume">
+                                        <IconButton onClick={toggleMuted} className="video-overlay-controls-button">
+                                            {muted ? <Icon24MuteOutline width={28} height={28}/> : <Icon24VolumeOutline width={28} height={28}/>}
+                                        </IconButton>
+                                        <CustomRangeSlider
+                                            max={1}
+                                            className={"video-volume-slider"}
+                                            value={volume}
+                                            onChange={volumeChangeHandler}
+                                        />
+                                    </div>
                                     <IconButton onClick={toggleFullscreen} className="video-overlay-controls-button">
-                                        {fullscreen && <Icon24FullscreenExit width={28} height={28}/>}
-                                        {!fullscreen && <Icon24Fullscreen width={28} height={28}/>}
+                                        {fullscreen ? <Icon24FullscreenExit width={28} height={28}/> : <Icon24Fullscreen width={28} height={28}/>}
                                     </IconButton>
                                 </div>
                             </div>

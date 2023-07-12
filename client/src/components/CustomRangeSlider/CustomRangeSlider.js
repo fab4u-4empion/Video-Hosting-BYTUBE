@@ -1,27 +1,33 @@
-import "./customProgress.css"
+import "./customRangeSlider.css"
 import {useCallback, useEffect, useRef, useState} from "react";
 
-export const CustomProgress = ({max, value, onMouseDown, onMouseUp, onChange, pause}) => {
+export const CustomRangeSlider = ({max, value, onMouseDown, onMouseUp, onChange, showPoint = false, className = ""}) => {
     const [pointMode, setPointMode] = useState('hide')
     const [changeStart, setChangeStart] = useState(false)
 
     const trackRef = useRef(null)
 
     const mouseDownHandler = (e) => {
-        onMouseDown()
+        onMouseDown && onMouseDown()
+        setPointMode("show")
         const rect = trackRef.current.getBoundingClientRect()
-        const clickPosition = e.clientX - rect.left
+        let clickPosition = e.clientX - rect.left
+        if (clickPosition < 0)
+            clickPosition = 0
+        if (clickPosition > rect.width)
+            clickPosition = rect.width
         change(clickPosition / rect.width * max)
         setChangeStart(true)
     }
 
     const mouseUpHandler = useCallback(() => {
-        onMouseUp()
+        onMouseUp && onMouseUp()
         setChangeStart(false)
+        setPointMode("hide")
     }, [onMouseUp])
 
     const change = (newValue) => {
-        onChange(newValue)
+        onChange && onChange(newValue)
     }
 
     const mouseMoveHandler = useCallback((e) => {
@@ -51,23 +57,23 @@ export const CustomProgress = ({max, value, onMouseDown, onMouseUp, onChange, pa
     }, [changeStart])
 
     useEffect(() => {
-        setPointMode(pause ? "show" : "hide")
-    }, [pause])
+        setPointMode(showPoint ? "show" : "hide")
+    }, [showPoint])
 
     return (
         <div
-            className={"custom-progress-track"}
+            className={`slider-track ${className}`}
             onMouseDown={mouseDownHandler}
             onMouseUp={mouseUpHandler}
             ref={trackRef}
         >
             <div
-                className={"custom-progress-bar"}
+                className={"slider-bar"}
                 style={{
                     width: (value / max * 100) + "%"
                 }}
             >
-                <div className={`custom-progress-point ${pointMode}`}/>
+                <div className={`slider-point ${pointMode}`}/>
             </div>
         </div>
     )

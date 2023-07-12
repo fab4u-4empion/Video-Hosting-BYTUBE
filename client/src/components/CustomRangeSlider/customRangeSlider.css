@@ -1,4 +1,4 @@
-.custom-progress-track {
+.slider-track {
     width: 100%;
     background: lightgrey;
     height: 5px;
@@ -6,25 +6,26 @@
     cursor: pointer;
 }
 
-.custom-progress-bar {
+.slider-bar {
     height: inherit;
-    background: #e30000;
+    background: darkblue;
     border-radius: inherit;
     position: relative;
 }
 
-.custom-progress-point {
-    width: 10px;
-    height: 10px;
+.slider-point {
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: #e30000;
+    background: darkblue;
     right: 0;
+    top: 50%;
     position: absolute;
-    transform: translate(50%, -25%);
+    transform: translate(50%, -50%);
     opacity: 0;
     transition: all 0.1s ease-in-out;
 }
 
-.custom-progress-track:hover .custom-progress-point, .custom-progress-point.show {
+.slider-track:hover .slider-point, .slider-point.show {
     opacity: 1;
 }

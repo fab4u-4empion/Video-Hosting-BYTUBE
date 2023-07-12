@@ -17,3 +17,7 @@
 .icon-button:hover {
     background: rgba(0, 0, 0, 0.09);
 }
+
+.icon-button:focus {
+    outline: none;
+}
