@@ -4,13 +4,18 @@ import {IconButton} from "../IconButton/IconButton";
 import {
     Icon24Fullscreen,
     Icon24FullscreenExit,
-    Icon24MuteOutline,
+    Icon24MuteOutline, Icon24PlaySpeed,
     Icon24VolumeOutline,
     Icon28Pause,
-    Icon28Play
+    Icon28Play, Icon28SettingsOutline
 } from "@vkontakte/icons";
 import {secondsToTimeString} from "../../utils/secondsToTimeString";
 import {CustomRangeSlider} from "../CustomRangeSlider/CustomRangeSlider";
+import {VideoPopoutItem} from "./VideoPopout/popoutItem/VideoPopoutItem";
+import {VideoPopout} from "./VideoPopout/VideoPopout";
+import {playSpeeds} from "../../consts/playSpeeds";
+import {SettingsSectionPopout} from "./SettingsSectionPopout/SettingsSectionPopout";
+import {SpeedSettingsPopout} from "./popouts/SpeedSettingsPopout";
 
 let timer = null
 
@@ -26,9 +31,18 @@ export const Video = ({src, name}) => {
     const [muted, setMuted] = useState(false)
     const [volume, setVolume] = useState(1)
     const [prevVolume, setPrevVolume] = useState(1)
+    const [settingsOpened, setSettingsOpened] = useState(false)
+    const [popoutMode, setPopoutMode] = useState("settings")
+    const [selectedSpeed, setSelectedSpeed] = useState(playSpeeds.filter(e => e.key === 3)[0])
 
     const videoRef = useRef(null)
     const videoWrapperRef = useRef(null)
+
+    const selectSpeedHandler = useCallback((value) => {
+        setSelectedSpeed(value)
+        setPopoutMode("settings")
+        setSettingsOpened(false)
+    }, [])
 
     const overlayContentMouseMove = useCallback(() => {
         setControlsHovered(true)
@@ -76,6 +90,12 @@ export const Video = ({src, name}) => {
             videoWrapperRef.current.requestFullscreen().then()
     }, [])
 
+    const toggleSettings = useCallback(() => {
+        setSettingsOpened(prev => !prev)
+        setPopoutMode("settings")
+        clearTimeout(timer)
+    }, [])
+
     const toggleMuted = useCallback(() => {
         if (muted && prevVolume === 0)
             setVolume(0.1)
@@ -91,9 +111,15 @@ export const Video = ({src, name}) => {
     }, [])
 
     const overlayMouseLeaveHandler = useCallback(() => {
-        videoPlay && setShowOverlayMode("hide")
+        videoPlay && !settingsOpened && setShowOverlayMode("hide")
         clearTimeout(timer)
-    }, [videoPlay])
+    }, [videoPlay, settingsOpened])
+
+    const overlayClickHandler = useCallback(() => {
+        if (videoPlay && settingsOpened && !controlsHovered)
+            timer = setTimeout(closeOverlay, 3000)
+        settingsOpened && setSettingsOpened(false)
+    }, [settingsOpened, videoPlay, controlsHovered])
 
     const overlayMouseEnterHandler = useCallback(() => {
         videoPlay && setShowOverlayMode("show")
@@ -102,14 +128,15 @@ export const Video = ({src, name}) => {
     const overlayMouseMoveHandler = useCallback(() => {
         clearTimeout(timer)
         setShowOverlayMode("show")
-        if (videoPlay && !controlsHovered)
+        if (videoPlay && !controlsHovered && !settingsOpened)
             timer = setTimeout(closeOverlay, 3000)
     }, [videoPlay, controlsHovered])
 
     const playHandler = useCallback(() => {
-        timer = setTimeout(closeOverlay, 3000)
+        if (!controlsHovered)
+            timer = setTimeout(closeOverlay, 3000)
         setVideoPlay(true)
-    }, [])
+    }, [controlsHovered])
 
     const pauseHandler = useCallback(() => {
         clearTimeout(timer)
@@ -142,10 +169,32 @@ export const Video = ({src, name}) => {
         videoRef.current.volume = volume
     }, [volume])
 
+    useEffect(() => {
+        videoRef.current.playbackRate = selectedSpeed.value
+    }, [selectedSpeed])
+
     return (
         <div className="video-wrapper" ref={videoWrapperRef}>
             {!error &&
                 <>
+                    <VideoPopout
+                        show={settingsOpened && popoutMode === "settings"}
+                        width={250}
+                    >
+                        <VideoPopoutItem
+                            title={"Скорость"}
+                            icon={<Icon24PlaySpeed/>}
+                            value={selectedSpeed.label}
+                            onClick={() => setPopoutMode("speed")}
+                        />
+                    </VideoPopout>
+                    <SpeedSettingsPopout
+                        options={playSpeeds}
+                        show={settingsOpened && popoutMode === "speed"}
+                        onBack={() => setPopoutMode("settings")}
+                        selectedOption={selectedSpeed}
+                        onSelectOption={selectSpeedHandler}
+                    />
                     <video
                         className="video"
                         onError={() => setError(true)}
@@ -164,6 +213,7 @@ export const Video = ({src, name}) => {
                         onMouseLeave={overlayMouseLeaveHandler}
                         onMouseEnter={overlayMouseEnterHandler}
                         onMouseMove={overlayMouseMoveHandler}
+                        onClick={overlayClickHandler}
                     >
                         <div className="video-overlay-header">
                             {name}
@@ -205,6 +255,9 @@ export const Video = ({src, name}) => {
                                             onChange={volumeChangeHandler}
                                         />
                                     </div>
+                                    <IconButton onClick={toggleSettings} className="video-overlay-controls-button">
+                                        <Icon28SettingsOutline/>
+                                    </IconButton>
                                     <IconButton onClick={toggleFullscreen} className="video-overlay-controls-button">
                                         {fullscreen ? <Icon24FullscreenExit width={28} height={28}/> : <Icon24Fullscreen width={28} height={28}/>}
                                     </IconButton>

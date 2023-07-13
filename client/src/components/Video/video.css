@@ -20,7 +20,7 @@
     width: 100%;
     position: relative;
     transition: all 0.3s ease-in-out;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .video-overlay-controls-bottom {
@@ -51,7 +51,7 @@
     overflow-x: hidden;
     text-overflow: ellipsis;
     width: 100%;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.85);
     transition: all 0.3s ease-in-out;
 }
 

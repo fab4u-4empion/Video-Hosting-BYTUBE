@@ -1,0 +1,32 @@
+.video-popout-item {
+    padding: 0 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.video-popout-item:hover {
+    background: rgba(255, 255, 255, .2);
+}
+
+.video-popout-item-icon {
+    width: 20px;
+    height: 20px;
+    transform: translate(0, -2px);
+}
+
+.video-popout-title {
+    display: flex;
+    column-gap: 10px;
+}
+
+.video-popout-value {
+    opacity: .75;
+}
