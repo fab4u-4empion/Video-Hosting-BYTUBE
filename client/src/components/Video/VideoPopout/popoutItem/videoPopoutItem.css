@@ -10,10 +10,11 @@
     width: 100%;
     justify-content: space-between;
     box-sizing: border-box;
+    border-radius: 5px;
 }
 
 .video-popout-item:hover {
-    background: rgba(255, 255, 255, .2);
+    background: rgba(255, 255, 255, .25);
 }
 
 .video-popout-item-icon {

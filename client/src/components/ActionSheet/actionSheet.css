@@ -9,7 +9,7 @@
 
 .action-sheet {
     position: relative;
-    padding: 10px 0;
+    padding: 5px;
     border-radius: 10px;
     background: white;
     width: min-content;
@@ -17,6 +17,8 @@
     user-select: none;
     opacity: 0;
     transition: all 0.1s  ease-in-out;
+    display: flex;
+    flex-direction: column;
 }
 
 .action-sheet.visible {

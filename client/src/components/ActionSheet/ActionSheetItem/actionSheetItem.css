@@ -8,6 +8,7 @@
     align-items: center;
     white-space: nowrap;
     column-gap: 10px;
+    border-radius: 5px;
 }
 
 .action-sheet-item:hover {
@@ -22,4 +23,8 @@
 
 .action-sheet-item.danger {
     color: #e30000;
+}
+
+.action-sheet-item.danger:hover {
+    background: rgba(227, 0, 0, 0.09);
 }
