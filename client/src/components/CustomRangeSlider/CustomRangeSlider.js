@@ -23,8 +23,8 @@ export const CustomRangeSlider = ({max, value, onMouseDown, onMouseUp, onChange,
     const mouseUpHandler = useCallback(() => {
         onMouseUp && onMouseUp()
         setChangeStart(false)
-        setPointMode("hide")
-    }, [onMouseUp])
+        !showPoint && setPointMode("hide")
+    }, [onMouseUp, showPoint])
 
     const change = (newValue) => {
         onChange && onChange(newValue)

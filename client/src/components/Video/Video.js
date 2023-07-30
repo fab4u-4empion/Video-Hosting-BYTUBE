@@ -115,7 +115,7 @@ export const Video = ({src, name}) => {
         clearTimeout(timer)
     }, [videoPlay, settingsOpened])
 
-    const overlayClickHandler = useCallback(() => {
+    const overlayClickHandler = useCallback((e) => {
         if (videoPlay && settingsOpened && !controlsHovered)
             timer = setTimeout(closeOverlay, 3000)
         settingsOpened && setSettingsOpened(false)
@@ -137,6 +137,10 @@ export const Video = ({src, name}) => {
             timer = setTimeout(closeOverlay, 3000)
         setVideoPlay(true)
     }, [controlsHovered])
+
+    const endHandler = useCallback(() => {
+        setWasPlay(false)
+    }, [])
 
     const pauseHandler = useCallback(() => {
         clearTimeout(timer)
@@ -205,6 +209,7 @@ export const Video = ({src, name}) => {
                         ref={videoRef}
                         onLoadedData={loadMetaDataHandler}
                         onPlay={playHandler}
+                        onEnded={endHandler}
                         onPause={pauseHandler}
                         onTimeUpdate={timeUpdateHandler}
                     ></video>
