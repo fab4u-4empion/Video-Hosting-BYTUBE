@@ -14,7 +14,7 @@ export const updateVideoInfo = async (req, res) => {
     if (req['user']) {
         const data = req.body
         req.file && fs.writeFileSync(`${__dirname}/static/previews/custom/${data['id']}.png`, req.file.buffer)
-        await dbPoolSync.query(`UPDATE videos SET v_description="${mysqlEscape(data['description'])}", v_name="${mysqlEscape(data['name'])}", v_access="${data['access']}", v_category="${data['category']}" WHERE v_id="${data['id']}"`)
+        await dbPoolSync.query(`UPDATE videos SET v_description="${mysqlEscape(data['description'])}", v_name="${mysqlEscape(data['name'])}", v_access="${data['access']}", v_category="${data['category'] ?? 0}" WHERE v_id="${data['id']}"`)
         const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_id="${data['id']}"`)
         res.json(result[0])
     } else {
