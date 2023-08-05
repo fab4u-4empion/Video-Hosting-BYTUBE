@@ -1,6 +1,7 @@
 import {dbPoolSync} from "../config/config.js";
 import fs from "fs";
 import path from "path";
+import {mysqlEscape} from "../utils/mysqlEscape.js";
 
 const __dirname = path.resolve()
 
@@ -45,7 +46,7 @@ export const getAccountInfo = async (req, res) => {
 export const updateAccountInfo = async (req, res) => {
     if (req['user']) {
         req.file && fs.writeFileSync(`${__dirname}/static/avatars/${req['user']['u_id']}.png`, req.file.buffer)
-        req.body['description'] !== null && await dbPoolSync.query(`UPDATE users SET u_description="${req.body['description']}" WHERE u_id="${req['user']['u_id']}"`)
+        req.body['description'] !== null && await dbPoolSync.query(`UPDATE users SET u_description="${mysqlEscape(req.body['description'])}" WHERE u_id="${req['user']['u_id']}"`)
         res.send()
     } else {
         res.status(401).json("Unauthorized")

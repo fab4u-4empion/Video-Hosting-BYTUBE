@@ -2,6 +2,7 @@ import {dbPool, dbPoolSync} from "../config/config.js";
 import bcrypt from "bcrypt"
 import crypto from "crypto";
 import {v4 as uuidv4} from "uuid"
+import {mysqlEscape} from "../utils/mysqlEscape.js";
 
 const startSession = async (userID, res) => {
     //создание ключа сессии
@@ -42,7 +43,7 @@ export const registration = async (req, res) => {
     !data["u_confirm_password"] && res.status(400).json("Вы не подтвердили пароль")
     data["u_password"] !== data["u_confirm_password"] && res.status(400).json("Пароли не совпадают")
     const [countQueryResult] =
-        await dbPoolSync.query(`SELECT COUNT(*) as count FROM users WHERE u_name="${data["u_name"]}"`)
+        await dbPoolSync.query(`SELECT COUNT(*) as count FROM users WHERE u_name="${mysqlEscape(data["u_name"])}"`)
     countQueryResult[0].count !== 0 && res.status(400).json("Имя уже занято")
 
     //добавление пользователя в базу данных
@@ -50,7 +51,7 @@ export const registration = async (req, res) => {
     const id = uuidv4()
     await dbPoolSync.query(`INSERT 
         INTO users (u_id, u_name, u_password, u_reg_date) 
-        VALUES ("${id}", "${data["u_name"]}", "${hash}", CURRENT_DATE)`)
+        VALUES ("${id}", "${mysqlEscape(data["u_name"])}", "${hash}", CURRENT_DATE)`)
 
     //начало пользовательской сессии
     await startSession(id, res)
@@ -64,7 +65,7 @@ export const login = async (req, res) => {
     else if (!data["u_password"])
         res.status(400).json("Вы не ввели пароль")
 
-    const [userQueryResult] = await dbPoolSync.query(`SELECT * FROM users WHERE u_name="${data["u_name"]}"`)
+    const [userQueryResult] = await dbPoolSync.query(`SELECT * FROM users WHERE u_name="${mysqlEscape(data["u_name"])}"`)
 
     if (!userQueryResult[0])
         res.status(400).json("Пользователя не существует")

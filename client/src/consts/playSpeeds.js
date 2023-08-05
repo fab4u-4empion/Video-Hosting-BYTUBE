@@ -10,18 +10,28 @@ export const playSpeeds = [
         key: 2
     },
     {
+        label: "0.75",
+        value: 0.75,
+        key: 3
+    },
+    {
         label: "Обычная",
         value: 1,
-        key: 3
+        key: 4
     },
     {
         label: "1.5",
         value: 1.5,
-        key: 4
+        key: 5
+    },
+    {
+        label: "1.75",
+        value: 1.75,
+        key: 6
     },
     {
         label: "2",
-        value: "2",
-        key: 5
+        value: 2,
+        key: 7
     },
 ]

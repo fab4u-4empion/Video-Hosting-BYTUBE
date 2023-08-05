@@ -3,6 +3,7 @@ import fs from "fs";
 import {v4 as uuidv4} from "uuid"
 import path from "path";
 import ffmpeg from "fluent-ffmpeg"
+import {mysqlEscape} from "../../utils/mysqlEscape.js";
 
 const __dirname = path.resolve()
 
@@ -13,7 +14,7 @@ export const updateVideoInfo = async (req, res) => {
     if (req['user']) {
         const data = req.body
         req.file && fs.writeFileSync(`${__dirname}/static/previews/custom/${data['id']}.png`, req.file.buffer)
-        await dbPoolSync.query(`UPDATE videos SET v_description="${data['description']}", v_name="${data['name']}", v_access="${data['access']}", v_category="${data['category']}" WHERE v_id="${data['id']}"`)
+        await dbPoolSync.query(`UPDATE videos SET v_description="${mysqlEscape(data['description'])}", v_name="${mysqlEscape(data['name'])}", v_access="${data['access']}", v_category="${data['category']}" WHERE v_id="${data['id']}"`)
         const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_id="${data['id']}"`)
         res.json(result[0])
     } else {
@@ -97,7 +98,7 @@ export const uploadVideo = (req, res) => {
                     })
                     .on('end', () => {
                         ffmpeg.ffprobe(`${__dirname}/static/videos/uploads/${id}.mp4`, async (err, meta) => {
-                            await dbPoolSync.query(`INSERT INTO videos (v_id, v_user_id, v_name, v_access, v_duration) VALUES("${id}", "${req['user']['u_id']}", "${filename['filename']}", "close", "${Math.round(meta.format.duration)}")`)
+                            await dbPoolSync.query(`INSERT INTO videos (v_id, v_user_id, v_name, v_access, v_duration) VALUES("${id}", "${req['user']['u_id']}", "${mysqlEscape(filename['filename'])}", "close", "${Math.round(meta.format.duration)}")`)
                             const [result] = await dbPoolSync.query(`SELECT * FROM videos WHERE v_id="${id}"`)
                             res.json(result[0])
                         })

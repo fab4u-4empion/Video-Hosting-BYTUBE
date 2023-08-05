@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.1s ease-in-out;
+    border: 1px solid;
 }
 
 .btn.regular {
@@ -22,6 +23,13 @@
     border-radius: 15px;
 }
 
+.btn.extra-small {
+    font-size: 14px;
+    height: 25px;
+    padding: 0 13px;
+    border-radius: 25px;
+}
+
 .btn.primary:disabled {
     color: rgba(0, 0, 139, 0.5);
     border-color: rgba(0, 0, 139, 0.5);
@@ -33,21 +41,21 @@
 
 .btn.primary {
     color: darkblue;
-    border: 1px solid darkblue;
+    border-color: darkblue;
 }
 
 .btn.secondary:disabled {
     color: rgba(105, 105, 105, 0.5);
-    border-color: rgba(105, 105, 105, 0.5);
+    border-color: rgba(105, 105, 105, .5);
 }
 
 .btn.secondary:hover {
-    background: rgba(105, 105, 105, 0.05);
+    background: rgba(105, 105, 105, 0.09);
 }
 
 .btn.secondary {
     color: dimgray;
-    border: 1px solid dimgray;
+    border-color: dimgray;
 }
 
 .btn.danger:disabled {
@@ -61,7 +69,7 @@
 
 .btn.danger {
     color: #e30000;
-    border: 1px solid #e30000;
+    border-color: #e30000;
 }
 
 .btn:disabled:hover {
@@ -70,4 +78,8 @@
 
 .btn.fit {
     width: fit-content;
+}
+
+.btn.no-outline {
+    border-color: transparent;
 }

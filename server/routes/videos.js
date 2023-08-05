@@ -12,7 +12,7 @@ import {
 } from "../controllers/videos/videos.js";
 import multer from "multer";
 import busboy from "connect-busboy"
-import {deleteComment, editComment, getComments, saveComment} from "../controllers/videos/comments.js";
+import {deleteComment, editComment, getAnswers, getComments, saveComment} from "../controllers/videos/comments.js";
 
 export const videosRouter = new Router()
 
@@ -20,6 +20,7 @@ videosRouter.get("/comments", getComments)
 videosRouter.post("/comments", express.json(), saveComment)
 videosRouter.delete("/comments", deleteComment)
 videosRouter.put("/comments", express.json(), editComment)
+videosRouter.get("/comments/answers", getAnswers)
 
 videosRouter.get("/", getOwnVideos)
 videosRouter.get("/all", getAllVideos)

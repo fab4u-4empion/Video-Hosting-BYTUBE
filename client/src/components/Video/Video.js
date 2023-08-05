@@ -33,7 +33,7 @@ export const Video = ({src, name}) => {
     const [prevVolume, setPrevVolume] = useState(1)
     const [settingsOpened, setSettingsOpened] = useState(false)
     const [popoutMode, setPopoutMode] = useState("settings")
-    const [selectedSpeed, setSelectedSpeed] = useState(playSpeeds.filter(e => e.key === 3)[0])
+    const [selectedSpeed, setSelectedSpeed] = useState(playSpeeds.filter(e => e.key === 4)[0])
 
     const videoRef = useRef(null)
     const videoWrapperRef = useRef(null)

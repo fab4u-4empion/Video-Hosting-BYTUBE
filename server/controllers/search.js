@@ -1,9 +1,10 @@
 import {dbPoolSync} from "../config/config.js";
+import {mysqlEscape} from "../utils/mysqlEscape.js";
 
 export const getResult = async (req, res) => {
     const videos = []
-    const [videosResult] = await dbPoolSync.query(`SELECT videos.v_id, videos.v_name, videos.v_views, videos.v_publish_date, videos.v_duration, users.u_name, users.u_id FROM videos JOIN users ON users.u_id=videos.v_user_id WHERE videos.v_access="open" AND MATCH (videos.v_name) AGAINST ("${req.query['q']}") ORDER BY videos.v_views DESC`)
-    const [channels] = await dbPoolSync.query(`SELECT users.u_id, users.u_name, users.u_description FROM users WHERE MATCH (users.u_name) AGAINST ("${req.query['q']}") ORDER BY users.u_name`)
+    const [videosResult] = await dbPoolSync.query(`SELECT videos.v_id, videos.v_name, videos.v_views, videos.v_publish_date, videos.v_duration, users.u_name, users.u_id FROM videos JOIN users ON users.u_id=videos.v_user_id WHERE videos.v_access="open" AND MATCH (videos.v_name) AGAINST ("${mysqlEscape(req.query['q'])}") ORDER BY videos.v_views DESC`)
+    const [channels] = await dbPoolSync.query(`SELECT users.u_id, users.u_name, users.u_description FROM users WHERE MATCH (users.u_name) AGAINST ("${mysqlEscape(req.query['q'])}") ORDER BY users.u_name`)
     videos.push(...videosResult)
     for (let channel of channels) {
         const [subs] = await dbPoolSync.query(`SELECT COUNT(*) AS result FROM subscriptions WHERE s_user_to="${channel['u_id']}"`)
@@ -14,7 +15,7 @@ export const getResult = async (req, res) => {
         const ids = new Set(videos.map(o => o['v_id']))
         videos.push(...videosByChannel.filter(o => !ids.has(o['v_id'])))
     }
-    const [category] = await dbPoolSync.query(`SELECT * FROM categories WHERE cg_name="${req.query['q']}"`)
+    const [category] = await dbPoolSync.query(`SELECT * FROM categories WHERE cg_name="${mysqlEscape(req.query['q'])}"`)
     if (category[0]) {
         const [videosByCategory] = await dbPoolSync.query(`SELECT videos.v_id, videos.v_name, videos.v_views, videos.v_publish_date, videos.v_duration, users.u_name, users.u_id FROM videos JOIN users ON users.u_id=videos.v_user_id WHERE videos.v_access="open" AND videos.v_category="${category[0]['cg_id']}" ORDER BY videos.v_views DESC`)
         const ids = new Set(videos.map(o => o['v_id']))

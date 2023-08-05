@@ -33,47 +33,16 @@ export const Comments = ({videoId}) => {
             })
     }
 
-    const deleteComment = (id, errorCallback) => {
-        API.videos
-            .request({
-                method: "delete",
-                url: "/comments",
-                withCredentials: true,
-                params: {
-                    c_id: id
-                }
-            })
-            .then(response => {
-                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Комментарий удален</Snackbar>)
-                setComments(comments.filter(c => c['c_id'] !== id))
-            })
-            .catch(() => {
-                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
-                errorCallback()
-            })
+    const deleteCommentHandler = (id) => {
+        setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Комментарий удален</Snackbar>)
+        setComments(comments.filter(c => c['c_id'] !== id))
     }
 
-    const editComment = (id, text, callback) => {
-        API.videos
-            .request({
-                method: "put",
-                url: "/comments",
-                withCredentials: true,
-                data: {
-                    c_id: id,
-                    c_text: text
-                }
-            })
-            .then(response => {
-                setComments(prev => {
-                    prev.splice(prev.findIndex(c => c['c_id'] === id), 1, response.data)
-                    return [...prev]
-                })
-            })
-            .catch(() => {
-                setSnackbar(<Snackbar onClose={() => setSnackbar(null)}>Ошибка запроса</Snackbar>)
-            })
-            .finally(() => callback())
+    const editCommentHandler = (newComment) => {
+        setComments(prev => {
+            prev.splice(prev.findIndex(c => c['c_id'] === newComment['c_id']), 1, newComment)
+            return [...prev]
+        })
     }
 
     useEffect(() => {
@@ -113,13 +82,13 @@ export const Comments = ({videoId}) => {
                             />
                         </div>
                     }
-                    <div>
+                    <div className={"video-page-comments-list"}>
                         {comments.map(comment =>
                             <Comment
                                 comment={comment}
                                 key={comment['c_id']}
-                                onDelete={deleteComment}
-                                onEdit={editComment}
+                                onDelete={deleteCommentHandler}
+                                onEdit={editCommentHandler}
                             />
                         )}
                     </div>
