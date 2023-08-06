@@ -142,7 +142,7 @@ export const streamVideo = async (req, res) => {
 }
 
 export const getVideoInfo = async (req, res) => {
-    const [videoInfo] = await dbPoolSync.query(`SELECT v_access, v_publish_date, v_user_id, v_name, v_description, v_views FROM videos WHERE v_id="${req.query['id']}"`)
+    const [videoInfo] = await dbPoolSync.query(`SELECT v_access, v_publish_date, v_user_id, v_name, v_description, v_views, v_likes_count FROM videos WHERE v_id="${req.query['id']}"`)
     if (!videoInfo[0] || (videoInfo[0]['v_access'] === "close" && videoInfo[0]['v_user_id'] !== req.user?.['u_id'])) {
         res.status(403).send()
     } else {
@@ -152,8 +152,6 @@ export const getVideoInfo = async (req, res) => {
             const [liked] = await dbPoolSync.query(`SELECT COUNT(*) as count FROM likes WHERE l_video_id="${req.query['id']}" AND l_user_id="${req['user']['u_id']}"`)
             videoInfo[0].liked = liked[0].count > 0
         }
-        const [likes] = await dbPoolSync.query(`SELECT COUNT(*) as count FROM likes WHERE l_video_id="${req.query['id']}"`)
-        videoInfo[0].likes = likes[0].count
         const [userInfo] = await dbPoolSync.query(`SELECT u_name, u_id FROM users WHERE u_id="${videoInfo[0]['v_user_id']}"`)
         videoInfo[0].user = userInfo[0]
         const [subs] = await dbPoolSync.query(`SELECT COUNT(*) AS result FROM subscriptions WHERE s_user_to="${userInfo[0]['u_id']}"`)
@@ -174,8 +172,8 @@ export const toggleLike = async (req, res) => {
             await dbPoolSync.query(`DELETE FROM likes WHERE l_video_id="${req.query['id']}" AND l_user_id="${req['user']['u_id']}"`)
         else
             await dbPoolSync.query(`INSERT INTO likes (l_video_id, l_user_id) VALUES("${req.query['id']}", "${req['user']['u_id']}")`)
-        const [likes] = await dbPoolSync.query(`SELECT COUNT(*) as count FROM likes WHERE l_video_id="${req.query['id']}"`)
-        res.json({likes: likes[0].count, liked: !(liked[0].count > 0)})
+        const [likes] = await dbPoolSync.query(`SELECT v_likes_count FROM videos WHERE v_id="${req.query['id']}"`)
+        res.json({likes: likes[0]['v_likes_count'], liked: !(liked[0].count > 0)})
     } else {
         res.status(401).json("Unauthorized")
     }

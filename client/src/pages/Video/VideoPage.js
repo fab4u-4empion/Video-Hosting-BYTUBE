@@ -45,7 +45,7 @@ export const VideoPage = () => {
             .then(response => {
                 setVideoInfo(response.data)
                 setSubsInfo(response.data.user.subsInfo)
-                setLikes(response.data['likes'])
+                setLikes(response.data['v_likes_count'])
                 setLiked(response.data['liked'])
                 loadOtherVideos(response.data['v_user_id'])
             })

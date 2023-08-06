@@ -131,6 +131,44 @@ CREATE TABLE `likes` (
   CONSTRAINT `likes_videos_v_id_fk` FOREIGN KEY (`l_video_id`) REFERENCES `videos` (`v_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `likes_AFTER_INSERT` AFTER INSERT ON `likes` FOR EACH ROW BEGIN
+	declare count int;
+    select count(*) into count from `likes` where l_video_id=new.l_video_id;
+    update `videos` set v_likes_count=count where v_id=new.l_video_id;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `likes_AFTER_DELETE` AFTER DELETE ON `likes` FOR EACH ROW BEGIN
+	declare count int;
+    select count(*) into count from `likes` where l_video_id=old.l_video_id;
+    update `videos` set v_likes_count=count where v_id=old.l_video_id;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `sessions`
@@ -202,6 +240,7 @@ CREATE TABLE `videos` (
   `v_duration` int DEFAULT '0',
   `v_access` varchar(10) NOT NULL DEFAULT 'close',
   `v_category` tinyint NOT NULL DEFAULT '0',
+  `v_likes_count` int DEFAULT '0',
   PRIMARY KEY (`v_id`),
   KEY `videos_users_u_id_fk` (`v_user_id`),
   KEY `videos_categories_cg_id_fk` (`v_category`),
@@ -229,6 +268,10 @@ CREATE TABLE `views` (
   CONSTRAINT `views_videos_v_id_fk` FOREIGN KEY (`view_video_id`) REFERENCES `videos` (`v_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping events for database 'bytube'
+--
 
 --
 -- Dumping routines for database 'bytube'
@@ -345,4 +388,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-05 22:34:19
+-- Dump completed on 2023-08-06 14:41:04

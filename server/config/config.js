@@ -5,7 +5,7 @@ export const dbPoolSync = mysql.createPool({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "кщще",
+    password: "root",
     database: "bytube"
 }).promise()
 
@@ -14,7 +14,7 @@ export const dbPool = mysql.createPool({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "кщще",
+    password: "root",
     database: "bytube"
 })
 
